@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2015",
+      "es2015.promise",
+      "es2016",
+      "es6",
+      "es7",
+      "es2017",
+      "dom"
+    ],
+    "outDir": "./dist/commonJs",
+    "declaration": true,
+    "declarationDir": "./dist/commonJs",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "jsx": "react",
+    "rootDirs": ["src"],
+    "baseUrl": "src",
+    "allowJs": false,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "noErrorTruncation": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "types": [
+      "node"
+    ]
+  },
+  "files": [
+    "src/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": false
+}

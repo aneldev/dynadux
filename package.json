@@ -1,0 +1,128 @@
+{
+  "name": "dynadux",
+  "version": "0.0.2",
+  "description": "The Dynadux",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/aneldev/dynadux"
+  },
+  "sideEffects": false,
+  "source": "src/index.ts",
+  "types": "dist/commonJs/index.d.ts",
+  "main": "dist/commonJs/index.js",
+  "esnext": "dist/esNext/index.ts",
+  "scripts": {
+    "clear": "rimraf build temp",
+    "lint": "tslint './src/**/*.ts*' --format stylish --force",
+    "debug-dev-browser": "webpack-dev-server --config webpack.debug-dev.browser.config.js --devtool eval --progress --hot --open --content-base debug-ground/debug-dev-on-browser --host 127.0.0.1 --port 3300",
+    "debug-dev-browser-at": "webpack-dev-server --config webpack.debug-dev.browser.config.js --devtool eval --progress --hot --open --content-base debug-ground/debug-dev-on-browser --host 127.0.0.1 --port",
+    "debug-dev-build": "rm -r ./debug-ground/debug-dev-on-nodejs/*; webpack --config webpack.debug-dev.nodejs.config.js --watch",
+    "debug-dev-devtools": "node --inspect --expose-gc --optimize_for_size --max_old_space_size=460 --gc_interval=100 --trace-warnings ./debug-ground/debug-dev-on-nodejs/index.js && yarn run debug-dev-devtools",
+    "debug-dev-devtools-brk": "node --inspect-brk --expose-gc --optimize_for_size --max_old_space_size=460 --gc_interval=100 --trace-warnings ./debug-ground/debug-dev-on-nodejs/index.js && yarn run debug-dev-devtools-brk",
+    "debug-dev-run": "node --expose-gc --expose-gc --optimize_for_size --max_old_space_size=460 --gc_interval=100 --trace-warnings ./debug-ground/debug-dev-on-nodejs/index.js",
+    "debug-tests": "yarn debug-jest",
+    "debug-jest": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "debug-tests-browser": "webpack-dev-server --config webpack.debug-test.browser.config.js --devtool eval --progress --hot --open --content-base debug-ground/debug-test-on-browser --host 127.0.0.1 --port 3300",
+    "debug-tests-browser-at": "webpack-dev-server --config webpack.debug-test.browser.config.js --devtool eval --progress --hot --open --content-base debug-ground/debug-test-on-browser --host 127.0.0.1 --port",
+    "debug-tests-build": "rm -r ./debug-ground/debug-test-on-nodejs/*; && webpack --config webpack.debug-test.nodejs.config.js --watch",
+    "debug-tests-devtools": "node --inspect --expose-gc --optimize_for_size --max_old_space_size=460 --gc_interval=100 --trace-warnings ./debug-ground/debug-test-on-nodejs/index.js && yarn run debug-tests-devtools",
+    "debug-tests-devtools-brk": "node --inspect-brk --expose-gc --optimize_for_size --max_old_space_size=460 --gc_interval=100 --trace-warnings ./debug-ground/debug-test-on-nodejs/index.js && yarn run debug-tests-devtools-brk",
+    "debug-tests-run": "node --expose-gc --expose-gc --optimize_for_size --max_old_space_size=460 --gc_interval=100 --trace-warnings ./debug-ground/debug-test-on-nodejs/index.js",
+    "sync-externals": "node syncExternals.js",
+    "build-analyze": "set NODE_ENV=development && webpack --config webpack.dist.analyze.config.js",
+    "build": "rm -rf ./dist && tsc --p tsconfig.commonJs.json && tsc --p tsconfig.esNext.json",
+    "build-watch-commonJs": "rm -rf ./dist/commonJs && tsc --watch --p tsconfig.commonJs.json",
+    "build-watch-esNext": "rm -rf ./dist/esNext && tsc --watch --p tsconfig.esNext.json",
+    "build-by-webpack-config": "rimraf ./dist/ && yarn .build-index.d.ts && yarn .build-dist",
+    ".build-index.d.ts": "tsc && rm ./dist/index.js && yarn .build-index.d.ts-clear",
+    ".build-index.d.ts-clear": "cd dist/ && find . -name \\*.js -delete && cd .. && rimraf temp",
+    ".build-dist": "set NODE_ENV=production && webpack --config webpack.dist.config.js",
+    "release": "yarn run build && git add -u && git add -A && git commit -m \"Build\" && yarn run publish-push",
+    "test": "jest --coverage --no-cache --runInBand",
+    "test-watch": "jest --watch --verbose --runInBand",
+    "commit": "git add -u && git add -A && git commit -m",
+    "commit-amend": "git add -u && git add -A && git commit --amend --no-edit",
+    "publish-push": "yarn version --patch && yarn publish --non-interactive && git push && git push --tags",
+    "test-publish-push": "yarn test && yarn version --patch && yarn publish --non-interactive && git push && git push --tags",
+    "update-release": "yarn upgrade && git add -u && git add -A && git commit -m \"update-release changes\"; yarn run release",
+    "reinstall": "rm ./yarn.lock rm -rf ./node_modules; yarn install",
+    "reinstall-dyna": "rm ./yarn.lock; rm -rf ./node_modules/dyna-*; yarn install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@types/enzyme": "^3.1.15",
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.2",
+    "autoprefixer": "^7.2.6",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-jest": "20.0.3",
+    "babel-loader": "^8.0.4",
+    "chokidar": "^1.7.0",
+    "circular-dependency-plugin": "^4.0.0",
+    "dyna-node-console": "^1.0.7",
+    "enzyme": "^3.7.0",
+    "enzyme-to-json": "^3.3.4",
+    "file-loader": "^2.0.0",
+    "font-awesome": "^4.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "image-webpack-loader": "^4.5.0",
+    "jest": "^24.0.0",
+    "jest-cli": "^24.0.0",
+    "jest-junit": "^8.0.0",
+    "jest-localstorage-mock": "^2.4.0",
+    "jsdom": "11.5.1",
+    "jsdom-global": "3.0.2",
+    "nodemon": "^1.18.6",
+    "rimraf": "^2.6.2",
+    "source-map-loader": "0.1.5",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "webpack": "^4.25.1",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./tests/setup/testSetup.ts"
+    ],
+    "automock": false,
+    "collectCoverage": false,
+    "testEnvironment": "jest-environment-node",
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(src|tests)/.*\\.(test|spec)\\.(ts|tsx|js|jsx)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|jpg|png|svg|gif)$": "identity-obj-proxy"
+    },
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx,js,jsx}",
+      "!src/**/*.d.ts"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "jest-junit": {
+    "output": "./coverage/junit.xml"
+  }
+}
