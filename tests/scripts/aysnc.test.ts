@@ -13,14 +13,17 @@ interface ITodo {
 
 const actions = {
   ADD_TODO: 'ADD_TODO',
+  ADD_TODO_LATER: 'ADD_TODO_LATER',
   REMOVE_TODO: 'REMOVE_TODO',
 };
 
-type TString = string;
-type TNumber = number;
+interface IAddTodoLaterPayload {
+  todo: ITodo;
+  withDelay: number;
+}
 
 describe('Dynadux, basics', () => {
-  test('Dispatch sync actions', () => {
+  test('Dispatch async actions', async (done) => {
     let stateChanged = 0;
 
     const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
@@ -36,6 +39,18 @@ describe('Dynadux, basics', () => {
               todos: state.todos.concat(payload),
             };
           },
+          [actions.ADD_TODO_LATER]: ({state, payload, dispatch}) => {
+            const {
+              todo,
+              withDelay = 0,
+            }: IAddTodoLaterPayload = payload;
+
+            setTimeout(() => {
+              dispatch(actions.ADD_TODO, todo);
+            }, withDelay);
+
+            return state;
+          },
           [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
             return {
               ...state,
@@ -47,6 +62,7 @@ describe('Dynadux, basics', () => {
 
       return {
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
+        addTodoLater: (todo: ITodo, withDelay: number) => store.dispatch<IAddTodoLaterPayload>(actions.ADD_TODO_LATER, {todo, withDelay}),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
         getState: store.getState,
       };
@@ -58,17 +74,16 @@ describe('Dynadux, basics', () => {
 
     const todoAppStore = createTodoAppStore(handleStateChange);
 
-    expect(todoAppStore.getState()).toMatchSnapshot('Initial state');
-
     todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false});
-    todoAppStore.addTodo({id: '302', label: 'After work beers', done: false});
+    todoAppStore.addTodoLater({id: '302', label: 'Evening beer meeting', done: false}, 200);
+    todoAppStore.addTodo({id: '303', label: 'After work beers', done: false});
 
-    expect(todoAppStore.getState()).toMatchSnapshot('First todos');
+    await new Promise(r => setTimeout(r, 300));
 
-    todoAppStore.removeTodo('302');
+    expect(todoAppStore.getState().todos.map(todo => todo.id).join()).toBe('301,303,302');
+    expect(stateChanged).toBe(4);
+    expect(todoAppStore.getState()).toMatchSnapshot();
 
-    expect(todoAppStore.getState()).toMatchSnapshot('After remove of 302 todo');
-
-    expect(stateChanged).toBe(3);
+    done();
   });
 });

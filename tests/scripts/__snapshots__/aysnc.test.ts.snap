@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux, basics Dispatch async actions 1`] = `
+Object {
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+    Object {
+      "done": false,
+      "id": "303",
+      "label": "After work beers",
+    },
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "Evening beer meeting",
+    },
+  ],
+}
+`;

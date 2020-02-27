@@ -17,8 +17,10 @@ var Dynadux = /** @class */ (function () {
         this._config = _config;
         this.dispatch = function (action, payload) {
             var reducer = _this._config.reducers[action];
-            if (!reducer)
-                throw { message: "Reducer not found for action \"" + action + "\"" };
+            if (!reducer) {
+                console.error("Reducer not found for action \"" + action + "\"");
+                return;
+            }
             _this._state = __assign(__assign({}, _this._state), reducer({
                 action: action,
                 payload: payload,
@@ -26,7 +28,7 @@ var Dynadux = /** @class */ (function () {
                 state: _this._state,
             }));
             if (_this._config.onChange)
-                _this._config.onChange(_this.getState());
+                _this._config.onChange(_this._state);
         };
         this._state = _config.initialState || {};
         this.getState = this.getState.bind(this);

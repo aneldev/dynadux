@@ -12,7 +12,7 @@ export interface TDynaduxReducerAPI<TState, TPayload> {
     dispatch: TDynaduxDispatch<TPayload>;
     state: TState;
 }
-export declare type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void | Promise<void>;
+export declare type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
 export declare class Dynadux<TState> {
     private readonly _config;
     private _state;

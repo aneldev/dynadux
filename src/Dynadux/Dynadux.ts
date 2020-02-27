@@ -15,7 +15,7 @@ export interface TDynaduxReducerAPI<TState, TPayload> {
   state: TState;
 }
 
-export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void | Promise<void>;
+export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
 
 export class Dynadux<TState> {
   private _state: TState;
@@ -31,7 +31,10 @@ export class Dynadux<TState> {
 
   public dispatch = <TPayload>(action: string, payload: TPayload): void => {
     const reducer = this._config.reducers[action];
-    if (!reducer) throw {message: `Reducer not found for action "${action}"`};
+    if (!reducer) {
+      console.error(`Reducer not found for action "${action}"`);
+      return;
+    }
     this._state = {
       ...this._state,
       ...reducer({
@@ -41,6 +44,6 @@ export class Dynadux<TState> {
         state: this._state,
       }),
     };
-    if (this._config.onChange) this._config.onChange(this.getState());
+    if (this._config.onChange) this._config.onChange(this._state);
   }
 }
