@@ -3,19 +3,40 @@ export interface IDynaduxConfig<TState> {
   reducers: {
     [actionName: string]: TDynaduxReducer<TState, any>;
   };
+  middlewares?: IDynaduxMiddleware<TState, any>[];
   onChange?: (state: TState) => void;
 }
 
-export type TDynaduxReducer<TState, TPayload> = (params: TDynaduxReducerAPI<TState, TPayload>) => Partial<TState>;
+export type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => Partial<TState>;
 
-export interface TDynaduxReducerAPI<TState, TPayload> {
+export interface IDynaduxReducerAPI<TState, TPayload> {
   action: string;
   payload: any;
   dispatch: TDynaduxDispatch<TPayload>;
   state: TState;
 }
 
+export interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
+  action: string;
+  payload: any;
+  dispatch: TDynaduxDispatch<TPayload>;
+  state: TState;
+}
+
+export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
+  action: string;
+  payload: any;
+  dispatch: TDynaduxDispatch<TPayload>;
+  state: TState;
+  initialState: TState;
+}
+
 export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
+
+export interface IDynaduxMiddleware<TState = void, TPayload = void> {
+  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => Partial<TState>;
+  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => Partial<TState>;
+}
 
 export class Dynadux<TState> {
   private _state: TState;
@@ -35,15 +56,51 @@ export class Dynadux<TState> {
       console.error(`Reducer not found for action "${action}"`);
       return;
     }
-    this._state = {
+
+    let initialState = this._state;
+    let newState = {...this._state};
+
+    const {middlewares = []} = this._config;
+
+    middlewares.forEach(({before}) => {
+      if (!before) return;
+      newState = {
+        ...newState,
+        ...before({
+          action,
+          payload,
+          dispatch: this.dispatch,
+          state: newState,
+        })
+      };
+    });
+
+    newState = {
       ...this._state,
       ...reducer({
         action,
         payload,
         dispatch: this.dispatch,
-        state: this._state,
+        state: newState,
       }),
     };
+
+    middlewares.forEach(({after}) => {
+      if (!after) return;
+      newState = {
+        ...newState,
+        ...after({
+          action,
+          payload,
+          dispatch: this.dispatch,
+          state: newState,
+          initialState,
+        })
+      };
+    });
+
+    this._state = newState;
+
     if (this._config.onChange) this._config.onChange(this._state);
   }
 }
