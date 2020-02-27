@@ -1,9 +1,7 @@
 import {IDynaduxMiddleware} from "../Dynadux/Dynadux";
+import {global}  from "../tools/global";
 
 export const dynaduxDebugMiddleware = (): IDynaduxMiddleware => {
-  let global: any;
-  if (typeof window !== 'undefined') global = window;
-  if (!global && typeof process !== 'undefined') global = process;
 
   let lastDispatch = 0;
   let dispatchNo = 0;
@@ -38,3 +36,4 @@ export const dynaduxDebugMiddleware = (): IDynaduxMiddleware => {
     },
   };
 };
+
