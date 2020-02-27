@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux, basics Dispatch an action: After remove of 302 todo 1`] = `
+Object {
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux, basics Dispatch an action: First todos 1`] = `
+Object {
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "After work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux, basics Dispatch an action: Initial state 1`] = `
+Object {
+  "todos": Array [],
+}
+`;
