@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dynadux, basics Dispatch sync actions: After remove of 302 todo 1`] = `
+exports[`Dynadux Dispatch sync actions: After remove of 302 todo 1`] = `
 Object {
   "todos": Array [
     Object {
@@ -12,7 +12,7 @@ Object {
 }
 `;
 
-exports[`Dynadux, basics Dispatch sync actions: First todos 1`] = `
+exports[`Dynadux Dispatch sync actions: First todos 1`] = `
 Object {
   "todos": Array [
     Object {
@@ -29,7 +29,7 @@ Object {
 }
 `;
 
-exports[`Dynadux, basics Dispatch sync actions: Initial state 1`] = `
+exports[`Dynadux Dispatch sync actions: Initial state 1`] = `
 Object {
   "todos": Array [],
 }

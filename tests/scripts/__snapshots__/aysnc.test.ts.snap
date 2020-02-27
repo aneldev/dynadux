@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dynadux, basics Dispatch async actions 1`] = `
+exports[`Dynadux Dispatch async actions 1`] = `
 Object {
   "todos": Array [
     Object {

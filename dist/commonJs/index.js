@@ -5,4 +5,5 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./Dynadux/Dynadux"));
 __export(require("./createStore/createStore"));
+__export(require("./middlewares/dynaduxDebugMiddleware"));
 //# sourceMappingURL=index.js.map

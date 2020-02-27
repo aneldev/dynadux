@@ -3,7 +3,7 @@ export interface IDynaduxConfig<TState> {
   reducers: {
     [actionName: string]: TDynaduxReducer<TState, any>;
   };
-  middlewares?: IDynaduxMiddleware<TState, any>[];
+  middlewares?: IDynaduxMiddleware<any, any>[];
   onChange?: (state: TState) => void;
 }
 

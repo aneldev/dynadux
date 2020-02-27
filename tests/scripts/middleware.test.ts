@@ -1,5 +1,8 @@
 import "jest";
-import {createStore} from "../../src";
+import {
+  createStore,
+  dynaduxDebugMiddleware,
+} from "../../src";
 
 interface ITodoAppState {
   todos: ITodo[];
@@ -23,14 +26,15 @@ interface IAddTodoLaterPayload {
 }
 
 describe('Dynadux', () => {
-  test('Dispatch async actions', async (done) => {
-    let stateChanged = 0;
-
-    const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
+  test('Middlewares', async (done) => {
+    const createTodoAppStore = (onChange?: (state: ITodoAppState) => void) => {
       const store = createStore<ITodoAppState>({
         initialState: {
           todos: [],
         },
+        middlewares: [
+          dynaduxDebugMiddleware(),
+        ],
         onChange,
         reducers: {
           [actions.ADD_TODO]: ({state, payload}) => {
@@ -68,11 +72,7 @@ describe('Dynadux', () => {
       };
     };
 
-    const handleStateChange = (state: ITodoAppState) => {
-      stateChanged++;
-    };
-
-    const todoAppStore = createTodoAppStore(handleStateChange);
+    const todoAppStore = createTodoAppStore();
 
     todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false});
     todoAppStore.addTodoLater({id: '302', label: 'Evening beer meeting', done: false}, 200);
@@ -80,9 +80,7 @@ describe('Dynadux', () => {
 
     await new Promise(r => setTimeout(r, 300));
 
-    expect(todoAppStore.getState().todos.map(todo => todo.id).join()).toBe('301,303,302');
-    expect(stateChanged).toBe(4);
-    expect(todoAppStore.getState()).toMatchSnapshot();
+    expect((process as any).dynaduxDebugMiddleware[3].afterMs).toBeGreaterThan(180);
 
     done();
   });

@@ -16,7 +16,7 @@ const actions = {
   REMOVE_TODO: 'REMOVE_TODO',
 };
 
-describe('Dynadux, basics', () => {
+describe('Dynadux', () => {
   test('Dispatch sync actions', () => {
     let stateChanged = 0;
 
