@@ -20,7 +20,7 @@ type TString = string;
 type TNumber = number;
 
 describe('Dynadux, basics', () => {
-  test('Dispatch an action', () => {
+  test('Dispatch sync actions', () => {
     let stateChanged = 0;
 
     const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
