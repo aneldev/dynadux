@@ -66,6 +66,6 @@ describe('Dynadux', () => {
 
     expect(todoAppStore.getState()).toMatchSnapshot('After remove of 302 todo');
 
-    expect(stateChanged).toBe(4);
+    expect(stateChanged).toBe(3);
   });
 });
