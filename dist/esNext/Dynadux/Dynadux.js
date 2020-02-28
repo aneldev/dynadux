@@ -13,9 +13,6 @@ var Dynadux = /** @class */ (function () {
     function Dynadux(_config) {
         var _this = this;
         this._config = _config;
-        this.getState = function () {
-            return _this._state;
-        };
         this.dispatch = function (action, payload) {
             var reducer = _this._config.reducers[action];
             if (!reducer) {
@@ -55,14 +52,14 @@ var Dynadux = /** @class */ (function () {
                 }));
             });
             _this._state = newState;
-            _this._pushChanges();
+            if (_this._config.onChange)
+                _this._config.onChange(_this._state);
         };
         this._state = _config.initialState || {};
-        this._pushChanges();
+        this.getState = this.getState.bind(this);
     }
-    Dynadux.prototype._pushChanges = function () {
-        if (this._config.onChange)
-            this._config.onChange(this._state);
+    Dynadux.prototype.getState = function () {
+        return this._state;
     };
     return Dynadux;
 }());
