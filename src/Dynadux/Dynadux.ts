@@ -51,10 +51,6 @@ export class Dynadux<TState> {
 
   public dispatch = <TPayload>(action: string, payload: TPayload): void => {
     const reducer = this._config.reducers[action];
-    if (!reducer) {
-      console.error(`Reducer not found for action "${action}"`);
-      return;
-    }
 
     let initialState = this._state;
     let newState = {...this._state};
@@ -74,7 +70,7 @@ export class Dynadux<TState> {
       };
     });
 
-    newState = {
+    if (reducer) newState = {
       ...this._state,
       ...reducer({
         action,

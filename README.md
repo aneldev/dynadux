@@ -33,6 +33,7 @@ If you are familiar with Redux these are the benefits you gain with Dynadux
 - Middlewares have callbacks for before and after the disparch of the action
 - Dynadux implementation is super simple, 60 lines of actual code (in Dynadux.ts) and includes the middlewares
 - No need to read tons of documentation, just this text is enough to learn it
+- Easier tests
 - Written in Typescript, supports types
 
 # Example to create a store
