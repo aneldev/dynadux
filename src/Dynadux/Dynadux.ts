@@ -43,10 +43,9 @@ export class Dynadux<TState> {
 
   constructor(private readonly _config: IDynaduxConfig<TState>) {
     this._state = _config.initialState || {} as any;
-    this.getState = this.getState.bind(this);
   }
 
-  public getState(): TState {
+  public get state(): TState {
     return this._state;
   }
 

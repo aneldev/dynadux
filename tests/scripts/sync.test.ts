@@ -43,9 +43,9 @@ describe('Dynadux', () => {
       });
 
       return {
+        get state() { return store.state; },
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
-        getState: store.getState,
       };
     };
 
@@ -55,16 +55,16 @@ describe('Dynadux', () => {
 
     const todoAppStore = createTodoAppStore(handleStateChange);
 
-    expect(todoAppStore.getState()).toMatchSnapshot('Initial state');
+    expect(todoAppStore.state).toMatchSnapshot('Initial state');
 
     todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false});
     todoAppStore.addTodo({id: '302', label: 'After work beers', done: false});
 
-    expect(todoAppStore.getState()).toMatchSnapshot('First todos');
+    expect(todoAppStore.state).toMatchSnapshot('First todos');
 
     todoAppStore.removeTodo('302');
 
-    expect(todoAppStore.getState()).toMatchSnapshot('After remove of 302 todo');
+    expect(todoAppStore.state).toMatchSnapshot('After remove of 302 todo');
 
     expect(stateChanged).toBe(3);
   });

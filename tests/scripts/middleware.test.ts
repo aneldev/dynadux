@@ -65,10 +65,10 @@ describe('Dynadux', () => {
       });
 
       return {
+        get state() { return store.state; },
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         addTodoLater: (todo: ITodo, withDelay: number) => store.dispatch<IAddTodoLaterPayload>(actions.ADD_TODO_LATER, {todo, withDelay}),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
-        getState: store.getState,
       };
     };
 

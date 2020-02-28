@@ -61,10 +61,10 @@ describe('Dynadux', () => {
       });
 
       return {
+        get state() {return store.state; },
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         addTodoLater: (todo: ITodo, withDelay: number) => store.dispatch<IAddTodoLaterPayload>(actions.ADD_TODO_LATER, {todo, withDelay}),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
-        getState: store.getState,
       };
     };
 
@@ -80,9 +80,9 @@ describe('Dynadux', () => {
 
     await new Promise(r => setTimeout(r, 300));
 
-    expect(todoAppStore.getState().todos.map(todo => todo.id).join()).toBe('301,303,302');
+    expect(todoAppStore.state.todos.map(todo => todo.id).join()).toBe('301,303,302');
     expect(stateChanged).toBe(4);
-    expect(todoAppStore.getState()).toMatchSnapshot();
+    expect(todoAppStore.state).toMatchSnapshot();
 
     done();
   });

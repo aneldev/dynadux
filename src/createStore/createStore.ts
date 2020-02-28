@@ -9,7 +9,7 @@ export interface ICreateStoreConfig<TState> extends IDynaduxConfig<TState> {
 
 export interface ICreateStoreAPI<TState> {
   dispatch: TDynaduxDispatch;
-  getState: () => TState;
+  state: TState;
 }
 
 export const createStore = <TState>(config: ICreateStoreConfig<TState>): ICreateStoreAPI<TState> => {
@@ -17,7 +17,7 @@ export const createStore = <TState>(config: ICreateStoreConfig<TState>): ICreate
 
   return {
     dispatch: dynadux.dispatch,
-    getState: dynadux.getState,
+    get state() { return  dynadux.state; },
   };
 };
 
