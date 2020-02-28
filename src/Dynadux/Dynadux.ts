@@ -31,7 +31,7 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   initialState: TState;
 }
 
-export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
+export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
 
 export interface IDynaduxMiddleware<TState = void, TPayload = void> {
   before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => Partial<TState>;
