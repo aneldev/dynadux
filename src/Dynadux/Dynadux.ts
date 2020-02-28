@@ -43,12 +43,12 @@ export class Dynadux<TState> {
 
   constructor(private readonly _config: IDynaduxConfig<TState>) {
     this._state = _config.initialState || {} as any;
-    this.getState = this.getState.bind(this);
+    this._pushChanges();
   }
 
-  public getState(): TState {
+  public getState = (): TState => {
     return this._state;
-  }
+  };
 
   public dispatch = <TPayload>(action: string, payload: TPayload): void => {
     const reducer = this._config.reducers[action];
@@ -101,6 +101,10 @@ export class Dynadux<TState> {
 
     this._state = newState;
 
+    this._pushChanges();
+  }
+
+  private _pushChanges(): void {
     if (this._config.onChange) this._config.onChange(this._state);
   }
 }

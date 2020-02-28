@@ -81,7 +81,7 @@ describe('Dynadux', () => {
     await new Promise(r => setTimeout(r, 300));
 
     expect(todoAppStore.getState().todos.map(todo => todo.id).join()).toBe('301,303,302');
-    expect(stateChanged).toBe(4);
+    expect(stateChanged).toBe(5);
     expect(todoAppStore.getState()).toMatchSnapshot();
 
     done();
