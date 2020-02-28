@@ -35,6 +35,6 @@ export declare class Dynadux<TState> {
     private readonly _config;
     private _state;
     constructor(_config: IDynaduxConfig<TState>);
-    getState(): TState;
+    get state(): TState;
     dispatch: <TPayload>(action: string, payload: TPayload) => void;
 }

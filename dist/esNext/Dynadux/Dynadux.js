@@ -56,11 +56,14 @@ var Dynadux = /** @class */ (function () {
                 _this._config.onChange(_this._state);
         };
         this._state = _config.initialState || {};
-        this.getState = this.getState.bind(this);
     }
-    Dynadux.prototype.getState = function () {
-        return this._state;
-    };
+    Object.defineProperty(Dynadux.prototype, "state", {
+        get: function () {
+            return this._state;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Dynadux;
 }());
 export { Dynadux };

@@ -3,7 +3,7 @@ export var createStore = function (config) {
     var dynadux = new Dynadux(config);
     return {
         dispatch: dynadux.dispatch,
-        getState: dynadux.getState,
+        get state() { return dynadux.state; },
     };
 };
 //# sourceMappingURL=createStore.js.map
