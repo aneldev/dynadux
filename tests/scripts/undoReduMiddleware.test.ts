@@ -21,8 +21,9 @@ const actions = {
   REMOVE_TODO: 'REMOVE_TODO',
 };
 
-describe('Dynadux', () => {
-  test('Undo/Redo middleware', async (done) => {
+describe('Dynadux, Undo/Redo middleware', () => {
+
+  test('Travel in time', () => {
     const createTodoAppStore = (onChange?: (state: ITodoAppState) => void) => {
       const store = createStore<ITodoAppState>({
         initialState: {
@@ -97,7 +98,70 @@ describe('Dynadux', () => {
 
     appStore.history.next();
     expect(getTodoIds()).toBe('301,302,304'); // We reached the last history item, this is the current
-
-    done();
   });
+
+
+  test('History size', () => {
+    const createTodoAppStore = (onChange?: (state: ITodoAppState) => void) => {
+      const store = createStore<ITodoAppState>({
+        initialState: {
+          todos: [],
+        },
+        middlewares: [
+          undoRedoMiddleware({historySize: 2}),
+        ],
+        onChange,
+        reducers: {
+          [actions.ADD_TODO]: ({state, payload}) => {
+            return {
+              ...state,
+              todos: state.todos.concat(payload),
+            };
+          },
+          [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+            return {
+              ...state,
+              todos: state.todos.filter(todo => todo.id !== todoId),
+            };
+          },
+        },
+      });
+
+      return {
+        get state() {
+          return store.state;
+        },
+        addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
+        removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
+        history: {
+          prev: () => store.dispatch(UndoRedoActions.PREV),
+          next: () => store.dispatch(UndoRedoActions.NEXT),
+          get length() {
+            store.dispatch(UndoRedoActions.GET_HISTORY, {stateTargetPropertyName: '__history'});
+            return (store.state as any).__history.length;
+          },
+        },
+      };
+    };
+
+    const appStore = createTodoAppStore();
+    const getTodoIds = () => appStore.state.todos.map(todo => todo.id).join();
+
+    appStore.addTodo({id: '301', label: 'Before work beers', done: false});
+    appStore.addTodo({id: '302', label: 'After work beers', done: false});
+    expect(getTodoIds()).toBe('301,302');
+
+    appStore.addTodo({id: '303', label: 'Evening beers', done: false});
+    expect(getTodoIds()).toBe('301,302,303');
+
+    appStore.history.prev();
+    appStore.history.prev();
+    appStore.history.prev();
+    appStore.history.prev();
+    expect(getTodoIds()).toBe('301,302');
+
+    expect(appStore.history.length).toBe(2);
+  });
+
+
 });

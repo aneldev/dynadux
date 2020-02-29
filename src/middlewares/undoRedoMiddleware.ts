@@ -3,9 +3,19 @@ import { IDynaduxMiddleware } from "../Dynadux/Dynadux";
 export const UndoRedoActions = {
   PREV: '___undoRedoMiddleware--PREV',
   NEXT: '___undoRedoMiddleware--NEXT',
+  GET_HISTORY: '___undoRedoMiddleware--GET_HISTORY', // payload: { stateTargetPropertyName: string }
 };
 
-export const undoRedoMiddleware = <TState>(): IDynaduxMiddleware<TState> => {
+export interface IUndoRedoMiddlewareConfig {
+  historySize?: number; // -1 unlimited
+}
+
+export const undoRedoMiddleware = <TState>(
+  {
+    historySize = -1,
+  }: IUndoRedoMiddlewareConfig
+    = {}
+): IDynaduxMiddleware<TState> => {
   let history: TState[] = [];
   let pointer = -1;
 
@@ -19,12 +29,19 @@ export const undoRedoMiddleware = <TState>(): IDynaduxMiddleware<TState> => {
   };
 
   const push = (state: TState): TState => {
+    // If we travel in past
     if (pointer + 1 < history.length) {
-      // we travel in past
+      // then delete the future from this point and continue
       history = history.slice(0, pointer + 1);
     }
+
     history.push(state);
     pointer++;
+
+    if (historySize > -1 && history.length > historySize) {
+      history = history.splice(-historySize);
+    }
+
     return state;
   };
 
@@ -32,12 +49,26 @@ export const undoRedoMiddleware = <TState>(): IDynaduxMiddleware<TState> => {
     after: (
       {
         action,
+        payload,
         state,
       }
     ) => {
-      if (action === UndoRedoActions.PREV) return prev(state);
-      if (action === UndoRedoActions.NEXT) return next(state);
-      return push(state);
+      switch (action) {
+        case UndoRedoActions.PREV:
+          return prev(state);
+
+        case UndoRedoActions.NEXT:
+          return next(state);
+
+        case UndoRedoActions.GET_HISTORY:
+          return {
+            ...state,
+            [payload.stateTargetPropertyName]: history.concat(),
+          };
+
+        default:
+          return push(state);
+      }
     },
   };
 };
