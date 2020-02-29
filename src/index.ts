@@ -21,5 +21,5 @@ export {
 
 export {
   undoRedoMiddleware,
-  UndoRedoActions,
+  EUndoRedoActions,
 } from "./middlewares/undoRedoMiddleware";

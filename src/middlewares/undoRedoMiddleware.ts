@@ -1,10 +1,12 @@
 import { IDynaduxMiddleware } from "../Dynadux/Dynadux";
 
-export const UndoRedoActions = {
-  PREV: '___undoRedoMiddleware--PREV',
-  NEXT: '___undoRedoMiddleware--NEXT',
-  GET_HISTORY: '___undoRedoMiddleware--GET_HISTORY', // payload: { stateTargetPropertyName: string }
-};
+export enum EUndoRedoActions {
+  PREV = 'dynadax___undoRedoMiddleware--PREV',
+  NEXT = 'dynadax___undoRedoMiddleware--NEXT',
+  SET_RESTORE_POINT = 'dynadax___undoRedoMiddleware--SET_RESTORE_POINT',              // payload: { name: string }
+  ACTIVATE_RESTORE_POINT = 'dynadax___undoRedoMiddleware--ACTIVATE_RESTORE_POINT',    // payload: { name: string }
+  GET_HISTORY = 'dynadax___undoRedoMiddleware--GET_HISTORY',                          // payload: { stateTargetPropertyName: string }
+}
 
 export interface IUndoRedoMiddlewareConfig {
   historySize?: number; // -1 unlimited
@@ -18,32 +20,7 @@ export const undoRedoMiddleware = <TState>(
 ): IDynaduxMiddleware<TState> => {
   let history: TState[] = [];
   let pointer = -1;
-
-  const prev = (state: TState): TState => {
-    if (pointer > 0) return history[--pointer];
-    return state;
-  };
-  const next = (state: TState): TState => {
-    if (pointer + 1 < history.length) return history[++pointer];
-    return state;
-  };
-
-  const push = (state: TState): TState => {
-    // If we travel in past
-    if (pointer + 1 < history.length) {
-      // then delete the future from this point and continue
-      history = history.slice(0, pointer + 1);
-    }
-
-    history.push(state);
-    pointer++;
-
-    if (historySize > -1 && history.length > historySize) {
-      history = history.splice(-historySize);
-    }
-
-    return state;
-  };
+  const restorePoints: { [name: string]: number } = {};
 
   return {
     after: (
@@ -54,20 +31,56 @@ export const undoRedoMiddleware = <TState>(
       }
     ) => {
       switch (action) {
-        case UndoRedoActions.PREV:
-          return prev(state);
+        case EUndoRedoActions.PREV:
+          if (pointer > 0) return history[--pointer];
+          return state;
 
-        case UndoRedoActions.NEXT:
-          return next(state);
+        case EUndoRedoActions.NEXT:
+          if (pointer + 1 < history.length) return history[++pointer];
+          return state;
 
-        case UndoRedoActions.GET_HISTORY:
+        case EUndoRedoActions.SET_RESTORE_POINT:
+          restorePoints[payload.name] = pointer;
+          return state;
+
+        case EUndoRedoActions.ACTIVATE_RESTORE_POINT:
+          const historyStatePointer = restorePoints[payload.name];
+          if (historyStatePointer !== undefined) {
+            pointer = historyStatePointer;
+            return history[pointer];
+          }
+          else {
+            console.error(`dynadax/undoRedoMiddleware, ACTIVATE_RESTORE_POINT: restore point [${payload.name}] doesn't exist`);
+            return state;
+          }
+
+        case EUndoRedoActions.GET_HISTORY:
           return {
             ...state,
             [payload.stateTargetPropertyName]: history.concat(),
           };
 
         default:
-          return push(state);
+          // Push the state
+          // If we travel in past
+          if (history.length && pointer + 1 < history.length) {
+            // then delete the future from this point and continue
+            history = history.slice(0, pointer + 1);
+            // delete future restore points
+            Object.keys(restorePoints)
+              .forEach(name => {
+                if (restorePoints[name] > pointer) delete restorePoints[name];
+              });
+          }
+
+          history.push(state);
+          pointer++;
+
+          if (historySize > -1 && history.length > historySize) {
+            history = history.splice(-historySize);
+          }
+
+          return state;
       }
     },
   };

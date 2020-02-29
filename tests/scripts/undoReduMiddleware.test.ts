@@ -3,8 +3,9 @@ import "jest";
 import {
   createStore,
   undoRedoMiddleware,
-  UndoRedoActions,
+  EUndoRedoActions,
 } from "../../src";
+import { expect } from "../../dyna/jest-light";
 
 interface ITodoAppState {
   todos: ITodo[];
@@ -56,8 +57,8 @@ describe('Dynadux, Undo/Redo middleware', () => {
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
         history: {
-          prev: () => store.dispatch(UndoRedoActions.PREV),
-          next: () => store.dispatch(UndoRedoActions.NEXT),
+          prev: () => store.dispatch(EUndoRedoActions.PREV),
+          next: () => store.dispatch(EUndoRedoActions.NEXT),
         },
       };
     };
@@ -134,10 +135,10 @@ describe('Dynadux, Undo/Redo middleware', () => {
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
         history: {
-          prev: () => store.dispatch(UndoRedoActions.PREV),
-          next: () => store.dispatch(UndoRedoActions.NEXT),
+          prev: () => store.dispatch(EUndoRedoActions.PREV),
+          next: () => store.dispatch(EUndoRedoActions.NEXT),
           get length() {
-            store.dispatch(UndoRedoActions.GET_HISTORY, {stateTargetPropertyName: '__history'});
+            store.dispatch(EUndoRedoActions.GET_HISTORY, {stateTargetPropertyName: '__history'});
             return (store.state as any).__history.length;
           },
         },
@@ -161,6 +162,76 @@ describe('Dynadux, Undo/Redo middleware', () => {
     expect(getTodoIds()).toBe('301,302');
 
     expect(appStore.history.length).toBe(2);
+  });
+
+  test('Restore points', () => {
+    const createTodoAppStore = (onChange?: (state: ITodoAppState) => void) => {
+      const store = createStore<ITodoAppState>({
+        initialState: {
+          todos: [],
+        },
+        middlewares: [
+          undoRedoMiddleware(),
+        ],
+        onChange,
+        reducers: {
+          [actions.ADD_TODO]: ({state, payload}) => {
+            return {
+              ...state,
+              todos: state.todos.concat(payload),
+            };
+          },
+          [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+            return {
+              ...state,
+              todos: state.todos.filter(todo => todo.id !== todoId),
+            };
+          },
+        },
+      });
+
+      return {
+        get state() {
+          return store.state;
+        },
+        addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
+        removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
+        history: {
+          prev: () => store.dispatch(EUndoRedoActions.PREV),
+          next: () => store.dispatch(EUndoRedoActions.NEXT),
+          setRestorePoint: (name: string) => store.dispatch(EUndoRedoActions.SET_RESTORE_POINT, {name}),
+          activateRestorePoint: (name: string) => store.dispatch(EUndoRedoActions.ACTIVATE_RESTORE_POINT, {name}),
+        },
+      };
+    };
+
+    const appStore = createTodoAppStore();
+    const getTodoIds = () => appStore.state.todos.map(todo => todo.id).join();
+
+    appStore.addTodo({id: '301', label: 'Before work beers', done: false});
+    appStore.addTodo({id: '302', label: 'After work beers', done: false});
+    expect(getTodoIds()).toBe('301,302');
+    appStore.history.setRestorePoint('basics');
+
+    appStore.addTodo({id: '303', label: 'Evening beers', done: false});
+    expect(getTodoIds()).toBe('301,302,303');
+    appStore.history.setRestorePoint('evening');
+
+    appStore.history.activateRestorePoint('basics');
+    expect(getTodoIds()).toBe('301,302');
+
+    appStore.history.activateRestorePoint('evening');
+    expect(getTodoIds()).toBe('301,302,303');
+
+    const ce = console.error;
+    console.error = jest.fn();
+    appStore.history.activateRestorePoint('basics');
+    appStore.addTodo({id: '304', label: 'Sleep', done: false});    // This add will delete the future evening tag
+    expect(getTodoIds()).toBe('301,302,304');
+    appStore.history.activateRestorePoint('evening');
+    expect(getTodoIds()).toBe('301,302,304');                   // Should be the same, since the "evening" doesn't exist anymore
+    expect((console.error as any).mock.calls).toBe(1);
+    console.error = ce;
   });
 
 
