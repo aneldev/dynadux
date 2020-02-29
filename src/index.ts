@@ -18,8 +18,3 @@ export {
 export {
   dynaduxDebugMiddleware,
 } from "./middlewares/dynaduxDebugMiddleware";
-
-export {
-  undoRedoMiddleware,
-  EUndoRedoActions,
-} from "./middlewares/undoRedoMiddleware";
