@@ -23,7 +23,7 @@ export const undoRedoMiddleware = <TState>(): IDynaduxMiddleware<TState> => {
       // we travel in past
       history = history.slice(0, pointer + 1);
     }
-    history.push(JSON.parse(JSON.stringify(state))); // Todo: remoce the JSON
+    history.push(state);
     pointer++;
     return state;
   };
