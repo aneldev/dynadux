@@ -1,20 +1,23 @@
 # About Dynadux
 
-Advanced and simpler Stores based on Reducers (like Redux).
+Advanced and simpler Stores based on `dispatch` and Reducers.
 
-Dynadux is reducing the Redux's cumbersome.
+Dynadux is an alternative or Redux. Is not using Redux but is reducing the Redux's cumbersome.
 
-Decoupled from React, can be used in NodeJs and React Apps without additional library. [See the live examples](./doc/Examples.md).
+It can work for NodeJs libraries, React Apps or React Components without complementary libraries.
+
+[See the live examples](./doc/Examples.md).
 
 # How it works?
 
 In general 
 - you dispatch actions
 - Dynadux is calling the reducers and middlewares
-- Dynadux is calling the onChange callback
+- Dynadux is calling the onChange callback with the fresh state
 
+# Motivation
 
-# Benefits to work with Dynadux against classic setState
+## Benefits to work with Dynadux against classic setState
 
 - Reusable State Management.
 - The use of pure reducer functions.
@@ -22,7 +25,7 @@ In general
 - Debuggable.
 - History of the changes.
 
-# Benefits against Redux
+## Benefits against Redux
 
 If you are familiar with Redux these are the benefits you gain with Dynadux.
 
@@ -321,17 +324,24 @@ _...soonish_
 
 ### About
 
-Middlewares in Dynadux are helpful
-- to prepare, maintain, decorate, clean up the state before or after action's dispatch
-- for debugging
-- monitor the state
+With middlewares you can
+- prepare, maintain, decorate, clean up the state before or after action's dispatch
+- create 3rd party middleware libraries, like, load the weather for a city etc
+- debugging, monitor the state
 - dispatch other 'parallel' actions
-- send stats
-- inspect suspicious dispatches
+- send usage stats
+
+### Write your own middleware as 3rd party
+
+Middlewares in Dynadux can `dispatch` out of the box, without additional Thunk middlewares as Redux needs. 
+
+You can write your own middlewares that it is only a function that returns a `IDynaduxMiddleware` object _see next_.
+
+The user of the middleware will have to load your middleware function in Dynadux's `middlewares` array prop only, without need to register reducers _like in Redux_!
 
 ### Are always Synchronous
 
-Middlewarea are execute synchronously and not asynchronously like Redux.
+Middlewarea are executed synchronously and not asynchronously like Redux.
 This is done intentionally to avoid complex and wrong implementations.
 
 If you wanna for instance fetch User's info, it is better to do it with actions instead of Middlewares. 
@@ -450,3 +460,5 @@ What makes to be easy to use and powerful is the architecture described in this 
 # What you can read also
 
 - [FAQ](./doc/FAQ.md)
+. [Examples](./doc/Examples.md)  
+. [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware)  
