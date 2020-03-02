@@ -1,2 +1,5 @@
 import { IDynaduxMiddleware } from "../Dynadux/Dynadux";
-export declare const dynaduxDebugMiddleware: () => IDynaduxMiddleware<void, void>;
+export interface IDynaduxDebugMiddlewareConfig {
+    globalVariableName?: string;
+}
+export declare const dynaduxDebugMiddleware: ({ globalVariableName, }?: IDynaduxDebugMiddlewareConfig) => IDynaduxMiddleware<void, void>;
