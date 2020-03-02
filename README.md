@@ -563,7 +563,7 @@ To load the middleware and save the array in different global name, for instance
 
 **Dynadux is a very simple library.** Technically the Dynadux is only an 
 
-`Object.assign({}, state, middleware.before(), reducer(), middleware.before(),)`
+`Object.assign({}, state, middleware.before(), reducer(), middleware.after())`
 
 and nothing else!
 
