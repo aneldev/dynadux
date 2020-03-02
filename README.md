@@ -27,7 +27,7 @@ In general
 - Debuggable.
 - History of the changes.
 
-## Benefits against Redux
+## Benefits instead of Redux
 
 If you are familiar with Redux these are the benefits you gain with Dynadux.
 
@@ -135,8 +135,8 @@ const createTodoAppStore = (onChange) => {
 
     return {
         get state() { return store.state; },
-        addTodo: (todo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
-        removeTodo: (todoId) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
+        addTodo: (todo) => store.dispatch(actions.ADD_TODO, todo),
+        removeTodo: (todoId) => store.dispatch(actions.REMOVE_TODO, todoId),
     };
 };
 
