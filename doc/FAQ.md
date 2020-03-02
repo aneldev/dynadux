@@ -2,34 +2,36 @@
 
 ## Why not use Provider and React's context
 
-Dynadux doesn't provide a [Provider](https://reactjs.org/docs/context.html)... at least for now. You are free to make one and share it.
+Dynadux doesn't provide a [Provider](https://reactjs.org/docs/context.html)... at least not now. You are free to make one and share it to open source.
 
-Dynadux is made to create small to large scale mutiple and reusable State Managers. 
+Dynadux is made to create from small to large scale multiple and reusable State Managers. 
 
 A Provider tents to promote one State Management that makes the app a kind of monolithic.
 
-The idea is to pass to the children what they need. So is not good practice to pass either the whole `store` but break down and provide only what is needed!
+The idea is to pass to the children what they need and not a global context. So it is not a good practice to pass the whole `store` but break it down and provide only what it is needed! In this way you will have small self contained components without the context’s dependency. Your application would be splitted easily into small parts.
 
-## Why reducers and middlwares dont't accept Promises
+## Why reducers and middlewares don't accept Promises
 
-There is only one reason: Performance. No, the promises are not show.
+There is only one reason: Performance. 
 
-In real, promises are useful when we have asynchronous operations. 
+No, the promises are not slow, but they add an effort that is not needed most of the time!
 
-Back to the state management this is needed when we have network or expensive operations.
+In reality, promises are useful when we have asynchronous operations. 
 
-If Dynadux had to support Promised results from reducers and middlewares it will add more process effort for all results and for those that are not promised results.
+Back to the state management, this is needed when we have network or expensive operations.
 
-A state manager should be fast, especially when the dispatches are intensive and have to update a UI like the React compoenents.
+If Dynadux had to support Promised results from reducers and middlewares it will add more process effort for all results and for those that are not promised results. _Remember that actions should be serialized._
 
-**But this doesn't mean that Dynadux is not supporting async operations**, in opposite, it offers you the `dispatch` for reducers and middlawares out of the box (without the need of a Thunk or other helper middleware).
+A state manager should be fast, especially when the dispatches are intensive and have to update sensitive UIs like the React components.
 
-Dynadux encourages you to write your own Promised methods and used them in the reducers like this: 
+**But this doesn't mean that Dynadux does not support async operations**, on the contrary it offers you the `dispatch` for reducers and middlewares out of the box (without the need of a Thunk or other helper middlewares as in Redux).
+
+Dynadux encourages you to write your own Promised methods and use them in the reducers like this: 
 ```
 reducers: {
       [actions.LOGIN]: ({state, dispatch, payload: {name, psw} }) => {
       
-        loginUser(name, psw)
+        loginUser(name, psw) // <- your async method
             .then(info => dispatch(actions.LOGIN_SUCCESS))
             .catch(error => dispatch(actions.LOGIN_DAILED, error));
             
@@ -56,3 +58,5 @@ reducers: {
       },
 },
 ```
+Personal preference… the `().then().catch()` pattern looks simpler!
+
