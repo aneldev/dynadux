@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux Middlewares 1`] = `
+Array [
+  Array [
+    "dispatch",
+    "ADD_TODO",
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  ],
+  Array [
+    "dispatch",
+    "ADD_TODO",
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "Evening beer meeting",
+    },
+  ],
+  Array [
+    "dispatch",
+    "ADD_TODO",
+    Object {
+      "done": false,
+      "id": "303",
+      "label": "After work beers",
+    },
+  ],
+]
+`;

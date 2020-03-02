@@ -1,6 +1,6 @@
 {
   "name": "dynadux",
-  "version": "0.0.4",
+  "version": "1.0.1",
   "description": "The Dynadux",
   "repository": {
     "type": "git",
@@ -48,7 +48,11 @@
     "reinstall": "rm ./yarn.lock rm -rf ./node_modules; yarn install",
     "reinstall-dyna": "rm ./yarn.lock; rm -rf ./node_modules/dyna-*; yarn install"
   },
-  "keywords": [],
+  "keywords": [
+    "state",
+    "state management",
+    "redux alternative"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {},
