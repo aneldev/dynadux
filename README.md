@@ -213,7 +213,7 @@ The return of the `createStore` are two properties only
 
 This simple API makes the Dynadux simple to fit it anywhere.
 
-## `state` method
+## `state` getter
 
 A getter to get the current state.
 
