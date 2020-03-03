@@ -28,7 +28,6 @@ export var dynaduxDebugMiddleware = function (_a) {
                 after: state,
             });
             lastDispatch = date.valueOf();
-            return state;
         },
     };
 };

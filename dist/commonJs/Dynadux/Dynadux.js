@@ -24,31 +24,31 @@ var Dynadux = /** @class */ (function () {
                 var before = _a.before;
                 if (!before)
                     return;
-                newState = __assign(__assign({}, newState), before({
+                newState = __assign(__assign({}, newState), (before({
                     action: action,
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
-                }));
+                }) || {}));
             });
             if (reducer)
-                newState = __assign(__assign({}, _this._state), reducer({
+                newState = __assign(__assign({}, _this._state), (reducer({
                     action: action,
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
-                }));
+                }) || {}));
             middlewares.forEach(function (_a) {
                 var after = _a.after;
                 if (!after)
                     return;
-                newState = __assign(__assign({}, newState), after({
+                newState = __assign(__assign({}, newState), (after({
                     action: action,
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
                     initialState: initialState,
-                }));
+                }) || {}));
             });
             _this._state = newState;
             if (_this._config.onChange)
