@@ -2,6 +2,7 @@
 
 exports[`Dynadux Dispatch sync actions: After remove of 302 todo 1`] = `
 Object {
+  "logged": true,
   "todos": Array [
     Object {
       "done": false,
@@ -14,6 +15,7 @@ Object {
 
 exports[`Dynadux Dispatch sync actions: First todos 1`] = `
 Object {
+  "logged": true,
   "todos": Array [
     Object {
       "done": false,
@@ -31,6 +33,7 @@ Object {
 
 exports[`Dynadux Dispatch sync actions: Initial state 1`] = `
 Object {
+  "logged": false,
   "todos": Array [],
 }
 `;

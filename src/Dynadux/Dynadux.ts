@@ -7,7 +7,7 @@ export interface IDynaduxConfig<TState> {
   onChange?: (state: TState) => void;
 }
 
-export type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => Partial<TState>;
+export type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 
 export interface IDynaduxReducerAPI<TState, TPayload> {
   action: string;
@@ -34,8 +34,8 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
 export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
 
 export interface IDynaduxMiddleware<TState = void, TPayload = void> {
-  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => Partial<TState>;
-  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => Partial<TState>;
+  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
+  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 }
 
 export class Dynadux<TState> {
@@ -61,36 +61,36 @@ export class Dynadux<TState> {
       if (!before) return;
       newState = {
         ...newState,
-        ...before({
+        ...(before({
           action,
           payload,
           dispatch: this.dispatch,
           state: newState,
-        })
+        }) || {})
       };
     });
 
     if (reducer) newState = {
       ...this._state,
-      ...reducer({
+      ...(reducer({
         action,
         payload,
         dispatch: this.dispatch,
         state: newState,
-      }),
+      }) || {}),
     };
 
     middlewares.forEach(({after}) => {
       if (!after) return;
       newState = {
         ...newState,
-        ...after({
+        ...(after({
           action,
           payload,
           dispatch: this.dispatch,
           state: newState,
           initialState,
-        })
+        }) || {})
       };
     });
 

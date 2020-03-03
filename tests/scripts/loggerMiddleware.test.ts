@@ -26,18 +26,16 @@ describe('Dynadux', () => {
         },
         middlewares: [
           {
-            after: ({action, payload, state}) => {
+            after: ({action, payload}) => {
               console.log('dispatch', new Date, action, payload);
-              return state;
             },
           }
         ],
         onChange,
         reducers: {
-          [actions.ADD_TODO]: ({state, payload}) => {
+          [actions.ADD_TODO]: ({state: {todos}, payload}) => {
             return {
-              ...state,
-              todos: state.todos.concat(payload),
+              todos: todos.concat(payload),
             };
           },
         },

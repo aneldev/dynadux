@@ -47,7 +47,6 @@ export const dynaduxDebugMiddleware = (
       });
 
       lastDispatch = date.valueOf();
-      return state;
     },
   };
 };

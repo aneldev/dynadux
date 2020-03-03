@@ -2,6 +2,7 @@ import "jest";
 import {createStore} from "../../src";
 
 interface ITodoAppState {
+  logged: boolean,
   todos: ITodo[];
 }
 
@@ -12,8 +13,9 @@ interface ITodo {
 }
 
 const actions = {
-  ADD_TODO: 'ADD_TODO',
-  REMOVE_TODO: 'REMOVE_TODO',
+  LOGIN: 'LOGIN',                   // payload: boolean
+  ADD_TODO: 'ADD_TODO',             // payload: ITodo
+  REMOVE_TODO: 'REMOVE_TODO',       // payload: string (the id of a todo)
 };
 
 describe('Dynadux', () => {
@@ -23,20 +25,22 @@ describe('Dynadux', () => {
     const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
       const store = createStore<ITodoAppState>({
         initialState: {
+          logged: false,
           todos: [],
         },
         onChange,
         reducers: {
-          [actions.ADD_TODO]: ({state, payload}) => {
+          [actions.LOGIN]: ({payload: logged}) => {
+            return {logged};
+          },
+          [actions.ADD_TODO]: ({state: {todos}, payload}) => {
             return {
-              ...state,
-              todos: state.todos.concat(payload),
+              todos: todos.concat(payload),
             };
           },
-          [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+          [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
             return {
-              ...state,
-              todos: state.todos.filter(todo => todo.id !== todoId),
+              todos: todos.filter(todo => todo.id !== todoId),
             };
           },
         },
@@ -44,6 +48,7 @@ describe('Dynadux', () => {
 
       return {
         get state() { return store.state; },
+        login: (logged: boolean) => store.dispatch<boolean>(actions.LOGIN, logged),
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
       };
@@ -57,6 +62,7 @@ describe('Dynadux', () => {
 
     expect(todoAppStore.state).toMatchSnapshot('Initial state');
 
+    todoAppStore.login(true);
     todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false});
     todoAppStore.addTodo({id: '302', label: 'After work beers', done: false});
 
@@ -66,6 +72,6 @@ describe('Dynadux', () => {
 
     expect(todoAppStore.state).toMatchSnapshot('After remove of 302 todo');
 
-    expect(stateChanged).toBe(3);
+    expect(stateChanged).toBe(4);
   });
 });

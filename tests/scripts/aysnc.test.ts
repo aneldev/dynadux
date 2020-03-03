@@ -2,6 +2,7 @@ import "jest";
 import {createStore} from "../../src";
 
 interface ITodoAppState {
+  logged: boolean,
   todos: ITodo[];
 }
 
@@ -12,9 +13,10 @@ interface ITodo {
 }
 
 const actions = {
-  ADD_TODO: 'ADD_TODO',
-  ADD_TODO_LATER: 'ADD_TODO_LATER',
-  REMOVE_TODO: 'REMOVE_TODO',
+  LOGIN: 'LOGIN',                   // payload: boolean
+  ADD_TODO: 'ADD_TODO',             // payload: ITodo
+  ADD_TODO_LATER: 'ADD_TODO_LATER', // payload: IAddTodoLaterPayload
+  REMOVE_TODO: 'REMOVE_TODO',       // payload: string (the id of a todo)
 };
 
 interface IAddTodoLaterPayload {
@@ -29,17 +31,20 @@ describe('Dynadux', () => {
     const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
       const store = createStore<ITodoAppState>({
         initialState: {
+          logged: false,
           todos: [],
         },
         onChange,
         reducers: {
-          [actions.ADD_TODO]: ({state, payload}) => {
+          [actions.LOGIN]: ({payload: logged}) => {
+            return {logged};
+          },
+          [actions.ADD_TODO]: ({state: {todos}, payload}) => {
             return {
-              ...state,
-              todos: state.todos.concat(payload),
+              todos: todos.concat(payload),
             };
           },
-          [actions.ADD_TODO_LATER]: ({state, payload, dispatch}) => {
+          [actions.ADD_TODO_LATER]: ({payload, dispatch}) => {
             const {
               todo,
               withDelay = 0,
@@ -48,13 +53,10 @@ describe('Dynadux', () => {
             setTimeout(() => {
               dispatch(actions.ADD_TODO, todo);
             }, withDelay);
-
-            return state;
           },
-          [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+          [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
             return {
-              ...state,
-              todos: state.todos.filter(todo => todo.id !== todoId),
+              todos: todos.filter(todo => todo.id !== todoId),
             };
           },
         },
@@ -62,6 +64,7 @@ describe('Dynadux', () => {
 
       return {
         get state() {return store.state; },
+        login: (logged: boolean) => store.dispatch<boolean>(actions.LOGIN, logged),
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         addTodoLater: (todo: ITodo, withDelay: number) => store.dispatch<IAddTodoLaterPayload>(actions.ADD_TODO_LATER, {todo, withDelay}),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
@@ -74,6 +77,7 @@ describe('Dynadux', () => {
 
     const todoAppStore = createTodoAppStore(handleStateChange);
 
+    todoAppStore.login(true);
     todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false});
     todoAppStore.addTodoLater({id: '302', label: 'Evening beer meeting', done: false}, 200);
     todoAppStore.addTodo({id: '303', label: 'After work beers', done: false});
@@ -81,8 +85,9 @@ describe('Dynadux', () => {
     await new Promise(r => setTimeout(r, 300));
 
     expect(todoAppStore.state.todos.map(todo => todo.id).join()).toBe('301,303,302');
-    expect(stateChanged).toBe(4);
     expect(todoAppStore.state).toMatchSnapshot();
+
+    expect(stateChanged).toBe(5);
 
     done();
   });

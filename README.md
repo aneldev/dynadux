@@ -69,15 +69,13 @@ const store = createStore({
         todos: [],
     },
     reducers: {
-          [actions.ADD_TODO]: ({state, payload}) => {
+          [actions.ADD_TODO]: ({state: {todos}, payload}) => {
             return {
-              ...state,
-              todos: state.todos.concat(payload),
+              todos: todos.concat(payload),
             };
           },
-          [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+          [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
             return {
-              ...state,
               todos: state.todos.filter(todo => todo.id !== todoId),
             };
           },
@@ -117,16 +115,14 @@ const createTodoAppStore = (onChange) => {
             todos: [],
         },
         reducers: {
-              [actions.ADD_TODO]: ({state, payload}) => {
+              [actions.ADD_TODO]: ({state: {todos}, payload}) => {
                 return {
-                  ...state,
-                  todos: state.todos.concat(payload),
+                  todos: todos.concat(payload),
                 };
               },
-              [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+              [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
                 return {
-                  ...state,
-                  todos: state.todos.filter(todo => todo.id !== todoId),
+                  todos: todos.filter(todo => todo.id !== todoId),
                 };
               },
         },
@@ -186,7 +182,8 @@ Briefly here is a couple.
 
 - [A Todo app (React app)](https://codesandbox.io/s/sleepy-browser-mijt6)
 
-[All examples](./doc/Examples.md), can be compared with the examples of redux .  
+[All examples](./doc/Examples.md), can be compared with the examples of redux.
+  
 # API of Dynadux
 
 ## createStore method
@@ -259,11 +256,13 @@ store.dispatch(action.USER_LOGOFF);
 
 When an action is triggered, a reducer is called.
 
-The reducer should return the new state of the store.
+The reducer would return 
+- the partial state of the store or 
+- nothing if is not going to change it.
 
 A reducer might call other reducers to update parts of the state. 
 
-Reducers change the state when they are called.
+Reducers would change the state when they are called.
 
 Reducers cannot be added at a later time. This makes our store always pure and predictable from the starting point. You can define unlimited reducers/actions.
 
@@ -280,19 +279,14 @@ Example: Fetch something from the network and update the state
 
 ```
 reducers: {
-      [actions.GET_INFO_REQUEST]: ({state, dispatch}) => {
-      
-        fetch('http://www.example.com/api/beer-pubs-near-me')
-            .then(info => dispatch(actions.GET_INFO_RESPONSE, info))
-            .catch(error => dispatch(actions.GET_INFO_ERROR, error));
-            
-        return state;   // return always the state
-      },
+  [actions.GET_INFO_REQUEST]: ({dispatch}) => {
+  
+    fetch('http://www.example.com/api/beer-pubs-near-me')
+      .then(info => dispatch(actions.GET_INFO_RESPONSE, info))
+      .catch(error => dispatch(actions.GET_INFO_ERROR, error));
+  },
 },
 ```
-
-The call of the reducer is always synchronous, it should always return the state.
-This is what we did in the example.
 
 When the fetch is fulfilled, it will dispatch the GET_INFO_RESPONSE or the GET_INFO_ERROR action.
 
@@ -304,23 +298,21 @@ For instance, imagine that we have this store
 
 ```
 {
-    todos: []
+  todos: []
 }
 ```
 And we have these reducers
 
 ```
 reducers: {
-  [actions.ADD_TODO]: ({state, payload}) => {
+  [actions.ADD_TODO]: ({state: {todos}, payload}) => {
     return {
-      ...state,
-      todos: state.todos.concat(payload),
+      todos: todos.concat(payload),
     };
   },
-  [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+  [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
     return {
-      ...state,
-      todos: state.todos.filter(todo => todo.id !== todoId),
+      todos: todos.filter(todo => todo.id !== todoId),
     };
   },
 },
@@ -336,16 +328,14 @@ const reducerRemoveTodo = (todos, removeTodoId) => {
 The reducers now would be like this
 ```
 reducers: {
-  [actions.ADD_TODO]: ({state, payload}) => {
+  [actions.ADD_TODO]: ({state: {todos}, payload}) => {
     return {
-      ...state,
-      todos: state.todos.concat(payload),
+      todos: todos.concat(payload),
     };
   },
-  [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+  [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
     return {
-      ...state,
-      todos: reducerRemoveTodo(state.todos, todoId),
+      todos: reducerRemoveTodo(todos, todoId),
     };
   },
 },
@@ -353,12 +343,12 @@ reducers: {
 
 Splitting the reducers helps you to create easy, bigger and more complex states that can be tested since they are pure functions.
 
-Splitting the reducers is not a part of the dynadux. Dynadux  calls  the action’s reducer and you are free to call any sub reducer you may need.
+Splitting the reducers is not a part of the Dynadux. Dynadux calls the action’s reducer and you are free to call any sub reducer you may need.
 
 ### API
 
 ```
-type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => Partial<TState>;
+type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 
 interface IDynaduxReducerAPI<TState, TPayload> {
   action: string;
@@ -367,24 +357,6 @@ interface IDynaduxReducerAPI<TState, TPayload> {
   state: TState;
 }
 ```
-
-### Examples
-
-Add a todo
-```
-reducers: {
-    [actions.ADD_TODO]: ({state, payload, dispatch}) => {
-        // here we have the entire state, the payload of the dispatch, and…
-        // the dispatch method to dispatch other actions
-        return {
-            ...state,
-            todos: state.todos.concat(payload),
-        };
-    },
-    // … other reducers
-},
-```
-
 
 ## Middlewares
 
@@ -401,7 +373,7 @@ Middlewares can
 - access the entire state
 - access all dispatched actions from anywhere
 - dispatch actions
-- have their own actions and behave a 3rd party libraries
+- have their own actions and behave as a 3rd party libraries
 
 ### Write your own middleware as 3rd party
 
@@ -414,30 +386,36 @@ The user of the middleware will have to load only the middleware function in Dyn
 ### Are always Synchronous
 
 Middlewares are executed synchronously and not asynchronously like Redux.
-This is done intentionally to avoid complex and wrong implementations.
+This is done intentionally to avoid complex and potentially wrong implementations.
 
-If you wanna, for instance, fetch User's info, by a Middleware
-- make your async call
-- dispatch the result or the error
-- synchronously return the state intact
+If you want, for instance, to login the user and then fetch User's info in a Middleware it is cleaner to do this:
+- make an action to loginUser login the user
+- make an action to fetchUserInfo to fetch user's info
+- make an action to loginAndFetchUserInfo that calls the above one after the other
+- in the middleware dispatch the loginAndFetchUserInfo action
+
+It is easier to maintain and make tests for the above actions instead of having them in asynchronous middlewares. 
 
 ### Implementing a middleware
 
 The middleware can be loaded before the dispatch of the action and/or after the dispatch of the action.
 
-In the `before` phase, you can prepare the state, or enrich the payload.
+On `before` phase, you can prepare the state, or enrich the payload.
 
-In the `after` phase, _the most useful one_, you can react to the dispatched action.
+On `after` phase, _the most useful one_, you can react to the dispatched action. On `after` phase you have additionally the `initialState` and you can compare what the action did. 
 
-The implementation of each phase should always return _synchronously_ the state.
+The implementation of each phase may return a partial state or nothing for no state changes.
 
 In both phases, you can access the 
-- action (string)
-- payload
-- state (the entire state)
-- dispatch method
+- `action` (string)
+- `payload`
+- `state` (the entire state)
+- `dispatch` method
 
-This API is the same as the reducers. So, middlewares acts  like reducers. The benefit of the reducers is that we can share the state handling among other stores. 
+The `initialState` is offered on `after` only.
+
+This API is the same as the reducers. 
+So, middlewares acts like reducers. 
 
 > Redux doesn’t have the `before` phase.
 
@@ -462,8 +440,8 @@ interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
 type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
 
 interface IDynaduxMiddleware<TState = void, TPayload = void> {
-  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => Partial<TState>;
-  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => Partial<TState>;
+  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
+  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 }
 
 ```
@@ -474,12 +452,11 @@ interface IDynaduxMiddleware<TState = void, TPayload = void> {
 This middleware consoles the action that has been dispatched.
 ```
 middlewares: [
-    {
-        after: ({action, payload, state}) => {
-            console.log('dispatch', new Date, action, payload);
-            return state; // mandatory to return it
-        },
-    }
+  {
+    after: ({action, payload}) => {
+      console.log('dispatch', new Date, action, payload);
+    },
+  }
 ],
 
 ```
@@ -488,14 +465,13 @@ middlewares: [
 
 ```
 middlewares: [
-    {
-        after: ({action, payload, state}) => {
-            If (action === ‘USER-LOGIN-ERROR) {
-                // post here there error, async
-            }
-            return state; // mandatory to return it
-        },
-    }
+  {
+    after: ({action, payload}) => {
+      If (action === ‘USER-LOGIN-ERROR) {
+        // post here there error, async
+      }
+    },
+  }
 ],
 
 ```
@@ -509,17 +485,18 @@ The usage of it is described later.
 
 Middlewares can have their own actions.
 
-A live example is the [dynadux-history-middleware](https://github.com/aneldev/dynadux-history-middleware). The whole implementation is in [this file](https://github.com/aneldev/dynadux-history-middleware/blob/master/src/dynaduxHistoryMiddleware.ts).
+A live example is the [dynadux-history-middleware](https://github.com/aneldev/dynadux-history-middleware). 
+The whole implementation is in [this file](https://github.com/aneldev/dynadux-history-middleware/blob/master/src/dynaduxHistoryMiddleware.ts).
 
-Here, it is easy to make a History State management, navigating back and forth in time and offering **restore points**.
+Here, it is easy to make a History State management, navigating back and forth in time and offering **restore points**!
 
 # Debugging
 
 ## dynaduxDebugMiddleware
 
-Dynandax comes with middleware for debugging that collects the dispatched actions in a global array.
+Dynandux comes with middleware for debugging that collects the dispatched actions in a global array.
 
-### Usag
+### Usage
 
 ```
 import {createStore, dynaduxDebugMiddleware} from "dynadux";
@@ -567,7 +544,7 @@ To load the middleware and save the array in different global name, for instance
 
 and nothing else!
 
-What makes it powerful and easy to use is the architecture described in this text.
+What also makes it powerful and easy to use is the architecture described in this text.
 
 # You can also read 
 

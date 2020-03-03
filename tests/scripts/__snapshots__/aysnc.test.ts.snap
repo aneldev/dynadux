@@ -2,6 +2,7 @@
 
 exports[`Dynadux Dispatch async actions 1`] = `
 Object {
+  "logged": true,
   "todos": Array [
     Object {
       "done": false,

@@ -37,13 +37,12 @@ describe('Dynadux', () => {
         ],
         onChange,
         reducers: {
-          [actions.ADD_TODO]: ({state, payload}) => {
+          [actions.ADD_TODO]: ({state: {todos}, payload}) => {
             return {
-              ...state,
-              todos: state.todos.concat(payload),
+              todos: todos.concat(payload),
             };
           },
-          [actions.ADD_TODO_LATER]: ({state, payload, dispatch}) => {
+          [actions.ADD_TODO_LATER]: ({payload, dispatch}) => {
             const {
               todo,
               withDelay = 0,
@@ -52,13 +51,10 @@ describe('Dynadux', () => {
             setTimeout(() => {
               dispatch(actions.ADD_TODO, todo);
             }, withDelay);
-
-            return state;
           },
-          [actions.REMOVE_TODO]: ({state, payload: todoId}) => {
+          [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
             return {
-              ...state,
-              todos: state.todos.filter(todo => todo.id !== todoId),
+              todos: todos.filter(todo => todo.id !== todoId),
             };
           },
         },
