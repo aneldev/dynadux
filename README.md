@@ -548,7 +548,18 @@ What also makes it powerful and easy to use is the architecture described in thi
 
 # You can also read 
 
-- [FAQ](./doc/FAQ.md)
-- [Examples](./doc/Examples.md)  
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware)  
+## [FAQ](./doc/FAQ.md)
 
+Frequently asked questions
+
+## [Examples](./doc/Examples.md)
+
+Live examples. Examples compared to redux's implementations
+
+## [Techniques](./doc/Techniques.md)
+
+Dispached promises. Boost up your app.
+
+## [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware)  
+
+Middleware for History, Undo/Redo and Restore Points.

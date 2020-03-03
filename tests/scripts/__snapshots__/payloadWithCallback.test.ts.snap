@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux Dispatch sync actions: After remove of 302 todo 1`] = `
+Object {
+  "logged": true,
+  "saved": false,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux Dispatch sync actions: First todos 1`] = `
+Object {
+  "logged": true,
+  "saved": false,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "After work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux Dispatch sync actions: Initial state 1`] = `
+Object {
+  "logged": false,
+  "saved": false,
+  "todos": Array [],
+}
+`;
