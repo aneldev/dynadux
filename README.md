@@ -1,3 +1,5 @@
+![Image description](doc/assets/dynadux-logo.png)
+
 # What is Dynadux
 
 Advanced and simpler Stores based on `dispatch` and Reducers.
