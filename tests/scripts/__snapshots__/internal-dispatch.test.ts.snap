@@ -1,9 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dynadux Payloads with callbacks: After remove of 302 todo 1`] = `
+exports[`Dynadux Dispatch sync actions: After remove of 302 todo 1`] = `
 Object {
   "logged": true,
-  "saved": false,
+  "stats": Object {
+    "all": 1,
+    "completed": 0,
+    "pending": 0,
+  },
   "todos": Array [
     Object {
       "done": false,
@@ -14,10 +18,14 @@ Object {
 }
 `;
 
-exports[`Dynadux Payloads with callbacks: First todos 1`] = `
+exports[`Dynadux Dispatch sync actions: First todos 1`] = `
 Object {
   "logged": true,
-  "saved": false,
+  "stats": Object {
+    "all": 2,
+    "completed": 0,
+    "pending": 0,
+  },
   "todos": Array [
     Object {
       "done": false,
@@ -33,10 +41,14 @@ Object {
 }
 `;
 
-exports[`Dynadux Payloads with callbacks: Initial state 1`] = `
+exports[`Dynadux Dispatch sync actions: Initial state 1`] = `
 Object {
   "logged": false,
-  "saved": false,
+  "stats": Object {
+    "all": 0,
+    "completed": 0,
+    "pending": 0,
+  },
   "todos": Array [],
 }
 `;

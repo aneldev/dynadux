@@ -38,8 +38,15 @@ export interface IDynaduxMiddleware<TState = void, TPayload = void> {
   after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 }
 
+interface IDispatch<TPayload> {
+  action: string;
+  payload: TPayload;
+}
+
 export class Dynadux<TState> {
   private _state: TState;
+  private readonly _dispatches: IDispatch<any>[] = [];
+  private _isDispatching = false;
 
   constructor(private readonly _config: IDynaduxConfig<TState>) {
     this._state = _config.initialState || {} as any;
@@ -50,6 +57,20 @@ export class Dynadux<TState> {
   }
 
   public dispatch = <TPayload>(action: string, payload: TPayload): void => {
+    this._dispatches.push({action, payload});
+    this._dispatch();
+  };
+
+  private _dispatch = <TPayload>(): void => {
+    if (this._isDispatching) return;
+    this._isDispatching = true;
+
+    const dispatchItem = this._dispatches.shift();
+    if (!dispatchItem) {
+      this._isDispatching = false;
+      return;
+    }
+    const {action, payload} = dispatchItem;
     const reducer = this._config.reducers[action];
 
     let initialState = this._state;
@@ -97,5 +118,8 @@ export class Dynadux<TState> {
     this._state = newState;
 
     if (this._config.onChange) this._config.onChange(this._state);
+
+    this._isDispatching = false;
+    this._dispatch();
   }
 }
