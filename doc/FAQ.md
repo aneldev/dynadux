@@ -12,23 +12,8 @@ The idea is to pass to the children what they need and not a global context. So 
 
 But again it's up to you if you want to make a global store with a provider. Dynadux won't complain. 
 
-## Why reducers and middlewares don't accept Promises
+## How to dispatch through a reducer
 
-There is only one reason: Performance. 
-
-No, the promises are not slow, but they add an effort that is not needed most of the time!
-
-In reality, promises are useful when we have asynchronous operations. 
-
-Back to the state management, this is needed when we have network or expensive operations.
-
-If Dynadux had to support Promised results from reducers and middlewares it will add more process effort for all results and for those that are not promised results. _Remember that actions should be serialized._
-
-A state manager should be fast, especially when the dispatches are intensive and have to update sensitive UIs like the React components.
-
-**But this doesn't mean that Dynadux does not support async operations**, on the contrary it offers you the `dispatch` for reducers and middlewares out of the box (without the need of a Thunk or other helper middlewares as in Redux).
-
-Dynadux encourages you to write your own Promised methods and use them in the reducers like this: 
 ```
 reducers: {
   [actions.LOGIN]: ({dispatch, payload: {name, psw} }) => {
