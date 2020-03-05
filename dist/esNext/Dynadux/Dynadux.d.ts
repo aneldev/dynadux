@@ -34,7 +34,10 @@ export interface IDynaduxMiddleware<TState = void, TPayload = void> {
 export declare class Dynadux<TState> {
     private readonly _config;
     private _state;
+    private readonly _dispatches;
+    private _isDispatching;
     constructor(_config: IDynaduxConfig<TState>);
     get state(): TState;
     dispatch: <TPayload>(action: string, payload: TPayload) => void;
+    private _dispatch;
 }

@@ -15,7 +15,22 @@ var Dynadux = /** @class */ (function () {
     function Dynadux(_config) {
         var _this = this;
         this._config = _config;
+        this._dispatches = [];
+        this._isDispatching = false;
         this.dispatch = function (action, payload) {
+            _this._dispatches.push({ action: action, payload: payload });
+            _this._dispatch();
+        };
+        this._dispatch = function () {
+            if (_this._isDispatching)
+                return;
+            _this._isDispatching = true;
+            var dispatchItem = _this._dispatches.shift();
+            if (!dispatchItem) {
+                _this._isDispatching = false;
+                return;
+            }
+            var action = dispatchItem.action, payload = dispatchItem.payload;
             var reducer = _this._config.reducers[action];
             var initialState = _this._state;
             var newState = __assign({}, _this._state);
@@ -53,6 +68,8 @@ var Dynadux = /** @class */ (function () {
             _this._state = newState;
             if (_this._config.onChange)
                 _this._config.onChange(_this._state);
+            _this._isDispatching = false;
+            _this._dispatch();
         };
         this._state = _config.initialState || {};
     }
