@@ -51,4 +51,10 @@ With Dynadux
 - The components remain intact since they are simply viewers
 - The containers would be omitted!
 
+## Shopping Cart example
 
+### [Cart example with multiple reducers](https://codesandbox.io/s/dynadux-shopping-cart-example-icygs)
+
+The create store is different here, as `reducers` we pass the any array of two dictionaries of action/reducer pairs.
+
+In this way, the `ADD_TO_CART` action exists in both Sections, Products and .
