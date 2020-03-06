@@ -404,19 +404,6 @@ You can write your own middlewares that it is only a function that returns an `I
 
 The user of the middleware will have to load only the middleware function in Dynadux's `middlewares` array prop only, without need to register reducers _like in Redux_!
 
-### Are always Synchronous
-
-Middlewares are executed synchronously and not asynchronously like Redux.
-This is done intentionally to avoid complex and potentially wrong implementations.
-
-If you want, for instance, to login the user and then fetch User's info in a Middleware it is cleaner to do this:
-- make an action to loginUser login the user
-- make an action to fetchUserInfo to fetch user's info
-- make an action to loginAndFetchUserInfo that calls the above one after the other
-- in the middleware dispatch the loginAndFetchUserInfo action
-
-It is easier to maintain and make tests for the above actions instead of having them in asynchronous middlewares. 
-
 ### Implementing a middleware
 
 The middleware can be loaded before the dispatch of the action and/or after the dispatch of the action.
