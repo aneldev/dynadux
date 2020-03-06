@@ -55,6 +55,8 @@ With Dynadux
 
 ### [Cart example with multiple reducers](https://codesandbox.io/s/dynadux-shopping-cart-example-icygs)
 
+[![Edit Dynadux Shopping cart example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/awesome-wozniak-icygs?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcontainers%2FApp.js&theme=dark)
+
 The create store is different here, as `reducers` we pass the any array of two dictionaries of action/reducer pairs.
 
 In this way, the `ADD_TO_CART` action exists in both Sections, Products and .
