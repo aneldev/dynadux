@@ -16,7 +16,13 @@ export const combineMultipleReducers = <TState>(...reducerDics: Array<IDynaduxRe
             output[action] = (params) => {
               const stateA = params.state || {};
               const stateB = originalReducer({...params, state: stateA as any});
-              return reducerDic[action]({...params, state: stateB as any});
+              return reducerDic[action]({
+                ...params,
+                state: {
+                  ...stateA,
+                  ...stateB,
+                } as any,
+              });
             };
           }
         });
