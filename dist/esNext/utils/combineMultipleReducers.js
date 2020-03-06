@@ -27,7 +27,7 @@ export var combineMultipleReducers = function () {
                 output[action] = function (params) {
                     var stateA = params.state || {};
                     var stateB = originalReducer_1(__assign(__assign({}, params), { state: stateA }));
-                    return reducerDic[action](__assign(__assign({}, params), { state: stateB }));
+                    return reducerDic[action](__assign(__assign({}, params), { state: __assign(__assign({}, stateA), stateB) }));
                 };
             }
         });
