@@ -11,6 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var combineMultipleReducers_1 = require("../utils/combineMultipleReducers");
 var Dynadux = /** @class */ (function () {
     function Dynadux(_config) {
         var _this = this;
@@ -31,7 +32,7 @@ var Dynadux = /** @class */ (function () {
                 return;
             }
             var action = dispatchItem.action, payload = dispatchItem.payload;
-            var reducer = _this._config.reducers[action];
+            var reducer = _this._reducers[action];
             var initialState = _this._state;
             var newState = __assign({}, _this._state);
             var _a = _this._config.middlewares, middlewares = _a === void 0 ? [] : _a;
@@ -72,6 +73,9 @@ var Dynadux = /** @class */ (function () {
             _this._dispatch();
         };
         this._state = _config.initialState || {};
+        this._reducers =
+            Array.isArray(this._config.reducers)
+                ? combineMultipleReducers_1.combineMultipleReducers.apply(void 0, this._config.reducers) : this._config.reducers;
     }
     Object.defineProperty(Dynadux.prototype, "state", {
         get: function () {
