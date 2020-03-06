@@ -57,7 +57,7 @@ If you are familiar with Redux these are the benefits you gain with Dynadux.
 import {createStore} from "dynadux";
 ```
 
-# Example to create a store
+# Create a Store
 This is the store to add and remove todo items.
 
 ```
@@ -96,11 +96,22 @@ store.dispatch(actions.REMOVE_TODO, '234');
 ```
 On every change the `onChange` will be called with the above code will be consoled.
 
-# Create business logic stores and methods
+# Create Business Stores (Dynadux's approach)
+
+Create business logic stores and methods.
 
 > Note: this is a suggestion, not a mandatory.
 
 It is nice to have a store and dispatch actions, but we can do something more.
+
+## What is Business Store
+
+Business store is a function that
+- creates a Dynadux store that is used internally in this function only
+- we pass the Dynadux the initial state and the actions/reducers pairs 
+- the function returns an object with methods and getters and this is the API of out Business store
+
+The containers and any other components will use these functions. 
 
 ## The principals
 
@@ -165,6 +176,17 @@ Then pass the `store` to the children components and use the `store.state` as st
 
 It is not needed to pass the entire store to the children, pass only what is needed.
 
+## Benefits of Business stores
+
+In the Business store approach, the Containers are not dispatching actions but they use the methods of the store.
+
+The action would be dispatched from any container. But some actions are for the internal use of the reducers. 
+Also, each action requires a specific type of payload. But from the action's user perspective it is unclear which payload type should be used.
+
+All these problems are solved providing to the containers javascript methods that do all this job. These are the Business methods provided by the app store that is wrapping the Dynadux store.
+
+In the end, only business methods, reducers, and middlewares are dispatching actions. This makes the code much cleaner and the actions are used safely. 
+
 # How to use it in React apps/components
 
 1. Create a `createAppStore` method like the `createTodoAppStore` above.
@@ -178,13 +200,15 @@ Check out the [A Todo app (React app)](https://codesandbox.io/s/sleepy-browser-m
 
 **Small and live examples.**
 
-Briefly here is a couple.
+Briefly here are some of them.
 
-- [The counter (React app)](https://codesandbox.io/s/amazing-bohr-xzhp0)
+- [The counter](https://codesandbox.io/s/amazing-bohr-xzhp0)
 
-- [A Todo app (React app)](https://codesandbox.io/s/sleepy-browser-mijt6)
+- [A Todo app](https://codesandbox.io/s/sleepy-browser-mijt6)
 
-[All examples](./doc/Examples.md), can be compared with the examples of redux.
+- [Shopping cart (real world app)](https://codesandbox.io/s/clever-sun-xgdh7)
+
+- [All examples](./doc/Examples.md), can be compared with the examples of redux.
   
 # API of Dynadux
 
@@ -385,19 +409,6 @@ You can write your own middlewares that it is only a function that returns an `I
 
 The user of the middleware will have to load only the middleware function in Dynadux's `middlewares` array prop only, without need to register reducers _like in Redux_!
 
-### Are always Synchronous
-
-Middlewares are executed synchronously and not asynchronously like Redux.
-This is done intentionally to avoid complex and potentially wrong implementations.
-
-If you want, for instance, to login the user and then fetch User's info in a Middleware it is cleaner to do this:
-- make an action to loginUser login the user
-- make an action to fetchUserInfo to fetch user's info
-- make an action to loginAndFetchUserInfo that calls the above one after the other
-- in the middleware dispatch the loginAndFetchUserInfo action
-
-It is easier to maintain and make tests for the above actions instead of having them in asynchronous middlewares. 
-
 ### Implementing a middleware
 
 The middleware can be loaded before the dispatch of the action and/or after the dispatch of the action.
@@ -558,7 +569,7 @@ Frequently asked questions
 
 Live examples. Examples compared to redux's implementations
 
-## [Techniques](./doc/Techniques.md)
+## [Advanced](./doc/Advanced.md)
 
 Dispached promises. Boost up your app.
 
