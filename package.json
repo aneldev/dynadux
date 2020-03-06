@@ -37,7 +37,7 @@
     ".build-index.d.ts": "tsc && rm ./dist/index.js && yarn .build-index.d.ts-clear",
     ".build-index.d.ts-clear": "cd dist/ && find . -name \\*.js -delete && cd .. && rimraf temp",
     ".build-dist": "set NODE_ENV=production && webpack --config webpack.dist.config.js",
-    "release": "yarn run build && git add -u && git add -A && git commit -m \"Build\" && yarn run publish-push",
+    "release": "yarn run build && git add -u && git add -A && git commit -m \"Build\"; yarn run publish-push",
     "test": "jest --coverage --no-cache --runInBand",
     "test-watch": "jest --watch --verbose --runInBand",
     "commit": "git add -u && git add -A && git commit -m",
