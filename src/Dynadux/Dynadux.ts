@@ -1,10 +1,14 @@
+import {combineMultipleReducers} from "../utils/combineMultipleReducers";
+
 export interface IDynaduxConfig<TState> {
   initialState?: TState;
-  reducers: {
-    [actionName: string]: TDynaduxReducer<TState, any>;
-  };
+  reducers: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
   middlewares?: IDynaduxMiddleware<any, any>[];
   onChange?: (state: TState) => void;
+}
+
+export interface IDynaduxReducerDic<TState> {
+  [action: string]: TDynaduxReducer<TState, any>;
 }
 
 export type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => undefined | void | Partial<TState>;
@@ -47,9 +51,14 @@ export class Dynadux<TState> {
   private _state: TState;
   private readonly _dispatches: IDispatch<any>[] = [];
   private _isDispatching = false;
+  private readonly _reducers: IDynaduxReducerDic<TState>;
 
   constructor(private readonly _config: IDynaduxConfig<TState>) {
     this._state = _config.initialState || {} as any;
+    this._reducers =
+      Array.isArray(this._config.reducers)
+        ? combineMultipleReducers(...this._config.reducers)
+        : this._config.reducers;
   }
 
   public get state(): TState {
@@ -71,7 +80,7 @@ export class Dynadux<TState> {
       return;
     }
     const {action, payload} = dispatchItem;
-    const reducer = this._config.reducers[action];
+    const reducer = this._reducers[action];
 
     let initialState = this._state;
     let newState = {...this._state};

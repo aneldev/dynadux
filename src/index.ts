@@ -1,6 +1,7 @@
 export {
   Dynadux,
   IDynaduxConfig,
+  IDynaduxReducerDic,
   IDynaduxReducerAPI,
   IDynaduxMiddleware,
   IDynaduxMiddlewareBeforeAPI,

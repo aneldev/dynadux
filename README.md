@@ -197,20 +197,27 @@ As parameter it requires a config object of the `IDynaduxConfig` interface.
 ```
 interface IDynaduxConfig<TState> {
   initialState?: TState;
-  reducers: {
-    [actionName: string]: TDynaduxReducer<TState, any>;
-  };
+  reducers: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
   middlewares?: IDynaduxMiddleware<any, any>[];
   onChange?: (state: TState) => void;
 }
+
+interface IDynaduxReducerDic<TState> {
+  [action: string]: TDynaduxReducer<TState, any>;
+}
+
 ```
 What is required are the reducers only. They are called on Action's dispatches.
+
+The reducers would be 
+- a dictionary object, with key the action and value the reducer function **or**
+- and array of the above dictionary
 
 The return of the `createStore` are two properties only
 - `state` a getter to get the current state
 - `dispatch(action, payload)` method to dispatch actions
 
-This simple API makes the Dynadux simple to fit it anywhere.
+This simple API makes the Dynadux possible to fit it anywhere.
 
 ## `state` getter
 
@@ -256,7 +263,7 @@ store.dispatch(action.USER_LOGOFF);
 
 ### About
 
-When an action is triggered, a reducer is called.
+When an action is triggered, the assigned reducers are called.
 
 The reducer would return 
 - the partial state of the store or 
@@ -271,6 +278,18 @@ Reducers cannot be added at a later time. This makes our store always pure and p
 An action is not really dispatched to all reducers and this helps to avoid making monolithic reducers. 
 
 If you want to share data, you should share it through the state and not through dispatched actions.
+
+### Multiple reducers for an action
+
+An action can have multiple reducers. This is useful in large applications. 
+
+The `reducers` property of the configuration of the Dynadux, accepts a `IDynaduxReducerDic<TState>` or an array of `IDynaduxReducerDic<TState>`.
+
+The `IDynaduxReducerDic<TState>` is a dictionary object action/reducer function.
+
+On `reducer` you can assign and array of dictionaries with same keys.
+
+A common example is, two dictionaries of actions (or more) have the "logout" action.
 
 ### Dispatch from a reducer
 
