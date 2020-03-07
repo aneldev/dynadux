@@ -1,4 +1,6 @@
-# Advanced
+[🔙 Back to the main page](../README.md)
+
+# Dynadux - Advanced
 
 Dynadux is simple, and since its simple is more flexible.
 

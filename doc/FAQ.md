@@ -1,4 +1,25 @@
-# FAQ
+[🔙 Back to the main page](../README.md)
+
+# Dynadux - FAQ
+
+## What is a Dynadux Store
+
+Dynadux Store is the return of the `createStore` [read here for more](./CreateStore.md) and is an object with two props: `state` getter and `dispatch` function.
+
+## How many states have a Dynadux Store
+
+One.
+
+If you come from Redux, in Redux we have A Store with multiple States (root properties). 
+In Dynadux we have one Store, with one State and the root props would be considered App's Section States.
+
+## What is Business Store
+
+It is created by a function, that wraps a Dynadux store and as a result, is a bunch of getters and functions that accessing the Dynadux store.
+
+Business Stores are developed by you. Dynadux is the state manager, the engine,  of these stores. 
+
+The Business Stores concept is introduced for the first time by Dynadux's approach in this repo.
 
 ## Why not use Provider and React's context
 
@@ -6,9 +27,9 @@ Dynadux doesn't provide a [Provider](https://reactjs.org/docs/context.html)... a
 
 Dynadux is made to create from small to large scale multiple and reusable State Managers. 
 
-A Provider tents to promote one State Management that makes the app a kind of monolithic.
+Provider tents to promote one State Management that makes the app a kind of monolithic.
 
-The idea is to pass to the children what they need and not a global context. So it is not a good practice to pass the whole `store` but break it down and provide only what it is needed! In this way you will have small self contained components without the context’s dependency. Your application would be splitted easily into small parts.
+The idea is to pass to the children what they need and not a global context. So it is not a good practice to pass the whole `store` but break it down and provide only what is needed! In this way, you will have small self-contained components without the context’s dependency. Your application would be split easily into small parts.
 
 But again it's up to you if you want to make a global store with a provider. Dynadux won't complain. 
 
@@ -43,3 +64,6 @@ reducers: {
 
 _Personal preference the `().then().catch()` pattern looks simpler!…
 
+# Continue
+
+[⬅️ Main page](../README.md) 🔶 [Examples ➡️](./Examples.md) 
