@@ -15,8 +15,8 @@
 
 # Read more 
 
-- [FAQ](./doc/FAQ.md) Frequently asked questions
-- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
-- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
-- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [FAQ](./FAQ.md) Frequently asked questions
+- [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
+- [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

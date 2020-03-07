@@ -1,15 +1,15 @@
 ![Image description](doc/assets/dynadux-logo.png)
 
 ##### Table of Contents  
-[What is Dynadux](#whatIs)  
-[How does it work?](#howItWorks)  
-[Motivation](#motivation)  
-[Create a Store](#createAStore)  
-[Create a Business Store](#createABusinessStore)  
-[Architecture](#architexture)  
-[API](#api)  
-[Use it in React](./doc/React.md)
-[Read more](#readMore)  
+* [What is Dynadux](#whatIs)  
+* [How does it work?](#howItWorks)  
+* [Motivation](#motivation)  
+* [Create a Store](#createAStore)  
+* [Create a Business Store](#createABusinessStore)  
+* [Architecture](#architexture)  
+* [API](#api)  
+* [Use it in React](./doc/React.md)
+* [Read more](#readMore)  
 
 <a name="whatIs"/>
 
@@ -22,6 +22,8 @@ Dynadux is an alternative to Redux.
 It doesn't use Redux and it reduces Redux's cumbersome.
 
 It can work for NodeJs libraries, React/Vue Apps or React Components without complementary libraries.
+
+Redux works with any UI layer.
 
 [See the live examples](./doc/Examples.md).
 
@@ -221,7 +223,7 @@ In the end, only business methods, reducers, and middlewares are dispatching act
 
 # That's all
 
-The logic o Dynadux is depicted in the text above. 
+The logic of Dynadux is depicted in the text above. 
 
 There is nothing more. Simple and portable use your imagination and create Business Stores.
 

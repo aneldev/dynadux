@@ -66,8 +66,8 @@ _Personal preference the `().then().catch()` pattern looks simpler!…
 
 # Read more 
 
-- [Use it in React](./doc/React.md) How to use it in react
-- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
-- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
-- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [Use it in React](./React.md) How to use it in react
+- [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
+- [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
