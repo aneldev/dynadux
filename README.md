@@ -1,5 +1,18 @@
 ![Image description](doc/assets/dynadux-logo.png)
 
+##### Table of Contents  
+[What is Dynadux](#whatIs)  
+[How does it work?](#howItWorks)  
+[Motivation](#motivation)  
+[Create a Store](#createAStore)  
+[Create a Business Store](#createABusinessStore)  
+[Architecture](#architexture)  
+[API](#api)  
+[Use it in React](./doc/React.md)
+[Read more](#readMore)  
+
+<a name="whatIs"/>
+
 # What is Dynadux
 
 Advanced and simpler Stores based on `dispatch` and Reducers.
@@ -8,9 +21,11 @@ Dynadux is an alternative to Redux.
 
 It doesn't use Redux and it reduces Redux's cumbersome.
 
-It can work for NodeJs libraries, React Apps or React Components without complementary libraries.
+It can work for NodeJs libraries, React/Vue Apps or React Components without complementary libraries.
 
 [See the live examples](./doc/Examples.md).
+
+<a name="howItWorks"/>
 
 # How does it work?
 
@@ -18,6 +33,8 @@ In general
 - You dispatch actions
 - Dynadux is calling the reducers and middlewares
 - Dynadux is calling the onChange callback with the new state
+
+<a name="motivation"/>
 
 # Motivation
 
@@ -42,7 +59,8 @@ If you are familiar with Redux these are the benefits you gain with Dynadux.
 - Create easily multiple stores, every component would have its own store.
 - You can wrap a Store easily to a React Hook.
 - Small stores mean that smaller parts of the app are rendered on a change.
-- It is faster because it uses the related reducer and not all of them.
+- It is faster than Redux because it uses the related reducer and not all of them.
+- It is faster than Mobx because it doesn't scan your state.
 - It encourages you to create business logic methods and not dispatch from containers.
 - Better API for reducers and middlewares.
 - No need for Thunk! `dispatch` is provided for all the reducers and middlewares.
@@ -52,12 +70,25 @@ If you are familiar with Redux these are the benefits you gain with Dynadux.
 - Easier tests, just mock network requests of the actions, not the store itself.
 - Written in Typescript, supports types.
 
+# Install
+```
+npm install dynadux
+```
+or
+```
+yarn add dynadux
+```
+Types are already there. _Dynadux is written in TypeScript._
+
 # Import
 ```
 import {createStore} from "dynadux";
 ```
+Everything of Dynadux is imported with `{} from "dynadux`, _no default exports_.
 
-# Example to create a store
+<a name="createAStore"/>
+
+# Create a Store
 This is the store to add and remove todo items.
 
 ```
@@ -84,7 +115,6 @@ const store = createStore({
     },
     onChange: (state) => console.log('State changed:', state),
 });
-
 ```
 Now lets add a todo
 ```
@@ -96,15 +126,28 @@ store.dispatch(actions.REMOVE_TODO, '234');
 ```
 On every change the `onChange` will be called with the above code will be consoled.
 
-# Create business logic stores and methods
+<a name="createABusinessStore"/>
+
+# Create a Business Store (Dynadux's approach)
+
+Create business logic stores and methods.
 
 > Note: this is a suggestion, not a mandatory.
 
 It is nice to have a store and dispatch actions, but we can do something more.
 
+## What is Business Store
+
+Business store is a function that
+- creates a Dynadux store that is used internally in this function only
+- we pass the Dynadux the initial state and the actions/reducers pairs 
+- the function returns an object with methods and getters and this is the API of out Business store
+
+The containers and any other components will use these functions. 
+
 ## The principals
 
-- wrap the create Dynadax store
+- wrap the create Dynadux store
 - return a getter for the state
 - return business logic methods that dispatch actions
 - do not expose the dispatch _but expose methods that dispatch actions_
@@ -165,384 +208,24 @@ Then pass the `store` to the children components and use the `store.state` as st
 
 It is not needed to pass the entire store to the children, pass only what is needed.
 
-# How to use it in React apps/components
+## Benefits of Business stores
 
-1. Create a `createAppStore` method like the `createTodoAppStore` above.
-2. On the constructor of the app component call this `this.store = createAppStore(this.setState.bind(this))`.
-3. In the components use the `this.store.state` as a state
-4. Use the exposed methods of the `this.store` to change the state
+In the Business store approach, the Containers are not dispatching actions but they use the methods of the store.
 
-Check out the [A Todo app (React app)](https://codesandbox.io/s/sleepy-browser-mijt6) example.
+The action would be dispatched from any container. But some actions are for the internal use of the reducers. 
+Also, each action requires a specific type of payload. But from the action's user perspective it is unclear which payload type should be used.
 
-# Examples
+All these problems are solved providing to the containers javascript methods that do all this job. These are the Business methods provided by the app store that is wrapping the Dynadux store.
 
-**Small and live examples.**
+In the end, only business methods, reducers, and middlewares are dispatching actions. This makes the code much cleaner and the actions are used safely. 
 
-Briefly here is a couple.
+# That's all
 
-- [The counter (React app)](https://codesandbox.io/s/amazing-bohr-xzhp0)
+The logic o Dynadux is depicted in the text above. 
 
-- [A Todo app (React app)](https://codesandbox.io/s/sleepy-browser-mijt6)
+There is nothing more. Simple and portable use your imagination and create Business Stores.
 
-[All examples](./doc/Examples.md), can be compared with the examples of redux.
-  
-# API of Dynadux
-
-## createStore method
-
-This method creates a store. A store is a State.
-
-As parameter it requires a config object of the `IDynaduxConfig` interface.
-
-```
-interface IDynaduxConfig<TState> {
-  initialState?: TState;
-  reducers: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
-  middlewares?: IDynaduxMiddleware<any, any>[];
-  onChange?: (state: TState) => void;
-}
-
-interface IDynaduxReducerDic<TState> {
-  [action: string]: TDynaduxReducer<TState, any>;
-}
-
-```
-What is required are the reducers only. They are called on Action's dispatches.
-
-The reducers would be 
-- a dictionary object, with key the action and value the reducer function **or**
-- and array of the above dictionary
-
-The return of the `createStore` are two properties only
-- `state` a getter to get the current state
-- `dispatch(action, payload)` method to dispatch actions
-
-This simple API makes the Dynadux possible to fit it anywhere.
-
-## `state` getter
-
-A getter to get the current state.
-
-## `dispatch` method
-
-### About
-
-Dispatches an action, technically it calls a reducer with an optional payload.
-
-The `dispatch` method is available in
-
-- store’s instance
-- reducers _and_
-- middlewares
-
-### `dispatch` method signature
-
-In Plain form:
-```
-dispatch(action, payload)
-```
-In Typescript form:
-```
-type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
-```
-
-The dispatcher is a simple method with 2 arguments.
-
-- 1st (required), the action, where is a string
-- 2nd (optional) is the payload, could be anything, a string, a number, an object, null. 
-
-### Example
-
-```
-store.dispatch(‘login-user’, {loginName: ‘info@example.com’, psw:’123@456’})
-store.dispatch(action.USER_LOGIN, userInfo);
-store.dispatch(action.USER_LOGOFF);
-```
-
-## Reducer
-
-### About
-
-When an action is triggered, the assigned reducers are called.
-
-The reducer would return 
-- the partial state of the store or 
-- nothing if is not going to change it.
-
-A reducer might call other reducers to update parts of the state. 
-
-Reducers would change the state when they are called.
-
-Reducers cannot be added at a later time. This makes our store always pure and predictable from the starting point. You can define unlimited reducers/actions.
-
-An action is not really dispatched to all reducers and this helps to avoid making monolithic reducers. 
-
-If you want to share data, you should share it through the state and not through dispatched actions.
-
-### Multiple reducers for an action
-
-An action can have multiple reducers. This is useful in large applications. 
-
-The `reducers` property of the configuration of the Dynadux, accepts a `IDynaduxReducerDic<TState>` or an array of `IDynaduxReducerDic<TState>`.
-
-The `IDynaduxReducerDic<TState>` is a dictionary object action/reducer function.
-
-On `reducer` you can assign and array of dictionaries with same keys.
-
-A common example is, two dictionaries of actions (or more) have the "logout" action.
-
-### Dispatch from a reducer
-
-Your reducer is called with an API object as an argument. _The reference of the API is few lines below._
-
-Example: Fetch something from the network and update the state
-
-
-```
-reducers: {
-  [actions.GET_INFO_REQUEST]: ({dispatch}) => {
-  
-    fetch('http://www.example.com/api/beer-pubs-near-me')
-      .then(info => dispatch(actions.GET_INFO_RESPONSE, info))
-      .catch(error => dispatch(actions.GET_INFO_ERROR, error));
-  },
-},
-```
-
-When the fetch is fulfilled, it will dispatch the GET_INFO_RESPONSE or the GET_INFO_ERROR action.
-
-### Split the work of reducer
-
-Reducers should return the state of the store. Reducers can call other reducers that will return a part of the state.
-
-For instance, imagine that we have this store
-
-```
-{
-  todos: []
-}
-```
-And we have these reducers
-
-```
-reducers: {
-  [actions.ADD_TODO]: ({state: {todos}, payload}) => {
-    return {
-      todos: todos.concat(payload),
-    };
-  },
-  [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
-    return {
-      todos: todos.filter(todo => todo.id !== todoId),
-    };
-  },
-},
-```
-
-We would create a reducer to remove the todo
-
-```
-const reducerRemoveTodo = (todos, removeTodoId) => {
-  return todos.filter(todo => todo.id !== removeTodoId)
-}
-```
-The reducers now would be like this
-```
-reducers: {
-  [actions.ADD_TODO]: ({state: {todos}, payload}) => {
-    return {
-      todos: todos.concat(payload),
-    };
-  },
-  [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
-    return {
-      todos: reducerRemoveTodo(todos, todoId),
-    };
-  },
-},
-```
-
-Splitting the reducers helps you to create easy, bigger and more complex states that can be tested since they are pure functions.
-
-Splitting the reducers is not a part of the Dynadux. Dynadux calls the action’s reducer and you are free to call any sub reducer you may need.
-
-### API
-
-```
-type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => undefined | void | Partial<TState>;
-
-interface IDynaduxReducerAPI<TState, TPayload> {
-  action: string;
-  payload: any;
-  dispatch: TDynaduxDispatch<TPayload>;
-  state: TState;
-}
-```
-
-## Middlewares
-
-### About
-
-With middlewares, you can
-- prepare, maintain, decorate, clean up the state before or after action's dispatch
-- create 3rd party middleware libraries, like, load the weather for a city etc
-- debugging, monitor the state
-- dispatch other 'parallel' actions
-- send usage stats
-
-Middlewares can
-- access the entire state
-- access all dispatched actions from anywhere
-- dispatch actions
-- have their own actions and behave as a 3rd party libraries
-
-### Write your own middleware as 3rd party
-
-Middlewares in Dynadux can `dispatch` anything out of the box, without additional Thunk middlewares as Redux needs. 
-
-You can write your own middlewares that it is only a function that returns an `IDynaduxMiddleware` object _see next_.
-
-The user of the middleware will have to load only the middleware function in Dynadux's `middlewares` array prop only, without need to register reducers _like in Redux_!
-
-### Implementing a middleware
-
-The middleware can be loaded before the dispatch of the action and/or after the dispatch of the action.
-
-On `before` phase, you can prepare the state, or enrich the payload.
-
-On `after` phase, _the most useful one_, you can react to the dispatched action. On `after` phase you have additionally the `initialState` and you can compare what the action did. 
-
-The implementation of each phase may return a partial state or nothing for no state changes.
-
-In both phases, you can access the 
-- `action` (string)
-- `payload`
-- `state` (the entire state)
-- `dispatch` method
-
-The `initialState` is offered on `after` only.
-
-This API is the same as the reducers. 
-So, middlewares acts like reducers. 
-
-> Redux doesn’t have the `before` phase.
-
-### API
-
-```
-interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
-  action: string;
-  payload: any;
-  dispatch: TDynaduxDispatch<TPayload>;
-  state: TState;
-}
-
-interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
-  action: string;
-  payload: any;
-  dispatch: TDynaduxDispatch<TPayload>;
-  state: TState;
-  initialState: TState;
-}
-
-type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
-
-interface IDynaduxMiddleware<TState = void, TPayload = void> {
-  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
-  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
-}
-
-```
-### Examples
-
-#### Logger
-
-This middleware consoles the action that has been dispatched.
-```
-middlewares: [
-  {
-    after: ({action, payload}) => {
-      console.log('dispatch', new Date, action, payload);
-    },
-  }
-],
-
-```
-
-#### Send stats
-
-```
-middlewares: [
-  {
-    after: ({action, payload}) => {
-      If (action === ‘USER-LOGIN-ERROR) {
-        // post here there error, async
-      }
-    },
-  }
-],
-
-```
-#### collect dispatched actions for debugging
-
-Dynadux is shipped with a small middleware for debugging, that it is implemented [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
-
-The usage of it is described later.
-
-#### dynadux History Middleware
-
-Middlewares can have their own actions.
-
-A live example is the [dynadux-history-middleware](https://github.com/aneldev/dynadux-history-middleware). 
-The whole implementation is in [this file](https://github.com/aneldev/dynadux-history-middleware/blob/master/src/dynaduxHistoryMiddleware.ts).
-
-Here, it is easy to make a History State management, navigating back and forth in time and offering **restore points**!
-
-# Debugging
-
-## dynaduxDebugMiddleware
-
-Dynandux comes with middleware for debugging that collects the dispatched actions in a global array.
-
-### Usage
-
-```
-import {createStore, dynaduxDebugMiddleware} from "dynadux";
-
-const store = createStore({
-    initialState: {
-        todos: [],
-    },
-    middlewares: [
-        dynaduxDebugMiddleware(),
-    ],
-    reducers: {
-        // ...
-    },
-});
-
-```
-
-`dynaduxDebugMiddleware` adds to the global array variable `dynaduxDebugMiddleware` all the dispatched items.
-
-This middleware, as many other debugging tools, should not be on production since it would lead to a memory leak.
-
-### API of dynaduxDebugMiddleware
-
-As a parameter it accepts a configuration object with this interface.
-
-```
-interface IDynaduxDebugMiddlewareConfig {
-  globalVariableName?: string;
-}
-```
-#### globalVariableName
-
-When you work with a multiple store it makes sense to save debugging info of the `dynaduxDebugMiddleware` in different global variables.
-
-To load the middleware and save the array in different global name, for instance `debugState`, we can create the middleware like this:
-
-`dynaduxDebugMiddleware({ globalVariableName: 'debugState '})`
+<a name="architexture"/>
 
 # Dynadux's Architecture
 
@@ -554,20 +237,24 @@ and nothing else!
 
 What also makes it powerful and easy to use is the architecture described in this text.
 
-# You can also read 
+<a name="api"/>
 
-## [FAQ](./doc/FAQ.md)
+# API
 
-Frequently asked questions
+Learn the api to master the Dynadux.
 
-## [Examples](./doc/Examples.md)
+- [API - Create store](./doc/CreateStore.md)
+- [API - Reducers](./doc/Reducers.md)
+- [API - Middlewares](./doc/Middlewares.md)
+- [Debug Dynadux apps](./doc/Debugging.md) 🎉 and that's it, you are mastering the Dynadux.
 
-Live examples. Examples compared to redux's implementations
+<a name="readMore"/>
 
-## [Techniques](./doc/Techniques.md)
+# Read more 
 
-Dispached promises. Boost up your app.
-
-## [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware)  
-
-Middleware for History, Undo/Redo and Restore Points.
+- [FAQ](./doc/FAQ.md) Frequently asked questions
+- [Use it in React](./doc/React.md) How to use it in react
+- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
+- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
