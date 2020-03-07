@@ -12,6 +12,7 @@ Study all examples to learn the power of Dynadux.
 [Counter](#counter)  
 [Todos](#Todos)  
 [Shopping cart](#shoppingCart)  
+[Shopping cart, combine reducers](#shoppingCartCombineReducers)  
 
 <a name="counter"/>
 
@@ -68,7 +69,7 @@ With Dynadux
 
 <a name="shoppingCart"/>
 
-## Shopping cart example
+# Shopping cart example
 
 A real-world app. Shows how to create 2 sections of the app using the same store.
 
@@ -123,17 +124,14 @@ Now that we have a great API to handle the state of the app, pass it partially t
 Do not pass the whole Store because this will lead to having a monolithic app. Pass only what is needed. 
 _With Redux you tend to create monolithic apps since you can dispatch from any Container, any action!_.
 
-#### 6. Now you have Business App
+<a name="shoppingCartCombineReducers"/>
 
-All the great methods and getters are the API of the Business store. 
-We don't dispatch actions any more but we do use our store as the ordinary people.
+# Shopping Cart example (combine reducers version)
 
-Now our app speaks more in Business Language and can do more since it is closer to... humans.
+[Cart example with multiple reducers](https://codesandbox.io/s/dynadux-shopping-cart-example-icygs)
 
-# Read more 
+[![Edit Dynadux Shopping cart example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/awesome-wozniak-icygs?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcontainers%2FApp.js&theme=dark)
 
-- [FAQ](./doc/FAQ.md) Frequently asked questions
-- [Use it in React](./doc/React.md) How to use it in react
-- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
-- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+The create store is different here, as `reducers` we pass the any array of two dictionaries of action/reducer pairs.
+
+In this way, the `ADD_TO_CART` action exists in both Sections, Products and .
