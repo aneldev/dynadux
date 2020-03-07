@@ -28,6 +28,8 @@ It can work for NodeJs libraries, React/Vue Apps or React Components without com
 
 Redux works with any UI layer.
 
+Super light, zero dependencies, 2.2kb zipped bundle effort.
+
 [See the live examples](./doc/Examples.md).
 
 <a name="howItWorks"/>
