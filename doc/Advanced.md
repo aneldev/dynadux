@@ -18,7 +18,6 @@ const actions = {
 interface ITodoAppState {
   logged: boolean,
   todos: ITodo[];
-  saved: boolean;
 }
 
 interface ITodo {
@@ -37,19 +36,16 @@ const createTodoAppStore = () => {
     initialState: {
       logged: false,
       todos: [],
-      saved: false,
     },
     reducers: {
       [actions.ADD_TODO]: ({state: {todos}, payload}) => {
         return {
           todos: todos.concat(payload),
-          saved: false,
         };
       },
       [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
         return {
           todos: todos.filter(todo => todo.id !== todoId),
-          saved: false,
         };
       },
       [actions.SAVE_TODOS]: ({state: {todos}, payload, dispatch}) => {
