@@ -58,9 +58,17 @@ To load the middleware and save the array in different global name, for instance
 
 # 🎉 Your training is done
 
-Ones you reached this point you are mastering the Dynadux!
+Ones you reached this point you are mastering the Dynadux! It is so simple!
 
 You can go further reading the Advanced but is not mandatory.
 
-[⬅️ Middlewares](./Middlewares.md) 🔶 [React ➡️](./React.md) [Advanced ➡️](./Advanced.md) 
+[⬅️ Middlewares](./Middlewares.md) 🔶 [Advanced ➡️](./Advanced.md) 
 
+# Read more 
+
+- [FAQ](./doc/FAQ.md) Frequently asked questions
+- [Use it in React](./doc/React.md) How to use it in react
+- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
+- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

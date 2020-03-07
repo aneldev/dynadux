@@ -160,5 +160,5 @@ Splitting the reducers is not a part of the Dynadux. Dynadux calls the action’
 
 # Continue
 
-[⬅️ Create Store](./CreateStore.md) 🔶 [Reducers ➡️](./Reducers.md) 
+[⬅️ Create Store](./CreateStore.md) 🔶 [Middlewares ➡️](./Middlewares.md) 
 
