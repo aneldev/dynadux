@@ -158,6 +158,18 @@ Splitting the reducers helps you to create easy, bigger and more complex states 
 
 Splitting the reducers is not a part of the Dynadux. Dynadux calls the action’s reducer and you are free to call any sub reducer you may need.
 
+### Multiple reducers for an action
+
+An action can have multiple reducers. This is useful in large applications. 
+
+The `reducers` property of the configuration of the Dynadux, accepts a `IDynaduxReducerDic<TState>` or an array of `IDynaduxReducerDic<TState>`.
+
+The `IDynaduxReducerDic<TState>` is a dictionary object action/reducer function.
+
+On `reducer` you can assign and array of dictionaries with same keys.
+
+A common example is, two dictionaries of actions (or more) have the "logout" action.
+
 # Continue
 
 [⬅️ Create Store](./CreateStore.md) 🔶 [Middlewares ➡️](./Middlewares.md) 
