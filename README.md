@@ -6,7 +6,7 @@
 * [Motivation](#motivation)  
 * [Create a Store](#createAStore)  
 * [Create a Business Store](#createABusinessStore)  
-* [Architecture](#architexture)  
+* [Architecture](#architecture)  
 * [Dynadux's API](#api)  
 * [Use it in React](./doc/React.md)
 * [Examples](./doc/Examples.md)
@@ -230,7 +230,7 @@ The logic of Dynadux is depicted in the text above.
 
 There is nothing more. Simple and portable use your imagination and create Business Stores.
 
-<a name="architexture"/>
+<a name="architecture"/>
 
 # Dynadux's Architecture
 
