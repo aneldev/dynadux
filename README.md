@@ -7,9 +7,12 @@
 * [Create a Store](#createAStore)  
 * [Create a Business Store](#createABusinessStore)  
 * [Architecture](#architexture)  
-* [API](#api)  
+* [Dynadux's API](#api)  
 * [Use it in React](./doc/React.md)
-* [Read more](#readMore)  
+* [Examples](./doc/Examples.md)
+* [Advanced](./doc/Advanced.md)
+* [Terminology](./doc/Terminology.md)
+* [FAQ](./doc/FAQ.md)
 
 <a name="whatIs"/>
 
@@ -142,10 +145,10 @@ It is nice to have a store and dispatch actions, but we can do something more.
 
 Business store is a function that
 - creates a Dynadux store that is used internally in this function only
-- we pass the Dynadux the initial state and the actions/reducers pairs 
-- the function returns an object with methods and getters and this is the API of out Business store
+- we pass to the Dynadux the initial state and the actions/reducers dictionary object 
+- the function returns an object with methods and getters and this is the API of our Business store
 
-The containers and any other components will use these functions. 
+The containers and any other components will use these getters and functions. 
 
 ## The principals
 
@@ -235,9 +238,7 @@ There is nothing more. Simple and portable use your imagination and create Busin
 
 `Object.assign({}, state, middleware.before(), reducer(), middleware.after())`
 
-and nothing else!
-
-What also makes it powerful and easy to use is the architecture described in this text.
+and nothing else! Since is small and simple we can use it in the architecture of Business Stores. 
 
 <a name="api"/>
 
