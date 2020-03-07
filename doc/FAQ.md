@@ -64,6 +64,10 @@ reducers: {
 
 _Personal preference the `().then().catch()` pattern looks simpler!…
 
-# Continue
+# Read more 
 
-[⬅️ Main page](../README.md) 🔶 [Examples ➡️](./Examples.md) 
+- [Use it in React](./doc/React.md) How to use it in react
+- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
+- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

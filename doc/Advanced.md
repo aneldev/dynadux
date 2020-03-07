@@ -208,4 +208,10 @@ constructor(props) {
 
 _**Tip:** Since you use store's `state`, there is no need to pass them to `setState`._
 
+# Read more 
 
+- [FAQ](./doc/FAQ.md) Frequently asked questions
+- [Use it in React](./doc/React.md) How to use it in react
+- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
+- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

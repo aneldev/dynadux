@@ -20,4 +20,10 @@ Is a function is called with
 - dispatch method
 and returns the new version of the state
 
+# Read more 
 
+- [FAQ](./doc/FAQ.md) Frequently asked questions
+- [Use it in React](./doc/React.md) How to use it in react
+- [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
+- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

@@ -12,6 +12,7 @@
 [Read more](#readMore)  
 
 <a name="whatIs"/>
+
 # What is Dynadux
 
 Advanced and simpler Stores based on `dispatch` and Reducers.
@@ -25,6 +26,7 @@ It can work for NodeJs libraries, React/Vue Apps or React Components without com
 [See the live examples](./doc/Examples.md).
 
 <a name="howItWorks"/>
+
 # How does it work?
 
 In general 
@@ -33,6 +35,7 @@ In general
 - Dynadux is calling the onChange callback with the new state
 
 <a name="motivation"/>
+
 # Motivation
 
 ## Benefits to work with Dynadux instead of classic setState
@@ -84,6 +87,7 @@ import {createStore} from "dynadux";
 Everything of Dynadux is imported with `{} from "dynadux`, _no default exports_.
 
 <a name="createAStore"/>
+
 # Create a Store
 This is the store to add and remove todo items.
 
@@ -123,6 +127,7 @@ store.dispatch(actions.REMOVE_TODO, '234');
 On every change the `onChange` will be called with the above code will be consoled.
 
 <a name="createABusinessStore"/>
+
 # Create a Business Store (Dynadux's approach)
 
 Create business logic stores and methods.
@@ -221,6 +226,7 @@ The logic o Dynadux is depicted in the text above.
 There is nothing more. Simple and portable use your imagination and create Business Stores.
 
 <a name="architexture"/>
+
 # Dynadux's Architecture
 
 **Dynadux is a very simple library.** Technically the Dynadux is only an 
@@ -232,6 +238,7 @@ and nothing else!
 What also makes it powerful and easy to use is the architecture described in this text.
 
 <a name="api"/>
+
 # API
 
 Learn the api to master the Dynadux.
@@ -242,6 +249,7 @@ Learn the api to master the Dynadux.
 - [Debug Dynadux apps](./doc/Debugging.md) 🎉 and that's it, you are mastering the Dynadux.
 
 <a name="readMore"/>
+
 # Read more 
 
 - [FAQ](./doc/FAQ.md) Frequently asked questions

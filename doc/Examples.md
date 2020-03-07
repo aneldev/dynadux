@@ -19,8 +19,6 @@ Study all examples to learn the power of Dynadux.
 
 [Counter - Redux version](https://codesandbox.io/s/github/reduxjs/redux/tree/master/examples/counter)
 
-This is the Redux version.
- 
 [Counter - Replace Redux with Dynadux](https://codesandbox.io/s/festive-wright-jur7b)
 
 [![Edit festive-wright-jur7b](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/festive-wright-jur7b?fontsize=14&hidenavigation=1&theme=dark)
@@ -52,8 +50,6 @@ This is how Dynadux can be used.
 
 [Todos - Redux version](https://codesandbox.io/s/github/reduxjs/redux/tree/master/examples/todos)
 
-This is the Redux version.
-
 [Todos - Dynadux version](https://codesandbox.io/s/dynadux-todo-9oiqn)
 
 [![Edit dynadux-todo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/dynadux-todo-9oiqn?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcontainers%2FAddTodo.js&theme=dark)
@@ -77,8 +73,6 @@ With Dynadux
 A real-world app. Shows how to create 2 sections of the app using the same store.
 
 [Shopping cart - Redux version](https://codesandbox.io/s/github/reduxjs/redux/tree/master/examples/shopping-cart)
-
-This is the Redux version.
 
 [Shopping cart - Dynadux version](https://codesandbox.io/s/clever-sun-xgdh7)
 
@@ -136,6 +130,10 @@ We don't dispatch actions any more but we do use our store as the ordinary peopl
 
 Now our app speaks more in Business Language and can do more since it is closer to... humans.
 
-# Read more
+# Read more 
 
-[⬅️ Main page](../README.md) 🔶 [Advanced ➡️](./Advanced.md) 
+- [FAQ](./doc/FAQ.md) Frequently asked questions
+- [Use it in React](./doc/React.md) How to use it in react
+- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
