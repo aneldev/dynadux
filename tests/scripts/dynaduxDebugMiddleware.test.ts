@@ -76,7 +76,21 @@ describe('Dynadux', () => {
 
     await new Promise(r => setTimeout(r, 300));
 
-    expect((process as any).dynaduxDebugMiddleware[3].afterMs).toBeGreaterThan(180);
+    const globalDynaduxDebugMiddleware = (process as any).dynaduxDebugMiddleware;
+
+    expect(globalDynaduxDebugMiddleware.log[3].afterMs).toBeGreaterThan(180);
+
+    expect(todoAppStore.state.todos.length).toBe(3);
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
+
+    globalDynaduxDebugMiddleware.set(1);
+    expect(todoAppStore.state.todos.length).toBe(1);
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
+
+    globalDynaduxDebugMiddleware.set(3);
+    expect(todoAppStore.state.todos.length).toBe(3);
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
+    expect(globalDynaduxDebugMiddleware.list.length).toBe(4);
 
     done();
   });

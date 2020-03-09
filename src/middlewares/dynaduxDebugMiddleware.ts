@@ -1,8 +1,21 @@
 import {IDynaduxMiddleware} from "../Dynadux/Dynadux";
-import {global}  from "../tools/global";
+import {global} from "../tools/global";
 
 export interface IDynaduxDebugMiddlewareConfig {
   globalVariableName?: string;
+}
+
+export interface IDebugLogItem {
+  desc: string;
+  action: string;
+  payload: any;
+  afterMs: number;
+  before: any;
+  after: any;
+}
+
+enum EDynaduxDebugMiddlewareActions {
+  SET_STATE = '__EDynaduxDebugMiddlewareActions__SET_STATE',
 }
 
 export const dynaduxDebugMiddleware = (
@@ -11,8 +24,30 @@ export const dynaduxDebugMiddleware = (
   }: IDynaduxDebugMiddlewareConfig = {}
 ): IDynaduxMiddleware => {
   let lastDispatch = 0;
-  let dispatchNo = 0;
-  global[globalVariableName] = [];
+  let dispatchIndex = -1;
+  const g = global[globalVariableName] = {
+    log: [],
+    get list (): string[] {
+      return g.log.map((log: IDebugLogItem) => log.desc);
+    },
+    search: (text: string) => {
+      const textLowerCase = text.toLowerCase();
+      return g.log.filter((item: any) => item.desc.toLowerCase().indexOf(textLowerCase) > -1);
+    },
+    set: (dispatchIndex: number): void => {
+      if (!dispatchIndex) {
+        console.error('Nothing is dispatched yet');
+        return;
+      }
+      const logItem: IDebugLogItem = g.log[dispatchIndex];
+      if (!logItem) {
+        console.error(`Item ${dispatchIndex} cannot be found`);
+        return;
+      }
+      dispatch(EDynaduxDebugMiddlewareActions.SET_STATE, logItem.after);
+    }
+  };
+  let dispatch: <TPayload>(action: string, payload: TPayload) => void;
 
   return {
     after: (
@@ -21,20 +56,26 @@ export const dynaduxDebugMiddleware = (
         payload,
         initialState,
         state,
+        dispatch: d_,
       }
     ) => {
+      if (action === EDynaduxDebugMiddlewareActions.SET_STATE) {
+        return payload;
+      }
+
+      dispatch = d_;
       const date = new Date;
-      dispatchNo++;
+      dispatchIndex++;
 
       const afterMs = (() => {
         if (lastDispatch === 0) return undefined;
         return date.valueOf() - lastDispatch;
       })();
 
-      global[globalVariableName].push({
+      global[globalVariableName].log.push({
         desc:
           [
-            frontSpace(' ', '#' + dispatchNo, 5),
+            frontSpace(' ', '#' + dispatchIndex, 5),
             frontSpace(' ', `+${duration(afterMs)}`, 9),
             action,
             date.toTimeString()
@@ -44,7 +85,7 @@ export const dynaduxDebugMiddleware = (
         payload,
         before: initialState,
         after: state,
-      });
+      } as IDebugLogItem);
 
       lastDispatch = date.valueOf();
     },

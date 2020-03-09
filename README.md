@@ -7,7 +7,12 @@
 * [Create a Store](#createAStore)  
 * [Create a Business Store](#createABusinessStore)  
 * [Architecture](#architecture)  
-* [Dynadux's API](#api)  
+* [API](#api)  
+    _All you have to know_
+    * [Create store](./doc/CreateStore.md)
+    * [Reducers](./doc/Reducers.md)
+    * [Middlewares](./doc/Middlewares.md)
+    * [Debugging](./doc/Debugging.md)
 * [Use it in React](./doc/React.md)
 * [Examples](./doc/Examples.md)
 * [Advanced](./doc/Advanced.md)
@@ -248,10 +253,11 @@ and nothing else! Since is small and simple we can use it in the architecture of
 
 Learn the api to master the Dynadux.
 
-- [API - Create store](./doc/CreateStore.md)
-- [API - Reducers](./doc/Reducers.md)
-- [API - Middlewares](./doc/Middlewares.md)
-- [Debug Dynadux apps](./doc/Debugging.md) 🎉 and that's it, you are mastering the Dynadux.
+- [Create store](./doc/CreateStore.md)
+- [Reducers](./doc/Reducers.md)
+- [Middlewares](./doc/Middlewares.md)
+- [Debugging](./doc/Debugging.md)
+- 🎉 and that's it, you are mastering the Dynadux!
 
 <a name="readMore"/>
 

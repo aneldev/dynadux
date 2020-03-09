@@ -68,7 +68,7 @@ export class Dynadux<TState> {
   public dispatch = <TPayload>(action: string, payload: TPayload): void => {
     this._dispatches.push({action, payload});
     this._dispatch();
-  };
+  }
 
   private _dispatch = <TPayload>(): void => {
     if (this._isDispatching) return;

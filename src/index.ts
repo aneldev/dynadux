@@ -18,4 +18,5 @@ export {
 
 export {
   dynaduxDebugMiddleware,
+  IDebugLogItem,
 } from "./middlewares/dynaduxDebugMiddleware";
