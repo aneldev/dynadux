@@ -26,7 +26,7 @@ It doesn't use Redux and it reduces Redux's cumbersome.
 
 It can work for NodeJs libraries, React/Vue Apps or React Components without complementary libraries.
 
-Redux works with any UI layer.
+Dynadux works with any UI layer.
 
 Super light, zero dependencies, 2.2kb zipped bundle effort.
 
