@@ -121,7 +121,7 @@ const store = createStore({
           },
           [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
             return {
-              todos: state.todos.filter(todo => todo.id !== todoId),
+              todos: todos.filter(todo => todo.id !== todoId),
             };
           },
     },
