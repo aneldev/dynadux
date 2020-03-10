@@ -12,7 +12,7 @@ exports.dynaduxDebugMiddleware = function (_a) {
     var g = global_1.global[globalVariableName] = {
         log: [],
         get list() {
-            return g.log.map(function (log) { return log.desc; });
+            return g.log.map(function (log) { return log.desc; }).forEach(function (t) { return console.log(t); });
         },
         search: function (text) {
             var textLowerCase = text.toLowerCase();
@@ -49,7 +49,7 @@ exports.dynaduxDebugMiddleware = function (_a) {
             global_1.global[globalVariableName].log.push({
                 desc: [
                     frontSpace(' ', '#' + dispatchIndex, 5),
-                    frontSpace(' ', "+" + duration(afterMs), 9),
+                    frontSpace(' ', "+" + duration(afterMs), 12),
                     action,
                     date.toTimeString()
                 ].join(' '),
