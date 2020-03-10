@@ -27,8 +27,8 @@ export const dynaduxDebugMiddleware = (
   let dispatchIndex = -1;
   const g = global[globalVariableName] = {
     log: [],
-    get list (): string[] {
-      return g.log.map((log: IDebugLogItem) => log.desc);
+    get list(): void {
+      return g.log.map((log: IDebugLogItem) => log.desc).forEach(t => console.log(t));
     },
     search: (text: string) => {
       const textLowerCase = text.toLowerCase();
@@ -76,7 +76,7 @@ export const dynaduxDebugMiddleware = (
         desc:
           [
             frontSpace(' ', '#' + dispatchIndex, 5),
-            frontSpace(' ', `+${duration(afterMs)}`, 9),
+            frontSpace(' ', `+${duration(afterMs)}`, 12),
             action,
             date.toTimeString()
           ].join(' '),

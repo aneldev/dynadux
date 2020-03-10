@@ -90,7 +90,6 @@ describe('Dynadux', () => {
     globalDynaduxDebugMiddleware.set(3);
     expect(todoAppStore.state.todos.length).toBe(3);
     expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
-    expect(globalDynaduxDebugMiddleware.list.length).toBe(4);
 
     done();
   });
