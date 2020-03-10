@@ -137,7 +137,7 @@ You can go further reading the Advanced but is not mandatory.
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions
-- [Use it in React](./React.md) How to use it in react
+- [React](./React.md) How to use it in react
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).

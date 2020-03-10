@@ -207,7 +207,7 @@ _**Tip:** Since you use store's `state`, there is no need to pass them to `setSt
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions
-- [Use it in React](./React.md) How to use it in react
+- [React](./React.md) How to use it in react
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

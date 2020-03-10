@@ -66,7 +66,7 @@ _Personal preference the `().then().catch()` pattern looks simpler!…
 
 # Read more 
 
-- [Use it in React](./React.md) How to use it in react
+- [React](./React.md) How to use it in react
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
