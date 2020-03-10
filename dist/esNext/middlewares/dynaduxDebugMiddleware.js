@@ -17,7 +17,7 @@ export var dynaduxDebugMiddleware = function (_a) {
             return g.log.filter(function (item) { return item.desc.toLowerCase().indexOf(textLowerCase) > -1; });
         },
         set: function (dispatchIndex) {
-            if (!dispatchIndex) {
+            if (dispatchIndex === -1) {
                 console.error('Nothing is dispatched yet');
                 return;
             }
