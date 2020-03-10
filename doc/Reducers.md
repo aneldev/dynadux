@@ -8,18 +8,18 @@ Reducer is a function that is called by the Dynadux's store when an Action is di
 
 This function is assigned for action in the `createStore` configuration.
 
-The function is called with and object (we call it API in this text) that has few properties, including the current state of the store. This API is explained later in this text. 
+The function is called with and object (here, we call it API) that has a few properties, including the current state of the store. This API is explained later in this text. 
 
 The reducer would return 
 - the partial state of the store
 - the whole state of the store 
-- nothing if is not going to change the store
+- nothing if it is not going to change the store
 
 A reducer might call other reducers to update parts of the state. 
 
-Reducers would change the state when they are called.
+Reducers would change the state when they are called to.
 
-Reducers cannot be added at a later time. This makes our store always pure and predictable from the starting point. You can define unlimited reducers/actions.
+Reducers cannot be added at a later time. This always makes our store pure and predictable from the very starting point. You can define unlimited reducers/actions.
 
 An action is not really dispatched to all reducers and this helps to avoid making monolithic reducers. 
 
@@ -56,7 +56,7 @@ The `reducers` property is an object.
 One of the keys to this object is the `ADD_TODO`.
 The value of this key is an arrow function.
 
-This function is called with one argument, an object where is the API of the Dynadux's reducer.  
+This function is called with an argument, an object where it is the API of the Dynadux's reducer.  
 
 
 ## API of the reducer
@@ -79,8 +79,8 @@ An object of the `IDynaduxReducerAPI` interface is given to the reducer callback
 
 So the object has
 - `action`, is the string, is the name of the Action, for instance `ADD_TODO`.
-- `payload`, is the payload of the action is the 2nd argument of the called `dispatch`
-- `dispatch`, is the dispatch action to dispatch other actions from inside the reducer
+- `payload`, is the payload of the action, it is the 2nd argument of the called `dispatch`
+- `dispatch`, is the function to dispatch other actions from inside of the reducer
 - `state`, is the state of the store 
 
 # Dispatch from a reducer
@@ -103,7 +103,7 @@ reducers: {
 
 When the fetch is fulfilled, it will dispatch the GET_INFO_RESPONSE or the GET_INFO_ERROR action.
 
-# Split the work of reducer
+# Split the work of the reducer
 
 Reducers should return the state of the store. Reducers can call other reducers that will return a part of the state.
 
@@ -138,7 +138,7 @@ const reducerRemoveTodo = (todos, removeTodoId) => {
   return todos.filter(todo => todo.id !== removeTodoId)
 }
 ```
-The reducers now would be like this
+The reducers now, would be like this
 ```
 reducers: {
   [actions.ADD_TODO]: ({state: {todos}, payload}) => {
