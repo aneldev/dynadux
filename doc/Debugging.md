@@ -114,7 +114,7 @@ For instance:
 
 `dynaduxDebugMiddleware.search('add_todo')`
 
-### Access by Array's methods, line filter
+### Access by Array's methods, like `filter`
 
 Since the `log` is the array you can use all javascript Array's methods.
 
