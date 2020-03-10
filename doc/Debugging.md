@@ -68,13 +68,19 @@ To load the middleware and save the array in different global name, for instance
 
 ## Debugging features
 
+Open the console and type `dynaduxDebugMiddleware.list`
+
+You will get something like this:
+
+![Image description](assets/dynaduxDebugMiddleware.api.png)
+
 ### List of dispatches
 
 Open the console and type `dynaduxDebugMiddleware.list`
 
-You will get something like this.
+You will get something like this:
 
-![Image description](assets/pending.png)
+![Image description](assets/dynaduxDebugMiddleware.list.png)
 
 `list` returns a preview of the collected log items.
 
@@ -82,9 +88,9 @@ You will get something like this.
 
 Open the console and type `dynaduxDebugMiddleware.log`
 
-You will get something like this.
+You will get something like this:
 
-![Image description](assets/pending.png)
+![Image description](assets/dynaduxDebugMiddleware.log.png)
 
 In `log` are the collected dispatched items by the debugger middleware.
 
