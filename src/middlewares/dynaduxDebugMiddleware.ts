@@ -35,7 +35,7 @@ export const dynaduxDebugMiddleware = (
       return g.log.filter((item: any) => item.desc.toLowerCase().indexOf(textLowerCase) > -1);
     },
     set: (dispatchIndex: number): void => {
-      if (!dispatchIndex) {
+      if (dispatchIndex === -1) {
         console.error('Nothing is dispatched yet');
         return;
       }
