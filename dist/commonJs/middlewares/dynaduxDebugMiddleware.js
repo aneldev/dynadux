@@ -1,24 +1,54 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var global_1 = require("../tools/global");
+var EDynaduxDebugMiddlewareActions;
+(function (EDynaduxDebugMiddlewareActions) {
+    EDynaduxDebugMiddlewareActions["SET_STATE"] = "__EDynaduxDebugMiddlewareActions__SET_STATE";
+})(EDynaduxDebugMiddlewareActions || (EDynaduxDebugMiddlewareActions = {}));
 exports.dynaduxDebugMiddleware = function (_a) {
     var _b = (_a === void 0 ? {} : _a).globalVariableName, globalVariableName = _b === void 0 ? 'dynaduxDebugMiddleware' : _b;
     var lastDispatch = 0;
-    var dispatchNo = 0;
-    global_1.global[globalVariableName] = [];
+    var dispatchIndex = -1;
+    var g = global_1.global[globalVariableName] = {
+        log: [],
+        get list() {
+            return g.log.map(function (log) { return log.desc; });
+        },
+        search: function (text) {
+            var textLowerCase = text.toLowerCase();
+            return g.log.filter(function (item) { return item.desc.toLowerCase().indexOf(textLowerCase) > -1; });
+        },
+        set: function (dispatchIndex) {
+            if (!dispatchIndex) {
+                console.error('Nothing is dispatched yet');
+                return;
+            }
+            var logItem = g.log[dispatchIndex];
+            if (!logItem) {
+                console.error("Item " + dispatchIndex + " cannot be found");
+                return;
+            }
+            dispatch(EDynaduxDebugMiddlewareActions.SET_STATE, logItem.after);
+        }
+    };
+    var dispatch;
     return {
         after: function (_a) {
-            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state;
+            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state, d_ = _a.dispatch;
+            if (action === EDynaduxDebugMiddlewareActions.SET_STATE) {
+                return payload;
+            }
+            dispatch = d_;
             var date = new Date;
-            dispatchNo++;
+            dispatchIndex++;
             var afterMs = (function () {
                 if (lastDispatch === 0)
                     return undefined;
                 return date.valueOf() - lastDispatch;
             })();
-            global_1.global[globalVariableName].push({
+            global_1.global[globalVariableName].log.push({
                 desc: [
-                    frontSpace(' ', '#' + dispatchNo, 5),
+                    frontSpace(' ', '#' + dispatchIndex, 5),
                     frontSpace(' ', "+" + duration(afterMs), 9),
                     action,
                     date.toTimeString()
