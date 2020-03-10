@@ -68,7 +68,7 @@ To load the middleware and save the array in different global name, for instance
 
 ## Debugging features
 
-Open the console and type `dynaduxDebugMiddleware.list`
+Open the console and type `dynaduxDebugMiddleware`
 
 You will get something like this:
 
