@@ -157,6 +157,8 @@ Business store is a function that
 
 The containers and any other components will use these getters and functions. 
 
+[Redux/Dynadux Containers Connection Comparison](https://drive.google.com/file/d/1SWPbCHS5I8YCdTeCbNMUm8Nfy3eEgu59/view?usp=sharing)
+
 ## The principals
 
 - wrap the create Dynadux store
