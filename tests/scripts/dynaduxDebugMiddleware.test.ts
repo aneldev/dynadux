@@ -91,6 +91,11 @@ describe('Dynadux', () => {
     expect(todoAppStore.state.todos.length).toBe(3);
     expect(globalDynaduxDebugMiddleware.log.length).toBe(5);
 
+    globalDynaduxDebugMiddleware.dispatch('ADD_TODO', {id: '445', label: 'Drink a Debug beer'});
+    expect(todoAppStore.state.todos.length).toBe(4);
+    expect(todoAppStore.state.todos[3].id).toBe('445');
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(6);
+
     done();
   });
 });

@@ -126,6 +126,12 @@ or filter even more
 
 `dynaduxDebugMiddleware.log.filter(log => log.action === 'ADD_TODO').filter(log => log.payload > 1)`
 
+### Dispatch an action
+
+Manually dispatch an action from debugger's console.
+
+`dynaduxDebugMiddleware.dispatch('ADD_TODO', {id: '445', label: 'Drink a Debug beer'})`
+
 ### Set a previous stage
 
 It is useful for debugging to get back in time, at a specific point to see how was the app then. This is useful for animations also!
