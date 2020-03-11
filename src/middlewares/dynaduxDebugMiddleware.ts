@@ -1,4 +1,4 @@
-import {IDynaduxMiddleware} from "../Dynadux/Dynadux";
+import {Dynadux, IDynaduxMiddleware} from "../Dynadux/Dynadux";
 import {global} from "../tools/global";
 
 export interface IDynaduxDebugMiddlewareConfig {
@@ -25,7 +25,8 @@ export const dynaduxDebugMiddleware = (
   }: IDynaduxDebugMiddlewareConfig = {}
 ): IDynaduxMiddleware => {
   let lastDispatch = 0;
-  let dispatchIndex = -1;
+  let dispatch: <TPayload>(action: string, payload: TPayload) => void;
+
   const dynaduxDebugger = global[globalVariableName] = {
     log: [],
     get list(): void {
@@ -35,22 +36,33 @@ export const dynaduxDebugMiddleware = (
       const textLowerCase = text.toLowerCase();
       return dynaduxDebugger.log.filter((item: any) => item.description.toLowerCase().indexOf(textLowerCase) > -1);
     },
-    set: (dispatchIndex: number): void => {
-      if (dispatchIndex === -1) {
+    set: (userDispatchIndex: number): void => {
+      if (userDispatchIndex === -1) {
         console.error('Nothing is dispatched yet');
         return;
       }
-      const logItem: IDebugLogItem = dynaduxDebugger.log[dispatchIndex];
+      const logItem: IDebugLogItem = dynaduxDebugger.log[userDispatchIndex];
       if (!logItem) {
-        console.error(`Item ${dispatchIndex} cannot be found`);
+        console.error(`Item ${userDispatchIndex} cannot be found`);
         return;
       }
       dispatch(EDynaduxDebugMiddlewareActions.SET_STATE, logItem.after);
-    }
+    },
+    dispatch: <TPayload>(action: string, payload?: TPayload): void => dispatch(action, payload),
   };
-  let dispatch: <TPayload>(action: string, payload: TPayload) => void;
 
-  return {
+  const middleware: IDynaduxMiddleware = {
+    init: (store: Dynadux) => {
+      dispatch = store.dispatch;
+      // @ts-ignore
+      middleware.after({
+        action: 'INFO DynaduxDebugMiddleware Initial State',
+        initialState: {},
+        state: store.state,
+        payload: { debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.'},
+        dispatch: store.dispatch,
+      });
+    },
     after: (
       {
         action,
@@ -64,9 +76,7 @@ export const dynaduxDebugMiddleware = (
         return payload;
       }
 
-      dispatch = d_;
       const now = new Date;
-      dispatchIndex++;
 
       const afterMs = (() => {
         if (lastDispatch === 0) return undefined;
@@ -76,7 +86,7 @@ export const dynaduxDebugMiddleware = (
       global[globalVariableName].log.push({
         description:
           [
-            frontSpace(' ', '#' + dispatchIndex, 5),
+            frontSpace(' ', '#' + global[globalVariableName].log.length, 5),
             frontSpace(' ', `+${duration(afterMs)}`, 12),
             frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 15),
             action,
@@ -92,6 +102,8 @@ export const dynaduxDebugMiddleware = (
       lastDispatch = now.valueOf();
     },
   };
+
+  return middleware;
 };
 
 const frontSpace = (spacer: string, content: string | number, length: number): string => {

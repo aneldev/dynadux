@@ -21,35 +21,25 @@ Middlewares can
 
 Middlewares in Dynadux can `dispatch` anything out of the box, without additional Thunk middlewares as Redux needs. 
 
-You can write your own middlewares that it is only a function that returns an `IDynaduxMiddleware` object _see next_.
+You can write your own middlewares that it is only a function that returns an `IDynaduxMiddleware`.
 
 The user of the middleware will have to load only the middleware function in Dynadux's `middlewares` array prop only, without need to register reducers _like in Redux_!
 
-## Implementing a middleware
-
-The middleware can be loaded before the dispatch of the action and/or after the dispatch of the action.
-
-On the `before` phase, you can prepare the state, or enrich the payload.
-
-On `after` phase, _the most useful one_, you can react to the dispatched action. On `after` phase you have additionally the `initialState` and you can compare what the action did. 
-
-The implementation of each phase may return a partial state or nothing for no state changes.
-
-In both phases, you can access the 
-- `action` (string)
-- `payload`
-- `state` (the entire state)
-- `dispatch` method
-
-The `initialState` is offered on `after` only.
-
-This API is the same as the reducers. 
-So, middlewares act like reducers. 
-
-> Redux doesn’t have the `before` phase.
-
 # API
+The interface of what the middleware is:
+```
+interface IDynaduxMiddleware<TState = void, TPayload = void> {
+  init?: (store: Dynadux<TState>) => void;
+  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
+  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
+}
+```
+Technically the middleware is an object of the above `init`, `before` and `after` callbacks.
 
+All of them are optional.
+
+Below are the interfaces of the `before` and `after` callbacks. Actually they are the same as the Reducers callbacks! 
+The only difference is the `after` callback has the `initialState` prop where is the version of the state before the dispatch of the action.
 ```
 interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
   action: string;
@@ -67,13 +57,45 @@ interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
 }
 
 type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
-
-interface IDynaduxMiddleware<TState = void, TPayload = void> {
-  before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
-  after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
-}
-
 ```
+
+## Implementing a middleware
+
+On Store's initialization, the middleware gets the reference of the Store, 
+so it has access to the initial state and to the `dispatch` method. 
+This is done through the `init` callback property.  
+
+On the lifecycle, the middleware is acting before the dispatch of the action and/or after the dispatch of the action.
+
+On `before`, you can prepare the state, or enrich the payload.
+
+On `after`, _the most useful one_, you can react to the dispatched action. 
+On `after` phase you have additionally the `initialState` and you can compare what the action did. 
+
+The implementation of each phase may return a partial state or nothing for no state changes.
+
+In both phases, you can access the 
+- `action` (string)
+- `payload`
+- `state` (the entire state)
+- `dispatch` method
+
+The `initialState` is offered on `after` only.
+
+This API is the same as the reducers. 
+So, middlewares act like reducers. 
+
+> Redux doesn’t have the `before` phase.
+
+## Sub-Stores
+
+Since the creation of the Store with Dynadux is super easy, complex middlewares would have their Store.
+These are called Sub-Stores and have no relation with other stores. 
+
+Middleware's Sub-Store eventually will update a part of the Parent Store where they are added. 
+
+Technically on Sub-Store's `onChange` it will `dispatch` on parent Store.
+
 # Examples
 
 #### Logger

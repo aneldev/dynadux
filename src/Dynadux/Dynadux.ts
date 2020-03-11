@@ -37,7 +37,8 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
 
 export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
 
-export interface IDynaduxMiddleware<TState = void, TPayload = void> {
+export interface IDynaduxMiddleware<TState = any, TPayload = any> {
+  init?: (store: Dynadux<TState>) => void;
   before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
   after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 }
@@ -47,18 +48,26 @@ interface IDispatch<TPayload> {
   payload: TPayload;
 }
 
-export class Dynadux<TState> {
+export class Dynadux<TState = any> {
   private _state: TState;
   private readonly _dispatches: IDispatch<any>[] = [];
   private _isDispatching = false;
   private readonly _reducers: IDynaduxReducerDic<TState>;
 
   constructor(private readonly _config: IDynaduxConfig<TState>) {
-    this._state = _config.initialState || {} as any;
+    const {
+      initialState = {},
+      middlewares = [],
+    } = this._config;
+
+    this._state = initialState as any;
+
     this._reducers =
       Array.isArray(this._config.reducers)
         ? combineMultipleReducers(...this._config.reducers)
         : this._config.reducers;
+
+    middlewares.forEach(middleware => middleware.init && middleware.init(this));
   }
 
   public get state(): TState {

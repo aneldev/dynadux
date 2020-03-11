@@ -78,18 +78,18 @@ describe('Dynadux', () => {
 
     const globalDynaduxDebugMiddleware = (process as any).dynaduxDebugMiddleware;
 
-    expect(globalDynaduxDebugMiddleware.log[3].afterMs).toBeGreaterThan(180);
+    expect(globalDynaduxDebugMiddleware.log[4].afterMs).toBeGreaterThan(180);
 
     expect(todoAppStore.state.todos.length).toBe(3);
-    expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(5);
 
-    globalDynaduxDebugMiddleware.set(1);
+    globalDynaduxDebugMiddleware.set(2);
     expect(todoAppStore.state.todos.length).toBe(1);
-    expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(5);
 
-    globalDynaduxDebugMiddleware.set(3);
+    globalDynaduxDebugMiddleware.set(4);
     expect(todoAppStore.state.todos.length).toBe(3);
-    expect(globalDynaduxDebugMiddleware.log.length).toBe(4);
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(5);
 
     done();
   });
