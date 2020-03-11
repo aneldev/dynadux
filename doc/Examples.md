@@ -1,4 +1,4 @@
-[🔙 Back to the main page](../README.md)
+[🏠 Home](../README.md)
 
 # Dynadux - Examples
 
