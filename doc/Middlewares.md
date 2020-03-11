@@ -126,23 +126,13 @@ middlewares: [
 ],
 
 ```
-#### Note: No initial dispatch
+#### Debugging middleware
 
-Dynadux doesn't dispatch anything on startup on its own.
-Redux is dispatching an '@@--INIT' _like_ action on startup but Dynadux is not dispatching anything by itself.
+Are you going to collect the dispatched actions for debugging? Well, it is already ready!
 
-This is done in purpose. Since Dynadux doesn't know when your app is ready it doesn't dispatch anything.
+Dynadux is shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](./Debugging.md)
 
-But this means that your middleware won't know the initial state, or that the app is started until something is dispatched. 
-
-To solve this problem the app should dispatch an action, something like '@@APP-START-9846720'.
-This action should be not recognized by anyone but all middlewares will get to know this action, and your middleware will get to know the initial state and that the app is started.  
-
-#### Collect dispatched actions for debugging
-
-Dynadux is shipped with a small middleware for debugging, that it is implemented [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
-
-The usage of it is described later.
+Curious how is implemented? Check it [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
 
 #### Dynadux History Middleware
 
