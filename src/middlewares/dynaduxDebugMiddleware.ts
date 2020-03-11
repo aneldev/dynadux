@@ -6,12 +6,13 @@ export interface IDynaduxDebugMiddlewareConfig {
 }
 
 export interface IDebugLogItem {
-  desc: string;
+  description: string;
   action: string;
   payload: any;
   afterMs: number;
   before: any;
   after: any;
+  date: Date;
 }
 
 enum EDynaduxDebugMiddlewareActions {
@@ -25,21 +26,21 @@ export const dynaduxDebugMiddleware = (
 ): IDynaduxMiddleware => {
   let lastDispatch = 0;
   let dispatchIndex = -1;
-  const g = global[globalVariableName] = {
+  const dynaduxDebugger = global[globalVariableName] = {
     log: [],
     get list(): void {
-      return g.log.map((log: IDebugLogItem) => log.desc).forEach(t => console.log(t));
+      return dynaduxDebugger.log.map((log: IDebugLogItem) => log.description).forEach(t => console.log(t));
     },
     search: (text: string) => {
       const textLowerCase = text.toLowerCase();
-      return g.log.filter((item: any) => item.desc.toLowerCase().indexOf(textLowerCase) > -1);
+      return dynaduxDebugger.log.filter((item: any) => item.description.toLowerCase().indexOf(textLowerCase) > -1);
     },
     set: (dispatchIndex: number): void => {
       if (dispatchIndex === -1) {
         console.error('Nothing is dispatched yet');
         return;
       }
-      const logItem: IDebugLogItem = g.log[dispatchIndex];
+      const logItem: IDebugLogItem = dynaduxDebugger.log[dispatchIndex];
       if (!logItem) {
         console.error(`Item ${dispatchIndex} cannot be found`);
         return;
@@ -64,30 +65,31 @@ export const dynaduxDebugMiddleware = (
       }
 
       dispatch = d_;
-      const date = new Date;
+      const now = new Date;
       dispatchIndex++;
 
       const afterMs = (() => {
         if (lastDispatch === 0) return undefined;
-        return date.valueOf() - lastDispatch;
+        return now.valueOf() - lastDispatch;
       })();
 
       global[globalVariableName].log.push({
-        desc:
+        description:
           [
             frontSpace(' ', '#' + dispatchIndex, 5),
             frontSpace(' ', `+${duration(afterMs)}`, 12),
+            frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 15),
             action,
-            date.toTimeString()
           ].join(' '),
         action,
         afterMs,
         payload,
         before: initialState,
         after: state,
+        date: now,
       } as IDebugLogItem);
 
-      lastDispatch = date.valueOf();
+      lastDispatch = now.valueOf();
     },
   };
 };

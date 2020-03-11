@@ -12,11 +12,11 @@ exports.dynaduxDebugMiddleware = function (_a) {
     var g = global_1.global[globalVariableName] = {
         log: [],
         get list() {
-            return g.log.map(function (log) { return log.desc; }).forEach(function (t) { return console.log(t); });
+            return g.log.map(function (log) { return log.description; }).forEach(function (t) { return console.log(t); });
         },
         search: function (text) {
             var textLowerCase = text.toLowerCase();
-            return g.log.filter(function (item) { return item.desc.toLowerCase().indexOf(textLowerCase) > -1; });
+            return g.log.filter(function (item) { return item.description.toLowerCase().indexOf(textLowerCase) > -1; });
         },
         set: function (dispatchIndex) {
             if (dispatchIndex === -1) {
