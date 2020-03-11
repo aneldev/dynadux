@@ -26,9 +26,11 @@ export const dynaduxDebugMiddleware = (
 ): IDynaduxMiddleware => {
   let lastDispatch = 0;
   let dispatch: <TPayload>(action: string, payload: TPayload) => void;
+  let activeIndex = 0;
 
   const dynaduxDebugger = global[globalVariableName] = {
     log: [],
+    dispatch: <TPayload>(action: string, payload?: TPayload): void => dispatch(action, payload),
     get list(): void {
       return dynaduxDebugger.log.map((log: IDebugLogItem) => log.description).forEach(t => console.log(t));
     },
@@ -48,7 +50,20 @@ export const dynaduxDebugMiddleware = (
       }
       dispatch(EDynaduxDebugMiddlewareActions.SET_STATE, logItem.after);
     },
-    dispatch: <TPayload>(action: string, payload?: TPayload): void => dispatch(action, payload),
+    prev: (): void => {
+      activeIndex--;
+      if (activeIndex < 0) activeIndex = 0;
+      dynaduxDebugger.set(activeIndex);
+    },
+    next: (): void => {
+      activeIndex++;
+      if (activeIndex + 1 > dynaduxDebugger.log.length) activeIndex = dynaduxDebugger.log.length - 1;
+      dynaduxDebugger.set(activeIndex);
+    },
+    now: (): void => {
+      activeIndex = dynaduxDebugger.log.length - 1;
+      dynaduxDebugger.set(activeIndex);
+    },
   };
 
   const middleware: IDynaduxMiddleware = {
@@ -59,24 +74,25 @@ export const dynaduxDebugMiddleware = (
         action: 'INFO DynaduxDebugMiddleware Initial State',
         initialState: {},
         state: store.state,
-        payload: { debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.'},
+        payload: {debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.'},
         dispatch: store.dispatch,
       });
     },
-    after: (
-      {
-        action,
-        payload,
-        initialState,
-        state,
-        dispatch: d_,
+    before: ({action, payload}) => {
+      if (action === EDynaduxDebugMiddlewareActions.SET_STATE) return;
+
+      // If the developer travels in past, return him now
+      if (activeIndex + 1 < global[globalVariableName].log.length) {
+        activeIndex = global[globalVariableName].log.length - 1;
+        return global[globalVariableName].log[activeIndex].after;
       }
-    ) => {
-      if (action === EDynaduxDebugMiddlewareActions.SET_STATE) {
-        return payload;
-      }
+    },
+    after: ({action, payload, initialState, state}) => {
+      if (action === EDynaduxDebugMiddlewareActions.SET_STATE) return payload;
 
       const now = new Date;
+      const nextIndex = global[globalVariableName].log.length;
+      activeIndex = nextIndex;
 
       const afterMs = (() => {
         if (lastDispatch === 0) return undefined;
@@ -86,7 +102,7 @@ export const dynaduxDebugMiddleware = (
       global[globalVariableName].log.push({
         description:
           [
-            frontSpace(' ', '#' + global[globalVariableName].log.length, 5),
+            frontSpace(' ', `#${nextIndex}`, 5),
             frontSpace(' ', `+${duration(afterMs)}`, 12),
             frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 15),
             action,

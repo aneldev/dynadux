@@ -96,6 +96,31 @@ describe('Dynadux', () => {
     expect(todoAppStore.state.todos[3].id).toBe('445');
     expect(globalDynaduxDebugMiddleware.log.length).toBe(6);
 
+    globalDynaduxDebugMiddleware.prev();
+    globalDynaduxDebugMiddleware.prev();
+    globalDynaduxDebugMiddleware.prev();
+    expect(todoAppStore.state.todos.map(t => t.id).join()).toBe('301');
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(6);
+
+    globalDynaduxDebugMiddleware.now();
+    expect(todoAppStore.state.todos.map(t => t.id).join()).toBe('301,303,302,445');
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(6);
+
+    globalDynaduxDebugMiddleware.prev();
+    globalDynaduxDebugMiddleware.prev();
+    expect(todoAppStore.state.todos.map(t => t.id).join()).toBe('301,303');
+    globalDynaduxDebugMiddleware.next();
+    globalDynaduxDebugMiddleware.next();
+    expect(todoAppStore.state.todos.map(t => t.id).join()).toBe('301,303,302,445');
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(6);
+
+    globalDynaduxDebugMiddleware.prev();
+    globalDynaduxDebugMiddleware.prev();
+    expect(todoAppStore.state.todos.map(t => t.id).join()).toBe('301,303');
+    globalDynaduxDebugMiddleware.dispatch('ADD_TODO', {id: '446', label: 'Drink the NoTime beer'});
+    expect(todoAppStore.state.todos.map(t => t.id).join()).toBe('301,303,302,445,446');
+    expect(globalDynaduxDebugMiddleware.log.length).toBe(7);
+
     done();
   });
 });
