@@ -158,7 +158,7 @@ Manually dispatch an action from debugger's console.
 
 `dynaduxDebugMiddleware.dispatch('ADD_TODO', {id: '445', label: 'Drink a Debug beer'})`
 
-### dynaduxDebugMiddleware.set(index) Set a previous stage
+### dynaduxDebugMiddleware.set(index) Set a previous state
 
 It is useful for debugging to get back in time, at a specific point to see how was the app then. This is useful for animations also!
 
