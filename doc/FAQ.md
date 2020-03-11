@@ -71,3 +71,4 @@ _Personal preference the `().then().catch()` pattern looks simpler!…
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [🏠 Home, Contents](../README.md#table-of-contents)

@@ -174,3 +174,4 @@ A common example is, two dictionaries of actions (or more) have the "logout" act
 
 [⬅️ Create Store](./CreateStore.md) 🔶 [Middlewares ➡️](./Middlewares.md) 
 
+[🏠 Home, Contents](../README.md#table-of-contents)

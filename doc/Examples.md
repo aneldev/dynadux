@@ -135,3 +135,12 @@ _With Redux you tend to create monolithic apps since you can dispatch from any C
 The create store is different here, as `reducers` we pass the any array of two dictionaries of action/reducer pairs.
 
 In this way, the `ADD_TO_CART` action exists in both Sections, Products and .
+
+# Read more 
+
+- [FAQ](./FAQ.md) Frequently asked questions
+- [React](./React.md) How to use it in react
+- [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
+- [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [🏠 Home, Contents](../README.md#table-of-contents)

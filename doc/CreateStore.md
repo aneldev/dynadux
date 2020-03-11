@@ -126,3 +126,5 @@ store.dispatch(action.USER_LOGOFF);
 
 [⬅️ Main page](../README.md) 🔶 [Reducers ➡️](./Reducers.md) 
 
+[🏠 Home, Contents](../README.md#table-of-contents)
+
