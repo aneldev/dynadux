@@ -3,11 +3,12 @@ export interface IDynaduxDebugMiddlewareConfig {
     globalVariableName?: string;
 }
 export interface IDebugLogItem {
-    desc: string;
+    description: string;
     action: string;
     payload: any;
     afterMs: number;
     before: any;
     after: any;
+    date: Date;
 }
-export declare const dynaduxDebugMiddleware: ({ globalVariableName, }?: IDynaduxDebugMiddlewareConfig) => IDynaduxMiddleware<void, void>;
+export declare const dynaduxDebugMiddleware: ({ globalVariableName, }?: IDynaduxDebugMiddlewareConfig) => IDynaduxMiddleware<any, any>;

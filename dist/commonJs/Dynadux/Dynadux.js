@@ -72,10 +72,12 @@ var Dynadux = /** @class */ (function () {
             _this._isDispatching = false;
             _this._dispatch();
         };
-        this._state = _config.initialState || {};
+        var _a = this._config, _b = _a.initialState, initialState = _b === void 0 ? {} : _b, _c = _a.middlewares, middlewares = _c === void 0 ? [] : _c;
+        this._state = initialState;
         this._reducers =
             Array.isArray(this._config.reducers)
                 ? combineMultipleReducers_1.combineMultipleReducers.apply(void 0, this._config.reducers) : this._config.reducers;
+        middlewares.forEach(function (middleware) { return middleware.init && middleware.init(_this); });
     }
     Object.defineProperty(Dynadux.prototype, "state", {
         get: function () {

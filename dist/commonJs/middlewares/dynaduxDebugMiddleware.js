@@ -8,60 +8,99 @@ var EDynaduxDebugMiddlewareActions;
 exports.dynaduxDebugMiddleware = function (_a) {
     var _b = (_a === void 0 ? {} : _a).globalVariableName, globalVariableName = _b === void 0 ? 'dynaduxDebugMiddleware' : _b;
     var lastDispatch = 0;
-    var dispatchIndex = -1;
-    var g = global_1.global[globalVariableName] = {
+    var dispatch;
+    var activeIndex = 0;
+    var dynaduxDebugger = global_1.global[globalVariableName] = {
         log: [],
+        dispatch: function (action, payload) { return dispatch(action, payload); },
         get list() {
-            return g.log.map(function (log) { return log.description; }).forEach(function (t) { return console.log(t); });
+            return dynaduxDebugger.log.map(function (log) { return log.description; }).forEach(function (t) { return console.log(t); });
         },
         search: function (text) {
             var textLowerCase = text.toLowerCase();
-            return g.log.filter(function (item) { return item.description.toLowerCase().indexOf(textLowerCase) > -1; });
+            return dynaduxDebugger.log.filter(function (item) { return item.description.toLowerCase().indexOf(textLowerCase) > -1; });
         },
-        set: function (dispatchIndex) {
-            if (dispatchIndex === -1) {
+        set: function (userDispatchIndex) {
+            if (userDispatchIndex === -1) {
                 console.error('Nothing is dispatched yet');
                 return;
             }
-            var logItem = g.log[dispatchIndex];
+            var logItem = dynaduxDebugger.log[userDispatchIndex];
             if (!logItem) {
-                console.error("Item " + dispatchIndex + " cannot be found");
+                console.error("Item " + userDispatchIndex + " cannot be found");
                 return;
             }
             dispatch(EDynaduxDebugMiddlewareActions.SET_STATE, logItem.after);
-        }
+        },
+        prev: function () {
+            activeIndex--;
+            if (activeIndex < 0)
+                activeIndex = 0;
+            dynaduxDebugger.set(activeIndex);
+        },
+        next: function () {
+            activeIndex++;
+            if (activeIndex + 1 > dynaduxDebugger.log.length)
+                activeIndex = dynaduxDebugger.log.length - 1;
+            dynaduxDebugger.set(activeIndex);
+        },
+        now: function () {
+            activeIndex = dynaduxDebugger.log.length - 1;
+            dynaduxDebugger.set(activeIndex);
+        },
     };
-    var dispatch;
-    return {
-        after: function (_a) {
-            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state, d_ = _a.dispatch;
-            if (action === EDynaduxDebugMiddlewareActions.SET_STATE) {
-                return payload;
+    var middleware = {
+        init: function (store) {
+            dispatch = store.dispatch;
+            // @ts-ignore
+            middleware.after({
+                action: 'INFO DynaduxDebugMiddleware Initial State',
+                initialState: {},
+                state: store.state,
+                payload: { debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.' },
+                dispatch: store.dispatch,
+            });
+        },
+        before: function (_a) {
+            var action = _a.action, payload = _a.payload;
+            if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
+                return;
+            // If the developer travels in past, return him now
+            if (activeIndex + 1 < global_1.global[globalVariableName].log.length) {
+                activeIndex = global_1.global[globalVariableName].log.length - 1;
+                return global_1.global[globalVariableName].log[activeIndex].after;
             }
-            dispatch = d_;
-            var date = new Date;
-            dispatchIndex++;
+        },
+        after: function (_a) {
+            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state;
+            if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
+                return payload;
+            var now = new Date;
+            var nextIndex = global_1.global[globalVariableName].log.length;
+            activeIndex = nextIndex;
             var afterMs = (function () {
                 if (lastDispatch === 0)
                     return undefined;
-                return date.valueOf() - lastDispatch;
+                return now.valueOf() - lastDispatch;
             })();
             global_1.global[globalVariableName].log.push({
-                desc: [
-                    frontSpace(' ', '#' + dispatchIndex, 5),
+                description: [
+                    frontSpace(' ', "#" + nextIndex, 5),
                     frontSpace(' ', "+" + duration(afterMs), 12),
+                    frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 15),
                     action,
-                    date.toTimeString()
                 ].join(' '),
                 action: action,
                 afterMs: afterMs,
                 payload: payload,
                 before: initialState,
                 after: state,
+                date: now,
             });
-            lastDispatch = date.valueOf();
+            lastDispatch = now.valueOf();
         },
     };
+    return middleware;
 };
 var frontSpace = function (spacer, content, length) {
     var text = String(content);

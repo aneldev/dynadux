@@ -28,11 +28,12 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
     initialState: TState;
 }
 export declare type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
-export interface IDynaduxMiddleware<TState = void, TPayload = void> {
+export interface IDynaduxMiddleware<TState = any, TPayload = any> {
+    init?: (store: Dynadux<TState>) => void;
     before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
     after?: (reducerAPI: IDynaduxMiddlewareAfterAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 }
-export declare class Dynadux<TState> {
+export declare class Dynadux<TState = any> {
     private readonly _config;
     private _state;
     private readonly _dispatches;
