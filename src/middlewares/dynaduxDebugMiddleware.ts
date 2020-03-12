@@ -78,7 +78,7 @@ export const dynaduxDebugMiddleware = (
         dispatch: store.dispatch,
       });
     },
-    before: ({action, payload}) => {
+    before: ({action}) => {
       if (action === EDynaduxDebugMiddlewareActions.SET_STATE) return;
 
       // If the developer travels in past, return him now

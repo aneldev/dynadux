@@ -72,8 +72,9 @@ If you are familiar with Redux these are the benefits you gain with Dynadux.
 - You can wrap a Store easily to a React Hook.
 - Small stores mean that smaller parts of the app are rendered on a change.
 - It is faster than Redux because it uses the related reducer and not all of them.
-- It is faster than Mobx because it doesn't scan your state.
-- It encourages you to create business logic methods and not dispatch from containers.
+- It is faster than Mobx because it doesn't scan your state to make it observable.
+- It encourages you to create Business Stores and not dispatch from containers.
+- No need for [ducks](https://github.com/erikras/ducks-modular-redux), Business Stores are self contained. 
 - Better API for reducers and middlewares.
 - No need for Thunk! `dispatch` is provided for all the reducers and middlewares.
 - Middlewares have callbacks before and after the dispatch of the action.
@@ -196,7 +197,7 @@ const createTodoAppStore = (onChange) => {
 ```
 This is a function that creates the store and provides business logic methods. The `addTodo` & the `removeTodo`.
 
-## Use the "app" store
+## Usage of the Bussiness Store
 
 Now our `store` it won't be directly a `dynadux` store but a more sophisticated business one.
 
@@ -211,11 +212,18 @@ And we can add a todo in a more business logic way.
 store.addTodo({id: '121', label: 'Drink beers'});
 ```
 
-For React components the store should be instantiated in constructor.
-```
-const store = createTodoAppStore(this.setState.bind(this));
+And remove it simpler
 
 ```
+store.removeTodo('121');
+```
+
+For React components the store should be instantiated in constructor.
+```
+const store = createTodoAppStore(() => this.setState({}));
+
+```
+
 Then pass the `store` to the children components and use the `store.state` as state.
 
 It is not needed to pass the entire store to the children, pass only what is needed.
