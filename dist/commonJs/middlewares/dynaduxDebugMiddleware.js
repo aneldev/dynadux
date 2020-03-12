@@ -62,7 +62,7 @@ exports.dynaduxDebugMiddleware = function (_a) {
             });
         },
         before: function (_a) {
-            var action = _a.action, payload = _a.payload;
+            var action = _a.action;
             if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
                 return;
             // If the developer travels in past, return him now
