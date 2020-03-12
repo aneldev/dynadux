@@ -5,11 +5,11 @@
 # How to use it in React apps/components
 
 1. Create a `createAppStore`
-2. On the constructor of the app component call this `this.store = createAppStore(this.setState.bind(this))`.
-3. In the components use the `this.store.state` as a state
+2. On the body of the class declare `store = createAppStore(() => this.setState({}))`.
+3. In the components use the `this.store.state` getter as a state or what ever your Business Store returns as State.
 4. Use the exposed methods of the `this.store` to change the state
 
-[Check out the Todos app example](https://codesandbox.io/s/sleepy-browser-mijt6)
+[Check out the Cart example](https://codesandbox.io/s/awesome-wozniak)
 
 [See all examples](./Examples.md)
 

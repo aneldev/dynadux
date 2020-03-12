@@ -7,12 +7,12 @@ import {
 export interface ICreateStoreConfig<TState> extends IDynaduxConfig<TState> {
 }
 
-export interface ICreateStoreAPI<TState> {
+export interface ICreateStoreAPI<TState = any> {
   dispatch: TDynaduxDispatch;
   state: TState;
 }
 
-export const createStore = <TState>(config: ICreateStoreConfig<TState>): ICreateStoreAPI<TState> => {
+export const createStore = <TState = any>(config: ICreateStoreConfig<TState>): ICreateStoreAPI<TState> => {
   const dynadux = new Dynadux<TState>(config);
 
   return {
