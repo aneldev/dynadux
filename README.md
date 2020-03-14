@@ -62,7 +62,8 @@ In general
 
 If you are familiar with Redux these are the benefits you gain with Dynadux.
 
-- Dynadux creates stores with an extremely less effort. 
+- Less boilerplate code.
+- Dynadux creates stores with an extremely less effort.
 - No complementary libs are required.
 - Containers are Components in dynadux, this enriches the lifecycle of the containers. 
 - You can dispatch from containers at any time (not only on Redux's mapping times).
@@ -74,12 +75,16 @@ If you are familiar with Redux these are the benefits you gain with Dynadux.
 - It is faster than Redux because it uses the related reducer and not all of them.
 - It is faster than Mobx because it doesn't scan your state to make it observable.
 - It encourages you to create Business Stores and not dispatch from containers.
+- With Business Stores any component cannot access the data which can cause security issues.
 - No need for [ducks](https://github.com/erikras/ducks-modular-redux), Business Stores are self contained. 
 - Better API for reducers and middlewares.
 - No need for Thunk! `dispatch` is provided for all the reducers and middlewares.
 - Middlewares have callbacks before and after the dispatch of the action.
 - Dynadux implementation is super simple, it is only an `Object.assign()`.
 - No need to read tons of documentation, just this text is enough to learn it.
+- Since it is simple there is no restricted design of your store.
+- Easy to create Sub-Stores!
+- Easy to Stores per component. This will reduce the big renders!
 - Easier tests, just mock network requests of the actions, not the store itself.
 - Written in Typescript, supports types.
 
