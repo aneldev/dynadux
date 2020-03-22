@@ -46,6 +46,9 @@ export var dynaduxDebugMiddleware = function (_a) {
             activeIndex = dynaduxDebugger.log.length - 1;
             dynaduxDebugger.set(activeIndex);
         },
+        get state() {
+            return dynaduxDebugger.log[activeIndex].after;
+        }
     };
     var middleware = {
         init: function (store) {
@@ -64,9 +67,9 @@ export var dynaduxDebugMiddleware = function (_a) {
             if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
                 return;
             // If the developer travels in past, return him now
-            if (activeIndex + 1 < global[globalVariableName].log.length) {
-                activeIndex = global[globalVariableName].log.length - 1;
-                return global[globalVariableName].log[activeIndex].after;
+            if (activeIndex + 1 < dynaduxDebugger.log.length) {
+                activeIndex = dynaduxDebugger.log.length - 1;
+                return dynaduxDebugger.log[activeIndex].after;
             }
         },
         after: function (_a) {
@@ -74,14 +77,14 @@ export var dynaduxDebugMiddleware = function (_a) {
             if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
                 return payload;
             var now = new Date;
-            var nextIndex = global[globalVariableName].log.length;
+            var nextIndex = dynaduxDebugger.log.length;
             activeIndex = nextIndex;
             var afterMs = (function () {
                 if (lastDispatch === 0)
                     return undefined;
                 return now.valueOf() - lastDispatch;
             })();
-            global[globalVariableName].log.push({
+            dynaduxDebugger.log.push({
                 description: [
                     frontSpace(' ', "#" + nextIndex, 5),
                     frontSpace(' ', "+" + duration(afterMs), 12),
