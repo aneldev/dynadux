@@ -39,6 +39,7 @@ const businessStore = (onChange) => {
 ```
 
 #### Convert the store to hook 
+_In Typescript_
 
 ```
 const useBusinessStore = () => {
@@ -50,7 +51,7 @@ const useBusinessStore = () => {
     || (
       appStoreRef.current = businessStore(() => setState({}))
     )
-  );
+  ) as ReturnType<typeof businessStore>;;
 };
 
 ```
