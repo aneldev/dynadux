@@ -48,7 +48,7 @@ const useBusinessStore = () => {
   return (
     appStoreRef.current
     || (
-      appStoreRef.current = flightInfoStore(() => setState({}))
+      appStoreRef.current = businessStore(() => setState({}))
     )
   );
 };
