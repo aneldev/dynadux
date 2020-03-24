@@ -14,6 +14,9 @@ export var dynaduxDebugMiddleware = function (_a) {
         get list() {
             return dynaduxDebugger.log.map(function (log) { return log.description; }).forEach(function (t) { return console.log(t); });
         },
+        get listPayloads() {
+            return dynaduxDebugger.log.map(function (log) { return [log.description, log.payload]; }).forEach(function (t) { return console.log.apply(console, t); });
+        },
         search: function (text) {
             var textLowerCase = text.toLowerCase();
             return dynaduxDebugger.log.filter(function (item) { return item.description.toLowerCase().indexOf(textLowerCase) > -1; });
