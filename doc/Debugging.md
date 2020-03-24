@@ -110,6 +110,10 @@ You will get something like this:
 
 `list` returns a preview of the collected log items.
 
+### dynaduxDebugMiddleware.listPayload
+
+Same as `list` including the payloads.
+
 ### dynaduxDebugMiddleware.log
 
 Open the console and type `dynaduxDebugMiddleware.log`
@@ -131,6 +135,10 @@ For instance, type to access the log:
 or 
 
 `dynaduxDebugMiddleware.log[3].after.cart`
+
+### dynaduxDebugMiddleware.state
+
+Get the current active state.
 
 ### dynaduxDebugMiddleware.search(text: string)
 

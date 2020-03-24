@@ -34,6 +34,9 @@ export const dynaduxDebugMiddleware = (
     get list(): void {
       return dynaduxDebugger.log.map((log: IDebugLogItem) => log.description).forEach(t => console.log(t));
     },
+    get listPayloads(): void {
+      return dynaduxDebugger.log.map((log: IDebugLogItem) => [log.description, log.payload]).forEach(t => console.log(...t));
+    },
     search: (text: string) => {
       const textLowerCase = text.toLowerCase();
       return dynaduxDebugger.log.filter((item: any) => item.description.toLowerCase().indexOf(textLowerCase) > -1);
