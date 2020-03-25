@@ -47,6 +47,7 @@ var Dynadux = /** @class */ (function () {
                     state: newState,
                 }) || {}));
             });
+            var reducerStart = Date.now();
             if (reducer)
                 newState = __assign(__assign({}, _this._state), (reducer({
                     action: action,
@@ -64,6 +65,7 @@ var Dynadux = /** @class */ (function () {
                     dispatch: _this.dispatch,
                     state: newState,
                     initialState: initialState,
+                    reducerElapsedMs: Date.now() - reducerStart,
                 }) || {}));
             });
             _this._state = newState;

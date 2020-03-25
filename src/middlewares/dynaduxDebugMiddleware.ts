@@ -93,7 +93,7 @@ export const dynaduxDebugMiddleware = (
         return dynaduxDebugger.log[activeIndex].after;
       }
     },
-    after: ({action, payload, initialState, state}) => {
+    after: ({action, payload, initialState, state, reducerElapsedMs}) => {
       if (action === EDynaduxDebugMiddlewareActions.SET_STATE) return payload;
 
       const now = new Date;
@@ -109,8 +109,9 @@ export const dynaduxDebugMiddleware = (
         description:
           [
             frontSpace(' ', `#${nextIndex}`, 5),
-            frontSpace(' ', `+${duration(afterMs)}`, 12),
-            frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 15),
+            frontSpace(' ', `+${duration(afterMs)}`, 10),
+            frontSpace(' ', duration(reducerElapsedMs), 4),
+            frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 13),
             action,
           ].join(' '),
         action,

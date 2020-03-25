@@ -30,6 +30,7 @@ export interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
 export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   action: string;
   payload: any;
+  reducerElapsedMs: number;
   dispatch: TDynaduxDispatch<TPayload>;
   state: TState;
   initialState: TState;
@@ -109,6 +110,7 @@ export class Dynadux<TState = any> {
       };
     });
 
+    const reducerStart = Date.now();
     if (reducer) newState = {
       ...this._state,
       ...(reducer({
@@ -118,6 +120,7 @@ export class Dynadux<TState = any> {
         state: newState,
       }) || {}),
     };
+    const reducerElapsedMs = Date.now() - reducerStart;
 
     middlewares.forEach(({after}) => {
       if (!after) return;
@@ -129,6 +132,7 @@ export class Dynadux<TState = any> {
           dispatch: this.dispatch,
           state: newState,
           initialState,
+          reducerElapsedMs,
         }) || {})
       };
     });

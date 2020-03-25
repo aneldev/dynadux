@@ -78,7 +78,7 @@ exports.dynaduxDebugMiddleware = function (_a) {
             }
         },
         after: function (_a) {
-            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state;
+            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state, reducerElapsedMs = _a.reducerElapsedMs;
             if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
                 return payload;
             var now = new Date;
@@ -93,6 +93,7 @@ exports.dynaduxDebugMiddleware = function (_a) {
                 description: [
                     frontSpace(' ', "#" + nextIndex, 5),
                     frontSpace(' ', "+" + duration(afterMs), 12),
+                    frontSpace(' ', duration(reducerElapsedMs), 6),
                     frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 15),
                     action,
                 ].join(' '),

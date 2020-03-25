@@ -54,6 +54,7 @@ interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   dispatch: TDynaduxDispatch<TPayload>;
   state: TState;
   initialState: TState;
+  reducerElapsedMs: number;
 }
 
 type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;

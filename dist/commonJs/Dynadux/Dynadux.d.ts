@@ -23,6 +23,7 @@ export interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
 export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
     action: string;
     payload: any;
+    reducerElapsedMs: number;
     dispatch: TDynaduxDispatch<TPayload>;
     state: TState;
     initialState: TState;
