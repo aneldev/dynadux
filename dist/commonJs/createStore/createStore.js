@@ -5,6 +5,7 @@ exports.createStore = function (config) {
     var dynadux = new Dynadux_1.Dynadux(config);
     return {
         dispatch: dynadux.dispatch,
+        dispatchMethod: dynadux.dispatchMethod,
         get state() { return dynadux.state; },
     };
 };

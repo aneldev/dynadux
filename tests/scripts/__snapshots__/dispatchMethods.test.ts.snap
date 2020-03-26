@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux Dispatch methods: After remove of 302 todo 1`] = `
+Object {
+  "logged": true,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux Dispatch methods: Dispatched actions 1`] = `
+Array [
+  Object {
+    "action": "LOGIN",
+    "payload": undefined,
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": undefined,
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": undefined,
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": undefined,
+  },
+]
+`;
+
+exports[`Dynadux Dispatch methods: First todos 1`] = `
+Object {
+  "logged": true,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "After work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux Dispatch methods: Initial state 1`] = `
+Object {
+  "logged": false,
+  "todos": Array [],
+}
+`;

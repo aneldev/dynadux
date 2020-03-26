@@ -2,7 +2,7 @@ import {combineMultipleReducers} from "../utils/combineMultipleReducers";
 
 export interface IDynaduxConfig<TState> {
   initialState?: TState;
-  reducers: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
+  reducers?: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
   middlewares?: IDynaduxMiddleware<any, any>[];
   onDispatch?: (action: string, payload: any) => void;
   onChange?: (state: TState) => void;
@@ -14,9 +14,17 @@ export interface IDynaduxReducerDic<TState> {
 
 export type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => undefined | void | Partial<TState>;
 
+export type TDynaduxMethodReducer<TState> = (params: IDynaduxMethodReducerAPI<TState, void>) => undefined | void | Partial<TState>;
+
 export interface IDynaduxReducerAPI<TState, TPayload> {
   action: string;
   payload: any;
+  dispatch: TDynaduxDispatch<TPayload>;
+  state: TState;
+}
+
+export interface IDynaduxMethodReducerAPI<TState, TPayload> {
+  action: string;
   dispatch: TDynaduxDispatch<TPayload>;
   state: TState;
 }
@@ -47,7 +55,8 @@ export interface IDynaduxMiddleware<TState = any, TPayload = any> {
 
 interface IDispatch<TPayload> {
   action: string;
-  payload: TPayload;
+  payload?: TPayload;
+  method?: TDynaduxMethodReducer<any>;
 }
 
 export class Dynadux<TState = any> {
@@ -67,7 +76,7 @@ export class Dynadux<TState = any> {
     this._reducers =
       Array.isArray(this._config.reducers)
         ? combineMultipleReducers(...this._config.reducers)
-        : this._config.reducers;
+        : this._config.reducers || {};
 
     middlewares.forEach(middleware => middleware.init && middleware.init(this));
   }
@@ -81,6 +90,11 @@ export class Dynadux<TState = any> {
     this._dispatch();
   }
 
+  public dispatchMethod = (action: string, method: TDynaduxMethodReducer<TState>): void => {
+    this._dispatches.push({action, method});
+    this._dispatch();
+  }
+
   private _dispatch = <TPayload>(): void => {
     if (this._isDispatching) return;
     this._isDispatching = true;
@@ -90,7 +104,7 @@ export class Dynadux<TState = any> {
       this._isDispatching = false;
       return;
     }
-    const {action, payload} = dispatchItem;
+    const {action, payload, method} = dispatchItem;
     const reducer = this._reducers[action];
 
     let initialState = this._state;
@@ -121,6 +135,16 @@ export class Dynadux<TState = any> {
         state: newState,
       }) || {}),
     };
+    if (method) {
+      newState = {
+        ...this._state,
+        ...(method({
+          action,
+          dispatch: this.dispatch,
+          state: newState,
+        }) || {}),
+      };
+    }
     const reducerElapsedMs = Date.now() - reducerStart;
 
     middlewares.forEach(({after}) => {

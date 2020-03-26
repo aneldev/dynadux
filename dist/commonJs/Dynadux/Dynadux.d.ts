@@ -1,6 +1,6 @@
 export interface IDynaduxConfig<TState> {
     initialState?: TState;
-    reducers: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
+    reducers?: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
     middlewares?: IDynaduxMiddleware<any, any>[];
     onDispatch?: (action: string, payload: any) => void;
     onChange?: (state: TState) => void;
@@ -9,9 +9,15 @@ export interface IDynaduxReducerDic<TState> {
     [action: string]: TDynaduxReducer<TState, any>;
 }
 export declare type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPayload>) => undefined | void | Partial<TState>;
+export declare type TDynaduxMethodReducer<TState> = (params: IDynaduxMethodReducerAPI<TState, void>) => undefined | void | Partial<TState>;
 export interface IDynaduxReducerAPI<TState, TPayload> {
     action: string;
     payload: any;
+    dispatch: TDynaduxDispatch<TPayload>;
+    state: TState;
+}
+export interface IDynaduxMethodReducerAPI<TState, TPayload> {
+    action: string;
     dispatch: TDynaduxDispatch<TPayload>;
     state: TState;
 }
@@ -44,5 +50,6 @@ export declare class Dynadux<TState = any> {
     constructor(_config: IDynaduxConfig<TState>);
     get state(): TState;
     dispatch: <TPayload>(action: string, payload: TPayload) => void;
+    dispatchMethod: (action: string, method: TDynaduxMethodReducer<TState>) => void;
     private _dispatch;
 }
