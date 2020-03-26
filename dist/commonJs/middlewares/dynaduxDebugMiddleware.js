@@ -92,9 +92,9 @@ exports.dynaduxDebugMiddleware = function (_a) {
             dynaduxDebugger.log.push({
                 description: [
                     frontSpace(' ', "#" + nextIndex, 5),
-                    frontSpace(' ', "+" + duration(afterMs), 12),
-                    frontSpace(' ', duration(reducerElapsedMs), 6),
-                    frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 15),
+                    frontSpace(' ', "+" + duration(afterMs), 10),
+                    frontSpace(' ', duration(reducerElapsedMs), 4),
+                    frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 13),
                     action,
                 ].join(' '),
                 action: action,

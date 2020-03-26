@@ -2,6 +2,7 @@ export interface IDynaduxConfig<TState> {
     initialState?: TState;
     reducers: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
     middlewares?: IDynaduxMiddleware<any, any>[];
+    onDispatch?: (action: string, payload: any) => void;
     onChange?: (state: TState) => void;
 }
 export interface IDynaduxReducerDic<TState> {

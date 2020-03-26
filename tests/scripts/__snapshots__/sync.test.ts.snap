@@ -13,6 +13,35 @@ Object {
 }
 `;
 
+exports[`Dynadux Dispatch sync actions: Dispatched actions 1`] = `
+Array [
+  Object {
+    "action": "LOGIN",
+    "payload": true,
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "done": false,
+      "id": "302",
+      "label": "After work beers",
+    },
+  },
+  Object {
+    "action": "REMOVE_TODO",
+    "payload": "302",
+  },
+]
+`;
+
 exports[`Dynadux Dispatch sync actions: First todos 1`] = `
 Object {
   "logged": true,

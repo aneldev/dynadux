@@ -55,6 +55,7 @@ var Dynadux = /** @class */ (function () {
                     dispatch: _this.dispatch,
                     state: newState,
                 }) || {}));
+            var reducerElapsedMs = Date.now() - reducerStart;
             middlewares.forEach(function (_a) {
                 var after = _a.after;
                 if (!after)
@@ -65,12 +66,14 @@ var Dynadux = /** @class */ (function () {
                     dispatch: _this.dispatch,
                     state: newState,
                     initialState: initialState,
-                    reducerElapsedMs: Date.now() - reducerStart,
+                    reducerElapsedMs: reducerElapsedMs,
                 }) || {}));
             });
             _this._state = newState;
             if (_this._config.onChange)
                 _this._config.onChange(_this._state);
+            if (_this._config.onDispatch)
+                _this._config.onDispatch(action, payload);
             _this._isDispatching = false;
             _this._dispatch();
         };

@@ -70,9 +70,17 @@ The `reducers` property, would be also an array of objects.
 
 This property is optional, is an array of [Middlewares](./Middlewares.md) discussed later.
 
-#### property `onChange`
+#### property `onChange: (state: TState) => void`
 
 Optional callback, on every dispatch the `onChange` callback is called with one only argument, the State of the Store.
+
+#### property `onDispatch: (action: string, payload: any) => void`
+
+This optional callback is called after the actions are dispatched and the `onChange`.
+
+This callback is useful to get when an action is dispatched and use it as an event.
+
+For instance, you can dispatch an action that is not indented for a reducer or a middleware but for the user of the store.
 
 # the return of the `createStore` method
 

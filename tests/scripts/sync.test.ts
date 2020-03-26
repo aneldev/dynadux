@@ -23,12 +23,14 @@ describe('Dynadux', () => {
     let stateChanged = 0;
 
     const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
+      const dispatchedActions: { action: string, payload: any }[] = [];
       const store = createStore<ITodoAppState>({
+        onChange,
+        onDispatch: (action, payload) => dispatchedActions.push({action, payload}),
         initialState: {
           logged: false,
           todos: [],
         },
-        onChange,
         reducers: {
           [actions.LOGIN]: ({payload: logged}) => {
             return {logged};
@@ -48,6 +50,7 @@ describe('Dynadux', () => {
 
       return {
         get state() { return store.state; },
+        get dispatchedActions() { return dispatchedActions; },
         login: (logged: boolean) => store.dispatch<boolean>(actions.LOGIN, logged),
         addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
@@ -73,5 +76,7 @@ describe('Dynadux', () => {
     expect(todoAppStore.state).toMatchSnapshot('After remove of 302 todo');
 
     expect(stateChanged).toBe(4);
+
+    expect(todoAppStore.dispatchedActions).toMatchSnapshot('Dispatched actions');
   });
 });
