@@ -110,7 +110,7 @@ You will get something like this:
 
 `list` returns a preview of the collected log items.
 
-### dynaduxDebugMiddleware.listPayload
+### dynaduxDebugMiddleware.listPayloads
 
 Same as `list` including the payloads.
 
