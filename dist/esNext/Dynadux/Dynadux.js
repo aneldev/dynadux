@@ -20,6 +20,10 @@ var Dynadux = /** @class */ (function () {
             _this._dispatches.push({ action: action, payload: payload });
             _this._dispatch();
         };
+        this.dispatchMethod = function (action, method) {
+            _this._dispatches.push({ action: action, method: method });
+            _this._dispatch();
+        };
         this._dispatch = function () {
             if (_this._isDispatching)
                 return;
@@ -29,7 +33,7 @@ var Dynadux = /** @class */ (function () {
                 _this._isDispatching = false;
                 return;
             }
-            var action = dispatchItem.action, payload = dispatchItem.payload;
+            var action = dispatchItem.action, payload = dispatchItem.payload, method = dispatchItem.method;
             var reducer = _this._reducers[action];
             var initialState = _this._state;
             var newState = __assign({}, _this._state);
@@ -53,6 +57,13 @@ var Dynadux = /** @class */ (function () {
                     dispatch: _this.dispatch,
                     state: newState,
                 }) || {}));
+            if (method) {
+                newState = __assign(__assign({}, _this._state), (method({
+                    action: action,
+                    dispatch: _this.dispatch,
+                    state: newState,
+                }) || {}));
+            }
             var reducerElapsedMs = Date.now() - reducerStart;
             middlewares.forEach(function (_a) {
                 var after = _a.after;
@@ -79,7 +90,7 @@ var Dynadux = /** @class */ (function () {
         this._state = initialState;
         this._reducers =
             Array.isArray(this._config.reducers)
-                ? combineMultipleReducers.apply(void 0, this._config.reducers) : this._config.reducers;
+                ? combineMultipleReducers.apply(void 0, this._config.reducers) : this._config.reducers || {};
         middlewares.forEach(function (middleware) { return middleware.init && middleware.init(_this); });
     }
     Object.defineProperty(Dynadux.prototype, "state", {
