@@ -17,11 +17,11 @@ The benefit of Sections is that reducers cannot access the state of the other se
 - Each Section is creating a property on the root level of State.
 - Reducers can access the state of the root property only.
 - The provided state from a Section is the state of the root property.
-- You still can pass the entire state of the app manually but this is not recommended.
+- You can still pass the entire state of the app manually but this is not recommended.
 
 # Example how to use them
 
-Imagine we have a To-Do app, with user login feature.
+Imagine we have a To-Do app, with a user login feature.
 
 One section is the User feature. This keeps information if the user is logged, the avatar of the user, etc..
 
@@ -35,24 +35,23 @@ On the application layer, when the user is logged, the app will ask from the To-
 
 _Examples are in Typescript_
 
-### #1 The Create Sections functions
+### #1 The Create Section function
 
-Create Sections functions are functions that 
-- take the created store as argument _and_
-- return a business API to use it later in the application.
+Create Section function is a function that 
+- takes the created store as argument _and_
+- returns a business API to use it later in the application.
 
 From the passed store reference, we use the `createSection` function that requires:
 - `section: string`, the name of the section
-- `initialState`, the intial state of the section
+- `initialState`, the initial state of the section
 - `reducers`, the reducers scoped the section
 
 What is new here is only the `section` string. 
-This will be the root property name in Store's state. 
+This will be the root property name in the Store's state. 
 But in practice, we won't use it, because in the end, the state will be accessed from the return of this function. 
 _We will see that later._
 
-Initial state and reducers are remaining exactly the same as we learned in the previous chapters. There is nothing new to learn really.
-
+Initial state and reducers are remaining exactly the same as we learned in the previous chapters. There is really nothing new to learn.
 ```
 const createUserInfoSection = (store: ICreateStoreAPI) => {
   const section = store.`createSection`({
@@ -152,14 +151,14 @@ const createTodosSection = (store: ICreateStoreAPI) => {
 ### #2 The Create App Store function
 
 This Create App Store
-- requests an onChnage callback to get notified for the changes
+- requests an onChange callback to get notified for the changes
 - returns an api to use the store.
 
-The returned API will be the API of the Sections directly. 
+The returned API will be directly the API of the Sections. 
 
-So, we create the Dynadux store, with the classic `createStore` but we don't pass reducers but only the onChange callback (and middlewares if are needed). 
+So, we create the Dynadux store, with the classic `createStore`, but we don't pass reducers for the sections.
 
-As an output of the function, we return a small API. For each Section, we create a property that will have the value section create function return. The function of each section requires the Store in order to be attached to this store.
+As an output of the function, we return a small API. For each Section, we create a property with the returned value of the create section function. The function of each section requires the Store in order to be attached to this store.
 
 This is the function to create the app store.
 
@@ -176,7 +175,7 @@ const createAppStore = (onChange: (state: IAppState) => void) => {
 };
 ```
 
-That's all! The app's store is not something special than a concatenation of Sections.
+That's all! The app´s store is nothing but a concatenation of Sections.
 
 ### #3 Usage of our app store
 
@@ -197,7 +196,7 @@ store.todos.state.todos   // The array with current todos
 
 # `createSection()` API
 
-The `createSection` methods required a config object of this interface:
+The `createSection` methods require a config object of this interface:
 
 ```
 ICreateSectionConfig<TSectionState> {
@@ -242,4 +241,5 @@ We create a Dynadux store. As an App store, we return an object with the returne
 [⬅️ Middlewares](./Middlewares.md) 🔶 [Debugging ➡️](./Debugging.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)
+
 
