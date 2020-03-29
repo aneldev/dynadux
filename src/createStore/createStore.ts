@@ -49,10 +49,10 @@ export const createStore = <TState = any>(config: ICreateStoreConfig<TState>): I
 
       return {
         get storeState(): TState {
-          return dynadux[section];
+          return dynadux.state;
         },
         get state(): TSectionState {
-          return dynadux[section];
+          return dynadux.state[section];
         },
         dispatch: dynadux.dispatch,
       };

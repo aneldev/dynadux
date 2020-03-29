@@ -17,10 +17,10 @@ exports.createStore = function (config) {
             dynadux.addReducers(convertReducersToSectionReducers_1.convertReducersToSectionReducers(section, reducers));
             return {
                 get storeState() {
-                    return dynadux[section];
+                    return dynadux.state;
                 },
                 get state() {
-                    return dynadux[section];
+                    return dynadux.state[section];
                 },
                 dispatch: dynadux.dispatch,
             };
