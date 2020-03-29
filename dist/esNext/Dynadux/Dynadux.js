@@ -16,6 +16,9 @@ var Dynadux = /** @class */ (function () {
         this._config = _config;
         this._dispatches = [];
         this._isDispatching = false;
+        this.addReducers = function (reducers) {
+            _this._reducers = combineMultipleReducers(_this._reducers, reducers);
+        };
         this.dispatch = function (action, payload) {
             _this._dispatches.push({ action: action, payload: payload });
             _this._dispatch();
@@ -75,11 +78,11 @@ var Dynadux = /** @class */ (function () {
             _this._isDispatching = false;
             _this._dispatch();
         };
-        var _a = this._config, _b = _a.initialState, initialState = _b === void 0 ? {} : _b, _c = _a.middlewares, middlewares = _c === void 0 ? [] : _c;
+        var _a = this._config, _b = _a.initialState, initialState = _b === void 0 ? {} : _b, _c = _a.reducers, reducers = _c === void 0 ? {} : _c, _d = _a.middlewares, middlewares = _d === void 0 ? [] : _d;
         this._state = initialState;
         this._reducers =
-            Array.isArray(this._config.reducers)
-                ? combineMultipleReducers.apply(void 0, this._config.reducers) : this._config.reducers;
+            Array.isArray(reducers)
+                ? combineMultipleReducers.apply(void 0, reducers) : reducers;
         middlewares.forEach(function (middleware) { return middleware.init && middleware.init(_this); });
     }
     Object.defineProperty(Dynadux.prototype, "state", {
@@ -89,6 +92,9 @@ var Dynadux = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Dynadux.prototype.setSectionInitialState = function (section, sectionState) {
+        this._state[section] = sectionState;
+    };
     return Dynadux;
 }());
 export { Dynadux };
