@@ -12,6 +12,7 @@
     * [Create store](./doc/CreateStore.md)
     * [Reducers](./doc/Reducers.md)
     * [Middlewares](./doc/Middlewares.md)
+    * [Sections](./doc/Sections.md)
     * [Debugging](./doc/Debugging.md)
 * [Use it in React](./doc/React.md)
 * [Examples](./doc/Examples.md)
@@ -276,6 +277,7 @@ Learn the api to master the Dynadux.
 - [Create store](./doc/CreateStore.md)
 - [Reducers](./doc/Reducers.md)
 - [Middlewares](./doc/Middlewares.md)
+- [Sections](./doc/Sections.md)
 - [Debugging](./doc/Debugging.md)
 - 🎉 and that's it, you are mastering the Dynadux!
 

@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux Working with Sections: After avatar update 1`] = `
+Object {
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": true,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-02.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: After complete 102 1`] = `
+Object {
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": true,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: After remove of 101 todo 1`] = `
+Object {
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": false,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: First todos 1`] = `
+Object {
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": false,
+        "id": 101,
+        "label": "Before work beers",
+      },
+      Object {
+        "done": false,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: Initial state 1`] = `
+Object {
+  "todosSection": Object {
+    "lastAddedTodo": "",
+    "todos": Array [],
+  },
+  "userSection": Object {
+    "avatar": "",
+    "logged": false,
+    "loggedAt": "",
+    "name": "",
+  },
+}
+`;

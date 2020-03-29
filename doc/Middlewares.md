@@ -146,6 +146,6 @@ Here, it is easy to make a History State management, navigating back and forth i
 
 # Continue
 
-[⬅️ Reducers](../README.md) 🔶 [Debugging ➡️](./Debugging.md) 
+[⬅️ Reducers](../README.md) 🔶 [Sections ➡️](./Sections.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)
