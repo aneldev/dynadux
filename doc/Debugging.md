@@ -186,7 +186,7 @@ Ones you reached this point you are mastering the Dynadux! It is so simple!
 
 You can go further reading the Advanced but is not mandatory.
 
-[⬅️ Middlewares](./Middlewares.md) 🔶 [Sections ➡️](./Sections.md) 
+[⬅️ Middlewares](./Middlewares.md) 🔶 [Advanced ➡️](./Advanced.md) 
 
 # Read more 
 
