@@ -140,6 +140,7 @@ In this way, the `ADD_TO_CART` action exists in both Sections, Products and .
 
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
+- [Sections](./Sections.md) Create sections for applications or big components
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

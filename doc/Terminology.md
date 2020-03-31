@@ -16,6 +16,7 @@ Is a function is called with by an action's dispatch and returns the new version
 
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
+- [Sections](./Sections.md) Create sections for applications or big components
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
