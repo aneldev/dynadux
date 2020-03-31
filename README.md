@@ -24,11 +24,11 @@
 
 # What is Dynadux
 
-Advanced and simpler Stores based on `dispatch` and Reducers.
+Advanced and simple Stores based on `dispatch` and Reducers.
 
 Dynadux is an alternative to Redux. 
 
-It doesn't use Redux and it reduces Redux's cumbersome.
+It doesn't use Redux and it reduces Redux's boilerplate.
 
 It can work for NodeJs libraries, React/Vue Apps or React Components without complementary libraries.
 
