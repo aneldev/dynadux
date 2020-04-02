@@ -39,6 +39,7 @@ var Dynadux = /** @class */ (function () {
             var reducer = _this._reducers[action];
             var initialState = _this._state;
             var newState = __assign({}, _this._state);
+            var blockChange = false;
             var _b = _this._config.middlewares, middlewares = _b === void 0 ? [] : _b;
             middlewares.forEach(function (_a) {
                 var before = _a.before;
@@ -58,6 +59,7 @@ var Dynadux = /** @class */ (function () {
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
+                    blockChange: function () { return blockChange = true; },
                 }) || {}));
             var reducerElapsedMs = Date.now() - reducerStart;
             middlewares.forEach(function (_a) {
@@ -74,7 +76,7 @@ var Dynadux = /** @class */ (function () {
                 }) || {}));
             });
             _this._state = newState;
-            if (_this._config.onChange && triggerChange)
+            if (_this._config.onChange && triggerChange && !blockChange)
                 _this._config.onChange(_this._state);
             if (_this._config.onDispatch)
                 _this._config.onDispatch(action, payload);

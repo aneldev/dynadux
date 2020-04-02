@@ -19,6 +19,7 @@ export interface IDynaduxReducerAPI<TState, TPayload> {
   payload: any;
   dispatch: TDynaduxDispatch<TPayload>;
   state: TState;
+  blockChange: () => void;
 }
 
 export interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
@@ -115,6 +116,7 @@ export class Dynadux<TState = any> {
 
     let initialState = this._state;
     let newState = {...this._state};
+    let blockChange = false;
 
     const {middlewares = []} = this._config;
 
@@ -139,6 +141,7 @@ export class Dynadux<TState = any> {
         payload,
         dispatch: this.dispatch,
         state: newState,
+        blockChange: () => blockChange = true,
       }) || {}),
     };
     const reducerElapsedMs = Date.now() - reducerStart;
@@ -160,7 +163,7 @@ export class Dynadux<TState = any> {
 
     this._state = newState;
 
-    if (this._config.onChange && triggerChange) this._config.onChange(this._state);
+    if (this._config.onChange && triggerChange && !blockChange) this._config.onChange(this._state);
     if (this._config.onDispatch) this._config.onDispatch(action, payload);
 
     this._isDispatching = false;

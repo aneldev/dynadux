@@ -14,6 +14,7 @@ export interface IDynaduxReducerAPI<TState, TPayload> {
     payload: any;
     dispatch: TDynaduxDispatch<TPayload>;
     state: TState;
+    blockChange: () => void;
 }
 export interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
     action: string;

@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux - Reducer, Block Change Trigger Block the change from inside a reducer: After remove of 302 todo 1`] = `
+Object {
+  "logged": true,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux - Reducer, Block Change Trigger Block the change from inside a reducer: Dispatched actions 1`] = `
+Array [
+  Object {
+    "action": "LOGIN",
+    "payload": true,
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "doNotChange": true,
+      "todo": Object {
+        "done": false,
+        "id": "301",
+        "label": "Before work beers",
+      },
+    },
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "doNotChange": false,
+      "todo": Object {
+        "done": false,
+        "id": "302",
+        "label": "After work beers",
+      },
+    },
+  },
+  Object {
+    "action": "REMOVE_TODO",
+    "payload": "302",
+  },
+]
+`;
+
+exports[`Dynadux - Reducer, Block Change Trigger Block the change from inside a reducer: First todos 1`] = `
+Object {
+  "logged": true,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "After work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux - Reducer, Block Change Trigger Block the change from inside a reducer: Initial state 1`] = `
+Object {
+  "logged": false,
+  "todos": Array [],
+}
+`;

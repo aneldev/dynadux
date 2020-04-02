@@ -68,8 +68,9 @@ type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducerAPI<TState, TPa
 interface IDynaduxReducerAPI<TState, TPayload> {
   action: string;
   payload: any;
-  dispatch: TDynaduxDispatch<TPayload>;
   state: TState;
+  dispatch: TDynaduxDispatch<TPayload>;
+  blockChange: () => void;
 }
 ```
 
@@ -80,8 +81,9 @@ An object of the `IDynaduxReducerAPI` interface is given to the reducer callback
 So the object has
 - `action`, is the string, is the name of the Action, for instance `ADD_TODO`.
 - `payload`, is the payload of the action, it is the 2nd argument of the called `dispatch`
-- `dispatch`, is the function to dispatch other actions from inside of the reducer
 - `state`, is the state of the store 
+- `dispatch`, is the function to dispatch other actions from inside of the reducer
+- `blockChange`, is a function in order to block the `onChange` callback call _explained later in this page_.
 
 # Dispatch from a reducer
 
@@ -168,6 +170,59 @@ The `IDynaduxReducerDic<TState>` is a dictionary object action/reducer function.
 On `reducer` you can assign and array of dictionaries with same keys.
 
 A common example is, two dictionaries of actions (or more) have the "logout" action.
+
+# Block change
+
+Dynadux provides the `blockChange` function on the reducer's function.
+
+In reducer's (action's) implementation, you can call this method to say to Dynadux to do not call the `onChange` callback.
+
+Dynadux, by default, is always calling the `onChange` callback on each `dispatch`. 
+But in some cases, it is unnecessary to call the `onChange` when nothing is changed.
+
+Once actions, know that nothing is changed, it can block the `onChange` call calling the `blockChange()` method.
+
+**Note: `blockChange()` is also blocking the changes made by middlewares!** 
+On each `dispatch`, Dynadux is calling the loaded middlewares, before, and after reducer's function.
+When the `blockChange()` is called, the potential changes of the state by middlewares will be not triggered.
+But of course, will be not lost, on the next `onChange` call these changes will be there.
+
+### Example of `blockChange()`
+
+```
+const store = createStore<ITodoAppState>({
+  onChange,
+  onDispatch: (action, payload) => dispatchedActions.push({action, payload}),
+  initialState: {
+    logged: false,
+    todos: [],
+  },
+  reducers: {
+    [actions.LOGIN]: ({payload: logged}) => {logged},
+    [actions.ADD_TODO]: ({state: {todos}, payload, blockChange}) => {
+      const {
+        todo,
+        doNotChange = false,
+      }: IADD_TODO_payload = payload;
+      if (doNotChange) blockChange();
+      return {
+        todos: todos.concat(todo),
+      };
+    },
+    [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
+      return {
+        todos: todos.filter(todo => todo.id !== todoId),
+      };
+    },
+  },
+});
+```
+
+In this example, the `ADD_TODO` action offers the `doNotChange: boolean` in its payload interface.
+
+Now, this action can be called sometimes without trigger the `onChange` of the store. 
+
+For instance, on fetch of todos, we can call this action for each on todo with `doNotChange: true`, and on the last one, only omit the `doNotChange` prop to flush the changes.   
 
 # Continue
 
