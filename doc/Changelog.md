@@ -1,220 +1,46 @@
 [🏠 Home](../README.md)
 
-# Dynadux - Advanced
+# Dynadux - Changelog
 
-Dynadux is simple and flexible.
+Compliant with [SemVer](https://semver.org/) spec.
 
-> The examples here are in typescript.
+#v1
 
-# Dispatch with promise
+###v1.1.0
 
-```
-const actions = {
-  ADD_TODO: 'ADD_TODO',             // payload: ITodo
-  REMOVE_TODO: 'REMOVE_TODO',       // payload: string (the id of a todo)
-  SAVE_TODOS: 'SAVE_TODOS',         // payload: ISaveTodosPayload
-};
+##### First release
 
-interface ITodoAppState {
-  logged: boolean,
-  todos: ITodo[];
-}
+###v1.2.0 
 
-interface ITodo {
-  id: string;
-  label: string;
-  done: boolean;
-}
+##### Multiple reducers per action
 
-interface ISaveTodosPayload {
-  resolve: () => void;
-  reject: (error: any) => void;
-}
+- The `reducers` cofig property, can be not only a dictionary but an array of dictionaries.
 
-const createTodoAppStore = () => {
-  const store = createStore<ITodoAppState>({
-    initialState: {
-      logged: false,
-      todos: [],
-    },
-    reducers: {
-      [actions.ADD_TODO]: ({state: {todos}, payload}) => {
-        return {
-          todos: todos.concat(payload),
-        };
-      },
-      [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
-        return {
-          todos: todos.filter(todo => todo.id !== todoId),
-        };
-      },
-      [actions.SAVE_TODOS]: ({state: {todos}, payload, dispatch}) => {
-        const {resolve, reject}: ISaveTodosPayload = payload;
-        saveTodos(todos)  // <-- Your async api method
-          .then(resolve)  // call the callback resolve
-          .catch(reject); // call the callback reject in case of error
-      },
-    },
-  });
+###v1.3.0 
 
-  return {
-    get state() { return store.state; },
-    
-    addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
-    
-    removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
-    
-    saveTodos: (): Promise<void> => {
-      return new Promise<void>((resolve, reject) => {
-        store.dispatch<ISaveTodosPayload>(
-          actions.SAVE_TODOS,
-          {resolve, reject},  // this the payload of dispatch, just pass the Promise's callbacks
-        );
-      });
-    },
-    
-  };
-};
+##### debug middleware improvements
 
-```
+- `dispatch` method
+- better timestamp
+- configurable global variable name
 
-What is new here: 
-- The payload of the SAVE_TODOS actions has two callbacks
-- In the reducer we use the network async method `saveTodos`, where is a promise in this case.
-- In the reducer, we call the payload's `resolve` or the`reject` callbacks.
-- In the return of the `createTodoAppStore`, we expose the method `saveTodos` where returns a promise!
-- Inside the `saveTodos` we simply transform the `resolve/reject` callbacks to fulfill the Promise.
+###v1.4.0 
 
-# Increase render performance! Debounce the changes.
+##### `onDispatch` new callback
 
-In React components If you have intensive state changes, they are transformed into renders.
+- Store has now a new `onDispatch` callback to "listen" store's dispatches
 
-The `shouldComponentUpdate` is a solution but it is not the silver bullet.
+##### debug middleware improvements
 
-Since the Dynadux offers the `onChange` callback, you can control the rate of the renders.
+- new `state` getter for the current state
+- new `listPayloads` list that includes the payloads
+- new list column with the elapsed time for reducer's execution
 
-Imagine this app store:
+###v1.5.0 
 
-```
-const createTodoAppStore = (onChange: (state: ITodoAppState) => void) => {
-  const store = createStore<ITodoAppState>({
-    initialState: {
-      todos: [],
-    },
-    onChange,
-    reducers: {
-      [actions.ADD_TODO]: ({state: {todos}, payload}) => {
-        return {
-          todos: todos.concat(payload),
-        };
-      },
-      [actions.REMOVE_TODO]: ({state: {todos}, payload: todoId}) => {
-        return {
-          todos: todos.filter(todo => todo.id !== todoId),
-        };
-      },
-    },
-  });
+##### New Feature Sections
 
-  return {
-    get state() { return store.state; },
-    addTodo: (todo: ITodo) => store.dispatch<ITodo>(actions.ADD_TODO, todo),
-    removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId),
-  };
-};
-
-```
-
-On the constructor of the component, create the store like this:
-
-```
-constructor(props) {
-  super(props);
-  this.store = createTodoAppStore(
-    _.debounce(
-      this.setState.bind(this),
-      20,
-      {leading: true, maxWait: 20},
-    )
-  );
-}
-```
-
-With this, the render will be done every 20ms.
-
-In this example, we use loadash's debounce but you can use any debounce tool you want.
-
-> In Redux you cannot control the state update since it uses a React Provider.
-
-# Should update
-
-Every `dispatch` means an `onChange` call. For React apps this means `render`s.
-
-State managers like Dynadux help us to create complex and maintainable states with many... dispatches that have a cost on UI apps.
-
-With Dynadux, since we control the `onChange` callback we also control React’s renders.
-
-You can introduce a new state property `shouldUpdate: boolean` and on `onChange` callback compare this value.  
-
-**Let's do it!**
-
-#### Our Store
-
-```
-const createTodoAppStore = (onChange) => {
-    const store = createStore({
-        initialState: {
-            todos: [],
-            shouldUpdate: true,
-        },
-        reducers: {
-            // ... many other reducers
-            [actions.SHOULD_UPDATE]: ({payload: shouldUpdate}) => ({shouldUpdate}),
-        onChange,
-    });
-    
-    return {
-        get state() { return store.state; },
-        // ... many other methods
-    };
-};
-
-```
-
-#### In a Reducer or in a Middleware
-
-Simply `dispatch(actions.SHOULD_UPDATE, false)` to pause the renders and `dispatch(actions.SHOULD_UPDATE, true)` to resume when you finish with the hard work.
-
-> Do not delay so much or toggle the flag frequently, otherwise, the app might look frozen, especially if there is a user's interaction like input fields. 
-
-> Do not block the thread because this is not accepted in no case!
-
-#### Connection with React component
-
-At component's constructor.
-
-```
-constructor(props) {
-    super(props);
-    this.store = createAppStore((state) => {
-        if (state.shouldUpdate) this.setState({});
-    });
-}
-```
-
-_**Tip:** Since you use store's `state`, there is no need to pass them to `setState`._
-
-# Create 3rd party state library
-
-Dynadux makes easy to create 3rd party libraries. For instance a weather forecast data provider.
-
-There are two ways for making it:
-- Middlewares
-- Sections
-
-With [Middlewares](./Middlewares.md) you can access the Entire Store's State and it is used to monitor and handle a known Store or work in a Generic way.
-
-With [Sections](./Sections.md) (new in v1.5.0) you can create a Library that will work in its own space and makes the implementation easier. 
+[Sections](./Sections.md) simplifies the creation of root properties of aoos or big components. 
 
 # Read more 
 

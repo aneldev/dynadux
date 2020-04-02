@@ -38,4 +38,5 @@ If you are familiar with Redux these are the benefits you gain with Dynadux.
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)

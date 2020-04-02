@@ -18,6 +18,7 @@
 * [Examples](./doc/Examples.md)
 * [Advanced](./doc/Advanced.md)
 * [Terminology](./doc/Terminology.md)
+* [Changelog](./doc/Changelog.md)
 * [FAQ](./doc/FAQ.md)
 
 <a name="whatIs"/>
@@ -260,3 +261,4 @@ Learn the api to master the Dynadux.
 - [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [Changelog](./Changelog.md) Changes of Dynadux per semver version
