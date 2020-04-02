@@ -42,6 +42,20 @@ Compliant with [SemVer](https://semver.org/) spec.
 
 [Sections](./Sections.md) simplifies the creation of root properties of apps or big components. 
 
+###v1.7.0 
+
+##### IDispatchConfig: Stores's dispatch() method 3rd argument
+
+Reducer's dispatch method accepts as 3rd argument a configuration object of `IDispatchConfig` interface.
+
+Currently, this interface has only the `triggerChange: boolean` with default value `true`.
+
+Setting the `triggerChange` to `false` a `dispatch` can ask from Dynadux to do not trigger the `change`.
+
+##### Reducer's API offer the blockChange() method
+
+Inside reducer's (action's) implementation, Dynadux is offering the `blockChange()` method. In this way, reduce itself can block the `onChange` call.
+
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions
