@@ -17,7 +17,7 @@
 
 #### Our store
 
-Imagine this business store
+Imagine this business store.
 
 ```
 const businessStore = (onChange) => {
@@ -56,7 +56,7 @@ const useBusinessStore = () => {
 
 ```
 
-We use the `useRef` of React to hold our store. On the first call, since it doesn't exist we create it and save it to the `appStoreRef`.
+We use the `useRef` of React to hold our store. On the first call, since it doesn't exist, we create it and save it to the `appStoreRef`.
 
 When our Store has a change, we call the `setState({})` where this triggers the `render` of the component. 
 

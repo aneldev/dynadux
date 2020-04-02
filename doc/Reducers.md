@@ -89,7 +89,6 @@ Your reducer is called with an API object as an argument. _The reference of the 
 
 Example: Fetch something from the network and update the state
 
-
 ```
 reducers: {
   [actions.GET_INFO_REQUEST]: ({dispatch}) => {

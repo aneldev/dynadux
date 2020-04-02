@@ -8,21 +8,21 @@ Dynandux comes with middleware for debugging that collects the dispatched action
 
 Then from the debugger, you can access the dispatched actions with stats. 
 
-_Still we don't have a nice debugger like Redux but we are working to make it happen. Feel free to contribute. But still, you can do a lot of things with dynaduxDebugMiddleware!_
+_Still we don't have a UI debugger like Redux, but we are working to make it happen. Feel free to contribute. But still, you can do a lot of things with dynaduxDebugMiddleware!_
 
-A big benefit not using a plugin debugger but only this middleware is the performance.
-Plugging debuggers are crashing on a big amount of data since they scan your state.
+A significant benefit of not using a plugin debugger, but only this middleware is the performance.
+Plugging debuggers are crashing on a significant amount of data since they scan your state.
 
-Using this middleware, the CPU effort is only what you expand from the global array. 
+With this middleware, the only CPU effort is what you expand from the global array. 
 
-`dynaduxDebugMiddleware` collects the dispatches in an array that you can manipulate it providing few methods.
+`dynaduxDebugMiddleware` collects the dispatches in an array that you can manipulate it, providing few methods.
 
 ## Features
 
 - The State Before and After dispatched
-- An array of the dispatched, you can filter, etc
+- An array of the dispatched actions, you can filter, etc
 - Access, iterate and investigate previous states programmatically or manually
-- Elapsed time from the previous dispatch
+- Elapsed time of the prior dispatch
 - A timestamp for each dispatch
 - Set a previous state
 - Travel in the time applying states
@@ -74,7 +74,7 @@ interface IDynaduxDebugMiddlewareConfig {
   globalVariableName?: string;
 }
 ```
-When you work with multiple stores it makes sense to save debugging info of the `dynaduxDebugMiddleware` in different global variables.
+When you work with multiple stores, it makes sense to save debugging info of the `dynaduxDebugMiddleware` in different global variables.
 
 To load the middleware and save the array in different global name, for instance `debugState`, we can create the middleware like this:
 
@@ -112,7 +112,7 @@ You will get something like this:
 
 ### dynaduxDebugMiddleware.listPayloads
 
-Same as `list` including the payloads.
+Same as `list`, including the payloads.
 
 ### dynaduxDebugMiddleware.log
 
@@ -138,7 +138,7 @@ or
 
 ### dynaduxDebugMiddleware.state
 
-Get the current active state.
+Get the currently active state.
 
 ### dynaduxDebugMiddleware.search(text: string)
 
@@ -150,7 +150,7 @@ For instance:
 
 ### dynaduxDebugMiddleware.log.filter/map/find/etc
 
-Since the `log` is the array you can use all javascript Array's methods.
+Since the `log` is the array, you can use all javascript Array's methods.
 
 For instance: 
 
@@ -168,7 +168,7 @@ Manually dispatch an action from debugger's console.
 
 ### dynaduxDebugMiddleware.set(index) Set a previous state
 
-It is useful for debugging to get back in time, at a specific point to see how was the app then. This is useful for animations also!
+It is useful for debugging to get back in time, at a specific point, to see how the app was then. Traveling in time is helpful for animation implementations also!
 
 `dynaduxDebugMiddleware.set(1)`
 
@@ -182,7 +182,7 @@ Every time the app is dispatching something, time is reset to now.
 
 # 🎉 Your training is done
 
-Ones you reached this point you are mastering the Dynadux! It is so simple!
+Ones you reached this point, you are mastering the Dynadux! It is so simple!
 
 You can go further reading the Advanced but is not mandatory.
 

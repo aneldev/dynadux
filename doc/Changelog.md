@@ -14,7 +14,7 @@ Compliant with [SemVer](https://semver.org/) spec.
 
 ##### Multiple reducers per action
 
-- The `reducers` cofig property, can be not only a dictionary but an array of dictionaries.
+- The `reducers` config property, can be not only a dictionary but an array of dictionaries.
 
 ###v1.3.0 
 
@@ -40,7 +40,7 @@ Compliant with [SemVer](https://semver.org/) spec.
 
 ##### New Feature Sections
 
-[Sections](./Sections.md) simplifies the creation of root properties of aoos or big components. 
+[Sections](./Sections.md) simplifies the creation of root properties of apps or big components. 
 
 # Read more 
 

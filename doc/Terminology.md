@@ -6,11 +6,11 @@ An instance of the Dynadux has the `state` getter and the `dispatch` method only
 
 # Business Store
 
-In an instance that uses internally the Dynadux.
+Business Store is an instance that uses Dynadux internally.
 
 # Reducer
 
-Is a function is called with by an action's dispatch and returns the new version of the object.
+Reducer is a function called by an action's dispatch and returns the new version of the object.
 
 # Read more 
 
@@ -22,4 +22,3 @@ Is a function is called with by an action's dispatch and returns the new version
 - [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
-

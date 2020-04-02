@@ -85,6 +85,21 @@ What is new here:
 - In the return of the `createTodoAppStore`, we expose the method `saveTodos` where returns a promise!
 - Inside the `saveTodos` we simply transform the `resolve/reject` callbacks to fulfill the Promise.
 
+# Control the `onChange` calls
+
+Since v1.6.0 you can control the calls of this callback. By default, Dynadux is calling the `onChange` callback on each `dispatch`.
+
+Now you can control if the `onChange` will be called passing a small config object on `dispatch` method.
+
+**Examples**
+ 
+```
+store.dispatch(action.UPDATE_METADATA, {meta}, {triggerChange: false}); // Block the change trigger
+store.dispatch(action.UPDATE_CONFIG, config);                           // This is will trigger the change as normal
+store.dispatch(action.SOMETHING_ELSE);
+```
+
+
 # Increase render performance! Debounce the changes.
 
 In React components If you have intensive state changes, they are transformed into renders.

@@ -4,7 +4,7 @@
 
 Sections are new in 1.5.0 and help to create states for applications or big components. It is not required to use it.
 
-Once we create a store we can create a section that will be scoped on the specific root property of the Store's State.
+Once we create a store, we can create a section that scopes on the specific root property of the Store's State.
 
 The implementation of a Section is the same as of a Store.
 
@@ -17,19 +17,19 @@ The benefit of Sections is that reducers cannot access the state of the other se
 - Each Section is creating a property on the root level of State.
 - Reducers can access the state of the root property only.
 - The provided state from a Section is the state of the root property.
-- You can still pass the entire state of the app manually but this is not recommended.
+- You can still pass the entire state of the app manually, but this is not recommended.
 
 # Example how to use them
 
-Imagine we have a To-Do app, with a user login feature.
+Imagine we have a To-Do app with a user login feature.
 
-One section is the User feature. This keeps information if the user is logged, the avatar of the user, etc..
+One section is the User feature. That keeps information if the user is logged, the avatar of the user, etc..
 
 Another section is the To-Do feature.
 
-These two sections and features are completely decoupled. The concept is that the To-Do feature should work on any kind of application decoupled from User Handling.
+These two sections and features are completely decoupled. The concept is that the To-Do feature should work on any application decoupled from User Handling.
 
-On the application layer, when the user is logged, the app will ask from the To-Do to fetch the to-do items for this user id.
+On the application layer, when the user logged, the app will ask from the To-Do to fetch the to-do items for this user id.
 
 # Steps to work with Sections
 
@@ -48,10 +48,10 @@ From the passed store reference, we use the `createSection` function that requir
 
 What is new here is only the `section` string. 
 This will be the root property name in the Store's state. 
-But in practice, we won't use it, because in the end, the state will be accessed from the return of this function. 
+But in practice, we won't use it, because, in the end, the state will be accessed from the return of this function. 
 _We will see that later._
 
-Initial state and reducers are remaining exactly the same as we learned in the previous chapters. There is really nothing new to learn.
+Initial state and reducers are remaining the same as we learned in the previous chapters. There is nothing new to learn.
 ```
 const createUserInfoSection = (store: ICreateStoreAPI) => {
   const section = store.`createSection`({
@@ -101,7 +101,7 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
 };
 ```
 
-Let's create another one section, for the To-Do feature.
+Let's create another one section for the To-Do feature.
 
 ```
 const createTodosSection = (store: ICreateStoreAPI) => {
@@ -152,15 +152,15 @@ const createTodosSection = (store: ICreateStoreAPI) => {
 
 This Create App Store
 - requests an onChange callback to get notified for the changes
-- returns an api to use the store.
+- returns an API to use the store.
 
 The returned API will be directly the API of the Sections. 
 
 So, we create the Dynadux store, with the classic `createStore`, but we don't pass reducers for the sections.
 
-As an output of the function, we return a small API. For each Section, we create a property with the returned value of the create section function. The function of each section requires the Store in order to be attached to this store.
+As an output of the function, we return a small API. For each Section, we create a property with the returned value of the create section function. The function of each section requires the Store to be attached to this store.
 
-This is the function to create the app store.
+The function to create the app store:
 
 ```
 const createAppStore = (onChange: (state: IAppState) => void) => {
@@ -216,9 +216,9 @@ ICreateSectionAPI<TSectionState> {
 }
 ```
 
-Through the `storeState` getter you can get the State of the Store. 
+Through the `storeState` getter, you can get the State of the Store. 
 That means that you can access one level up data are unknown for the Section. 
-In some cases, this might be needed.
+In some cases, this maybe needed.
 
 Keep in mind that accessing the Store's State makes the Section dependent on the app's State.
 Keeping Section decoupled from the Store's state makes it reusable in other apps. 
@@ -227,7 +227,7 @@ Keeping Section decoupled from the Store's state makes it reusable in other apps
 
 Sections help to create isolated state scopes.
 
-Sections are consisted of
+Sections consisted of
 - initial section state
 - classic reducers
 - the output of an API for being used from the app

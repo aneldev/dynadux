@@ -15,15 +15,15 @@ Middlewares can
 - access the entire state
 - access all dispatched actions from anywhere
 - dispatch actions
-- have their own actions and behave as a 3rd party libraries
+- have their actions and behave as a 3rd party libraries
 
-## Write your own middleware as 3rd party
+## Write your middleware as 3rd party
 
 Middlewares in Dynadux can `dispatch` anything out of the box, without additional Thunk middlewares as Redux needs. 
 
-You can write your own middlewares that it is only a function that returns an `IDynaduxMiddleware`.
+You can write your middlewares that it is only a function that returns an `IDynaduxMiddleware`.
 
-The user of the middleware will have to load only the middleware function in Dynadux's `middlewares` array prop only, without need to register reducers _like in Redux_!
+The user of the middleware will have to load only the middleware function in Dynadux's `middlewares` array prop only without the need to register reducers _like in Redux_!
 
 # API
 The interface of what the middleware is:
@@ -38,7 +38,7 @@ Technically the middleware is an object of the above `init`, `before` and `after
 
 All of them are optional.
 
-Below are the interfaces of the `before` and `after` callbacks. Actually they are the same as the Reducers callbacks! 
+Below are the interfaces of the `before` and `after` callbacks. They are the same as the Reducers callbacks! 
 The only difference is the `after` callback has the `initialState` prop where is the version of the state before the dispatch of the action.
 ```
 interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
@@ -63,15 +63,15 @@ type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPay
 ## Implementing a middleware
 
 On Store's initialization, the middleware gets the reference of the Store, 
-so it has access to the initial state and to the `dispatch` method. 
+so it has access to the initial state and the `dispatch` method. 
 This is done through the `init` callback property.  
 
-On the lifecycle, the middleware is acting before the dispatch of the action and/or after the dispatch of the action.
+The middleware is acting before the dispatch of the action and/or after the dispatch of the action.
 
 On `before`, you can prepare the state, or enrich the payload.
 
 On `after`, _the most useful one_, you can react to the dispatched action. 
-On `after` phase you have additionally the `initialState` and you can compare what the action did. 
+On `after`, you have the `initialState` additionally, and you can compare what the action's reducer did. 
 
 The implementation of each phase may return a partial state or nothing for no state changes.
 
@@ -93,15 +93,15 @@ So, middlewares act like reducers.
 Since the creation of the Store with Dynadux is super easy, complex middlewares would have their Store.
 These are called Sub-Stores and have no relation with other stores. 
 
-Middleware's Sub-Store eventually will update a part of the Parent Store where they are added. 
+Middleware's Sub-Store eventually will update a part of the Parent Store where they added. 
 
-Technically on Sub-Store's `onChange` it will `dispatch` on parent Store.
+Technically on Sub-Store's `onChange`, it will `dispatch` on the parent Store.
 
 # Examples
 
 #### Logger
 
-This middleware consoles the action that has been dispatched.
+This middleware consoles the action that has dispatched.
 ```
 middlewares: [
   {
@@ -131,16 +131,16 @@ middlewares: [
 
 Are you going to collect the dispatched actions for debugging? Well, it is already ready!
 
-Dynadux is shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](./Debugging.md)
+Dynadux shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](./Debugging.md)
 
-Curious how is implemented? Check it [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
+Curious, how is implemented? Check it [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
 
 #### Dynadux History Middleware
 
-Middlewares can have their own actions.
+Middlewares can have their actions.
 
 A live example is the [dynadux-history-middleware](https://github.com/aneldev/dynadux-history-middleware). 
-The whole implementation is in [this file](https://github.com/aneldev/dynadux-history-middleware/blob/master/src/dynaduxHistoryMiddleware.ts).
+The full implementation is in [this file](https://github.com/aneldev/dynadux-history-middleware/blob/master/src/dynaduxHistoryMiddleware.ts).
 
 Here, it is easy to make a History State management, navigating back and forth in time and offering **restore points**!
 

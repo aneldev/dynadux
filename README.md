@@ -25,11 +25,11 @@
 
 # What is Dynadux
 
-Advanced and simple Stores based on `dispatch` and Reducers.
+Advanced and straightforward Stores based on dispatched Actions and Reducers.
 
-Dynadux is an alternative to Redux, it reduces Redux's boilerplate.
+Dynadux is an alternative to Redux, and it reduces Redux's boilerplate.
 
-It can work for NodeJs libraries, React/Vue Apps or React Components without complementary libraries.
+It can work for NodeJs libraries, React/Vue Apps, or React Components without complementary libraries.
 
 Dynadux works with any UI layer.
 
@@ -44,13 +44,13 @@ Super light, zero dependencies, 2.2kb zipped bundle effort.
 In general 
 - You dispatch actions
 - Dynadux is calling the reducers and middlewares
-- Dynadux is calling the onChange callback with the new state
+- Dynadux is calling the `onChange` callback with the new state
 
 <a name="motivation"/>
 
 # Motivation
 
-## Benefits to work with Dynadux instead of classic setState
+## Benefits to working with Dynadux instead of classic setState
 
 - Reusable State Management.
 - The use of pure reducer functions.
@@ -122,16 +122,16 @@ On every change the `onChange` will be called with the above code will be consol
 
 Create business logic stores and methods.
 
-> Note: this is a suggestion, not a mandatory.
+> Note: this is a suggestion, not mandatory.
 
 It is nice to have a store and dispatch actions, but we can do something more.
 
 ## What is Business Store
 
-Business store is a function that
+The Business Store is a function that
 - creates a Dynadux store that is used internally in this function only
 - we pass to the Dynadux the initial state and the actions/reducers dictionary object 
-- the function returns an object with methods and getters and this is the API of our Business store
+- the function returns an object with methods and getters, and this is the API of our Business store
 
 The containers and any other components will use these getters and functions. 
 
@@ -141,7 +141,7 @@ The containers and any other components will use these getters and functions.
 - return a getter for the state
 - return business logic methods that dispatch actions
 - do not expose the dispatch _but expose methods that dispatch actions_
-- do not expose the store _to ensure that the store is handled properly_
+- do not expose the store _to ensure that the store handled properly_
 
 ```
 const createTodoAppStore = (onChange) => {
@@ -189,7 +189,7 @@ And we can add a todo in a more business logic way.
 store.addTodo({id: '121', label: 'Drink beers'});
 ```
 
-And remove it simpler
+And remove it in a more straightforward way.
 
 ```
 store.removeTodo('121');
@@ -201,20 +201,20 @@ const store = createTodoAppStore(() => this.setState({}));
 
 ```
 
-Then pass the `store` to the children components and use the `store.state` as state.
+Then pass the `store` to children and use the `store.state` for the state.
 
-It is not needed to pass the entire store to the children, pass only what is needed.
+It is not needed to pass the entire store to the children, only pass what is needed.
 
 ## Benefits of Business stores
 
-In the Business store approach, the Containers are not dispatching actions but they use the methods of the store.
+In the Business store approach, the Containers are not dispatching actions, but they use the methods of the store.
 
 The action would be dispatched from any container. But some actions are for the internal use of the reducers. 
 Also, each action requires a specific type of payload. But from the action's user perspective it is unclear which payload type should be used.
 
 All these problems are solved providing to the containers javascript methods that do all this job. These are the Business methods provided by the app store that is wrapping the Dynadux store.
 
-In the end, only business methods, reducers, and middlewares are dispatching actions. This makes the code much cleaner and the actions are used safely. 
+In the end, only business methods, reducers, and middlewares are dispatching actions. That makes the code much cleaner, and the actions can be used safely. 
 
 ## Redux/Dynadux Containers Connection Comparison
 
@@ -224,25 +224,25 @@ In the end, only business methods, reducers, and middlewares are dispatching act
 
 # That's all
 
-The logic of Dynadux is depicted in the text above. 
+The logic of Dynadux depicted in the text above. 
 
-There is nothing more. Simple and portable use your imagination and create Business Stores.
+There is nothing more. Portable and straightforward, use your imagination and create Business Stores.
 
 <a name="architecture"/>
 
 # Dynadux's Architecture
 
-**Dynadux is a very simple library.** Technically the Dynadux is only an 
+**Dynadux is an elementary library.** Technically the Dynadux is only an 
 
 `Object.assign({}, state, middleware.before(), reducer(), middleware.after())`
 
-and nothing else! Since is small and simple we can use it in the architecture of Business Stores. 
+And nothing else! Since it is small and straightforward, we can use it in the architecture of Business Stores. 
 
 <a name="api"/>
 
 # API
 
-Learn the api to master the Dynadux.
+Learn the API to master the Dynadux.
 
 - [Create store](./doc/CreateStore.md)
 - [Reducers](./doc/Reducers.md)
