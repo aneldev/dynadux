@@ -1,3 +1,3 @@
-export { Dynadux, IDynaduxConfig, IDynaduxReducerDic, IDynaduxReducerAPI, IDynaduxMiddleware, IDynaduxMiddlewareBeforeAPI, IDynaduxMiddlewareAfterAPI, TDynaduxDispatch, TDynaduxReducer, } from "./Dynadux/Dynadux";
+export { Dynadux, IDynaduxConfig, IDynaduxReducerDic, IDynaduxReducerAPI, IDynaduxMiddleware, IDynaduxMiddlewareBeforeAPI, IDynaduxMiddlewareAfterAPI, TDynaduxReducerDispatch as TDynaduxDispatch, TDynaduxReducerDispatch, TDynaduxMiddlewareDispatch, TDynaduxReducer, } from "./Dynadux/Dynadux";
 export { createStore, ICreateStoreConfig, ICreateStoreAPI, } from "./createStore/createStore";
 export { dynaduxDebugMiddleware, IDebugLogItem, } from "./middlewares/dynaduxDebugMiddleware";
