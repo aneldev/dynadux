@@ -37,7 +37,7 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   initialState: TState;
 }
 
-export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
+export type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload, dispatchConfig?: IDispatchConfig) => void;
 
 export interface IDynaduxMiddleware<TState = any, TPayload = any> {
   init?: (store: Dynadux<TState>) => void;
@@ -48,6 +48,11 @@ export interface IDynaduxMiddleware<TState = any, TPayload = any> {
 interface IDispatch<TPayload> {
   action: string;
   payload: TPayload;
+  dispatchConfig: IDispatchConfig;
+}
+
+interface IDispatchConfig {
+  triggerChange?: boolean;    // default: true
 }
 
 export class Dynadux<TState = any> {
@@ -85,8 +90,8 @@ export class Dynadux<TState = any> {
     this._reducers = combineMultipleReducers(this._reducers, reducers);
   };
 
-  public dispatch = <TPayload>(action: string, payload: TPayload): void => {
-    this._dispatches.push({action, payload});
+  public dispatch = <TPayload>(action: string, payload: TPayload, dispatchConfig: IDispatchConfig = {}): void => {
+    this._dispatches.push({action, payload, dispatchConfig});
     this._dispatch();
   };
 
@@ -99,7 +104,13 @@ export class Dynadux<TState = any> {
       this._isDispatching = false;
       return;
     }
-    const {action, payload} = dispatchItem;
+    const {
+      action,
+      payload,
+      dispatchConfig: {
+        triggerChange = true,
+      },
+    } = dispatchItem;
     const reducer = this._reducers[action];
 
     let initialState = this._state;
@@ -149,7 +160,7 @@ export class Dynadux<TState = any> {
 
     this._state = newState;
 
-    if (this._config.onChange) this._config.onChange(this._state);
+    if (this._config.onChange && triggerChange) this._config.onChange(this._state);
     if (this._config.onDispatch) this._config.onDispatch(action, payload);
 
     this._isDispatching = false;

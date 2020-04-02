@@ -57,14 +57,14 @@ By default is an empty object `{}`
 
 #### property `reducers`
 
-This is property is required and expects is dictionary object, Action/ReducerFunction pair.
+This property is required and expects dictionary object, Action/ReducerFunction pair.
 
 Reducer is a function that is called by the Dynadux, with one argument, an object that has `{state, dispatch, action, payload}` and should return the partial or the whole state of the store or nothing. 
 For more, we will discuss the [reducers here](./Reducers.md) later.
 
-The `reducers` property, is an object that the key is the Action (string) and the value of the key is the Reducer function.
+The `reducers` property is an object that the key is the Action (string), and the value of the key is the Reducer function.
 
-The `reducers` property, would be also an array of objects.
+The `reducers` property would also be an array of objects.
 
 #### property `middlewares`
 
@@ -76,11 +76,11 @@ Optional callback, on every dispatch the `onChange` callback is called with one 
 
 #### property `onDispatch: (action: string, payload: any) => void`
 
-This optional callback is called after the actions are dispatched and the `onChange`.
+This optional callback called after the actions dispatched and the `onChange`.
 
 This callback is useful to get when an action is dispatched and use it as an event.
 
-For instance, you can dispatch an action that is not indented for a reducer or a middleware but for the user of the store.
+For instance, you can dispatch action not indented for a reducer or a middleware but the user of the store.
 
 # the return of the `createStore` method
 
@@ -110,7 +110,7 @@ The `dispatch` method is available in
 
 In Plain form:
 ```
-dispatch(action, payload)
+dispatch(action, payload, dispatchConfig? )
 ```
 In Typescript form:
 ```
@@ -120,14 +120,41 @@ type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPa
 The dispatcher is a simple method with 2 arguments.
 
 - 1st (required), the action, where is a string
-- 2nd (optional) is the payload, could be anything, a string, a number, an object, null. 
+- 2nd (optional) is the payload, could be anything, a string, a number, an object, null.
+- 3rd (optional) a dispatch configuration
 
-### `dispatch` method examples
+**Examples**
 
 ```
 store.dispatch(‘login-user’, {loginName: ‘info@example.com’, psw:’123@456’})
 store.dispatch(action.USER_LOGIN, userInfo);
 store.dispatch(action.USER_LOGOFF);
+```
+
+### `dispatch`'s configuration object (3rd parameter)
+
+This small config object that currently has only one attribute.
+
+##### `triggerChange: boolean` by default is true
+
+On each `dispatch`, Dynadux is calling the `onChnage` callback, even if the reducer won't return a partial state.
+
+Since v1.6.0 on `dispatch`, you can control if the `onChange` callback will be called or not.
+
+It is useful to reduce the triggered changes in the store.
+
+Ideally, this is for React Components. If you think that this dispatch should not trigger a render, then you can block it with this flag.
+
+Note:
+- middlewares still are called
+- `onDispatch` callback still is called
+
+**Examples**
+ 
+```
+store.dispatch(action.UPDATE_METADATA, {meta}, {triggerChange: false}); // Block the change trigger
+store.dispatch(action.UPDATE_CONFIG, config);                           // This is will trigger the change as normal
+store.dispatch(action.SOMETHING_ELSE);
 ```
 
 # Continue
