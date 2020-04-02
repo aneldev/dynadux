@@ -1,7 +1,7 @@
 import {
   Dynadux,
   IDynaduxConfig,
-  TDynaduxDispatch,
+  TDynaduxReducerDispatch,
   IDynaduxReducerDic,
 } from "../Dynadux/Dynadux";
 import { convertReducersToSectionReducers } from "./convertReducersToSectionReducers";
@@ -11,7 +11,7 @@ export interface ICreateStoreConfig<TState> extends IDynaduxConfig<TState> {
 
 export interface ICreateStoreAPI<TState = any> {
   state: TState;
-  dispatch: TDynaduxDispatch;
+  dispatch: TDynaduxReducerDispatch;
   createSection: <TSectionState>(createSectionConfig: ICreateSectionConfig<TSectionState>) => ICreateSectionAPI<TState, TSectionState>;
 }
 
@@ -24,7 +24,7 @@ export interface ICreateSectionConfig<TSectionState> {
 export interface ICreateSectionAPI<TState, TSectionState> {
   storeState: TState;
   state: TSectionState;
-  dispatch: TDynaduxDispatch;
+  dispatch: TDynaduxReducerDispatch;
 }
 
 export const createStore = <TState = any>(config: ICreateStoreConfig<TState>): ICreateStoreAPI<TState> => {

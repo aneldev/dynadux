@@ -6,7 +6,9 @@ export {
   IDynaduxMiddleware,
   IDynaduxMiddlewareBeforeAPI,
   IDynaduxMiddlewareAfterAPI,
-  TDynaduxDispatch,
+  TDynaduxReducerDispatch as TDynaduxDispatch,
+  TDynaduxReducerDispatch,
+  TDynaduxMiddlewareDispatch,
   TDynaduxReducer,
 } from "./Dynadux/Dynadux";
 

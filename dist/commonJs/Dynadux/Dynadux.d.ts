@@ -12,25 +12,26 @@ export declare type TDynaduxReducer<TState, TPayload> = (params: IDynaduxReducer
 export interface IDynaduxReducerAPI<TState, TPayload> {
     action: string;
     payload: any;
-    dispatch: TDynaduxDispatch<TPayload>;
+    dispatch: TDynaduxReducerDispatch<TPayload>;
     state: TState;
     blockChange: () => void;
 }
 export interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
     action: string;
     payload: any;
-    dispatch: TDynaduxDispatch<TPayload>;
+    dispatch: TDynaduxMiddlewareDispatch<TPayload>;
     state: TState;
 }
 export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
     action: string;
     payload: any;
     reducerElapsedMs: number;
-    dispatch: TDynaduxDispatch<TPayload>;
+    dispatch: TDynaduxMiddlewareDispatch<TPayload>;
     state: TState;
     initialState: TState;
 }
-export declare type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload, dispatchConfig?: IDispatchConfig) => void;
+export declare type TDynaduxReducerDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload, dispatchConfig?: IDispatchConfig) => void;
+export declare type TDynaduxMiddlewareDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
 export interface IDynaduxMiddleware<TState = any, TPayload = any> {
     init?: (store: Dynadux<TState>) => void;
     before?: (reducerAPI: IDynaduxMiddlewareBeforeAPI<TState, TPayload>) => undefined | void | Partial<TState>;
