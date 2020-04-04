@@ -2,7 +2,10 @@ import {Dynadux, IDynaduxMiddleware} from "../Dynadux/Dynadux";
 import {global} from "../tools/global";
 
 export interface IDynaduxDebugMiddlewareConfig {
-  globalVariableName?: string;
+  debuggerStoreName: string;        // This will be used a global variable name for debugging, empty string means disabled debugger.
+  consoleDispatch?: boolean;        // On After dispatch, default: true
+  consolePayload?: boolean;         // Console the payload, default: false
+  consoleMethod?: 'log' | 'debug';  // Default: debug
 }
 
 export interface IDebugLogItem {
@@ -19,16 +22,21 @@ enum EDynaduxDebugMiddlewareActions {
   SET_STATE = '__EDynaduxDebugMiddlewareActions__SET_STATE',
 }
 
-export const dynaduxDebugMiddleware = (
-  {
-    globalVariableName = 'dynaduxDebugMiddleware',
-  }: IDynaduxDebugMiddlewareConfig = {}
-): IDynaduxMiddleware => {
+export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): IDynaduxMiddleware => {
+  const {
+    debuggerStoreName = '',
+    consoleDispatch = true,
+    consolePayload = false,
+    consoleMethod = 'debug',
+  } = config;
+
+  if (!debuggerStoreName) return {}; // Exit, it is disabled.
+
   let lastDispatch = 0;
   let dispatch: <TPayload>(action: string, payload: TPayload) => void;
   let activeIndex = 0;
 
-  const dynaduxDebugger = global[globalVariableName] = {
+  const dynaduxDebugger = global[debuggerStoreName] = {
     log: [] as IDebugLogItem[],
     dispatch: <TPayload>(action: string, payload?: TPayload): void => dispatch(action, payload),
     get list(): void {
@@ -80,7 +88,7 @@ export const dynaduxDebugMiddleware = (
         action: 'INFO DynaduxDebugMiddleware Initial State',
         initialState: {},
         state: store.state,
-        payload: {debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.'},
+        payload: {debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.', debugTag: 2487602415245},
         dispatch: store.dispatch,
       });
     },
@@ -110,7 +118,7 @@ export const dynaduxDebugMiddleware = (
           [
             frontSpace(' ', `#${nextIndex}`, 5),
             frontSpace(' ', `+${duration(afterMs)}`, 10),
-            frontSpace(' ', duration(reducerElapsedMs), 4),
+            frontSpace(' ', duration(reducerElapsedMs), 6),
             frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 13),
             action,
           ].join(' '),
@@ -123,6 +131,12 @@ export const dynaduxDebugMiddleware = (
       } as IDebugLogItem);
 
       lastDispatch = now.valueOf();
+
+      if (consoleDispatch && (!payload || payload.debugTag !== 2487602415245)) {
+        const consoleArgs = [debuggerStoreName, 'dispatch', payload];
+        if (consolePayload) consoleArgs.push(payload);
+        console[consoleMethod](...consoleArgs);
+      }
     },
   };
 

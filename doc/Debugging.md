@@ -6,7 +6,7 @@
 
 Dynandux comes with middleware for debugging that collects the dispatched actions in a global array.
 
-Then from the debugger, you can access the dispatched actions with stats. 
+Then from the debugger, you can access the dispatched actions with stats and the current state. 
 
 _Still we don't have a UI debugger like Redux, but we are working to make it happen. Feel free to contribute. But still, you can do a lot of things with dynaduxDebugMiddleware!_
 
@@ -29,72 +29,67 @@ With this middleware, the only CPU effort is what you expand from the global arr
 
 ## Usage
 
+#### Minimum configuration
+
 ```
 import {createStore, dynaduxDebugMiddleware} from "dynadux";
 
 const store = createStore({
-    initialState: {
-        todos: [],
-    },
+    initialState: {...},
     middlewares: [
-        dynaduxDebugMiddleware(),
+        dynaduxDebugMiddleware({
+          debuggerStoreName: 'debug_myStore',   // Required, empty string means disabled debugger.
+        }),
     ],
-    reducers: {
-        // ...
-    },
+    reducers: {...},
 });
 
 ```
 
-`dynaduxDebugMiddleware` adds to the global array variable `dynaduxDebugMiddleware` all the dispatched items.
+#### Full configuration
+
+```
+import {createStore, dynaduxDebugMiddleware} from "dynadux";
+
+const store = createStore({
+    initialState: {...},
+    middlewares: [
+        dynaduxDebugMiddleware({
+          debuggerStoreName: 'debug_myStore',   // Required
+          consoleDispatch: true,                // Optional, this is the default value
+          consolePayload: false,                // Optional, this is the default value
+          consolePayload: 'debug',              // Optional, this is the default value
+        }),
+    ],
+    reducers: {...},
+});
+
+```
+
+With the above config, the `dynaduxDebugMiddleware` creates the debugger on the global variable name `debug_myStore`. 
 
 This middleware, like many other debugging tools, should not be on production since it would lead to a memory leak.
 
-## API of dynaduxDebugMiddleware
-
-## Start the middleware
-
-```
-const store = createStore({
-    initialState: {
-        todos: [],
-    },
-    middlewares: [
-        dynaduxDebugMiddleware(),
-    ],
-    reducers: {
-        // ...
-    },
-});
-```
-As a parameter, it accepts a configuration object with this interface.
+## dynaduxDebugMiddleware configuration API
 
 ```
 interface IDynaduxDebugMiddlewareConfig {
-  globalVariableName?: string;
+  debuggerStoreName: string;        // Required, otherwise the middleware will be not loaded.
+  consoleDispatch?: boolean;        // On After dispatch, default: true
+  consolePayload?: boolean;         // Console the payload, default: false
+  consoleMethod?: 'log' | 'debug';  // Default: debug
 }
 ```
-When you work with multiple stores, it makes sense to save debugging info of the `dynaduxDebugMiddleware` in different global variables.
 
-To load the middleware and save the array in different global name, for instance `debugState`, we can create the middleware like this:
+The `debuggerStoreName` is required. However, if you assign an empty string, this is an indication to do not load the debugger, and the performance will not be affected.
 
-```
-const store = createStore({
-    initialState: {
-        todos: [],
-    },
-    middlewares: [
-        dynaduxDebugMiddleware({ globalVariableName: 'dynaduxDebugMiddleware_StoreTodo' }),
-    ],
-    reducers: {
-        // ...
-    },
-});
-```
+So the flag if the debugger will be loaded is if the `debuggerStoreName` is an empty string or not.
 
-## dynaduxDebugMiddleware API
+In this way, you can always include the debugger on production and switch activation, providing a `debuggerStoreName` or not.
 
-Open the console and type `dynaduxDebugMiddleware`
+## dynaduxDebugMiddleware exported API
+
+Open the console and type the value of the `debuggerStoreName`,for instance `debug_myStore`.
 
 You will get something like this:
 
@@ -102,7 +97,7 @@ You will get something like this:
 
 ### dynaduxDebugMiddleware.list
 
-Open the console and type `dynaduxDebugMiddleware.list`
+Open the console and type `debug_myStore.list`
 
 You will get something like this:
 
@@ -116,7 +111,7 @@ Same as `list`, including the payloads.
 
 ### dynaduxDebugMiddleware.log
 
-Open the console and type `dynaduxDebugMiddleware.log`
+Open the console and type `debug_myStore.log`
 
 You will get something like this:
 
@@ -130,11 +125,11 @@ You can access the history item by the index shown in the description.
 
 For instance, type to access the log:
 
-`dynaduxDebugMiddleware.log[3]` 
+`debug_myStore.log[3]` 
 
 or 
 
-`dynaduxDebugMiddleware.log[3].after.cart`
+`debug_myStore.log[3].after.cart`
 
 ### dynaduxDebugMiddleware.state
 
@@ -146,7 +141,7 @@ Get the currently active state.
 
 For instance:
 
-`dynaduxDebugMiddleware.search('add_todo')`
+`debug_myStore.search('add_todo')`
 
 ### dynaduxDebugMiddleware.log.filter/map/find/etc
 
@@ -154,29 +149,29 @@ Since the `log` is the array, you can use all javascript Array's methods.
 
 For instance: 
 
-`dynaduxDebugMiddleware.log.filter(log => log.action === 'ADD_TODO')`
+`debug_myStore.log.filter(log => log.action === 'ADD_TODO')`
 
 or filter even more
 
-`dynaduxDebugMiddleware.log.filter(log => log.action === 'ADD_TODO').filter(log => log.payload > 1)`
+`debug_myStore.log.filter(log => log.action === 'ADD_TODO').filter(log => log.payload > 1)`
 
 ### dynaduxDebugMiddleware.dispatch(action: string, payload?: any)
 
 Manually dispatch an action from debugger's console.
 
-`dynaduxDebugMiddleware.dispatch('ADD_TODO', {id: '445', label: 'Drink a Debug beer'})`
+`debug_myStore.dispatch('ADD_TODO', {id: '445', label: 'Drink a Debug beer'})`
 
 ### dynaduxDebugMiddleware.set(index) Set a previous state
 
 It is useful for debugging to get back in time, at a specific point, to see how the app was then. Traveling in time is helpful for animation implementations also!
 
-`dynaduxDebugMiddleware.set(1)`
+`debug_myStore.set(1)`
 
 ### dynaduxDebugMiddleware.prev/next/now() Travel in time
 
-You can travel in time with the methods `dynaduxDebugMiddleware.prev()` and `dynaduxDebugMiddleware.next()`.
+You can travel in time with the methods `debug_myStore.prev()` and `debug_myStore.next()`.
 
-To run back to now `dynaduxDebugMiddleware.now()`.
+To run back to now `debug_myStore.now()`.
 
 Every time the app is dispatching something, time is reset to now.
 

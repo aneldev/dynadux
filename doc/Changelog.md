@@ -56,6 +56,18 @@ Setting the `triggerChange` to `false` a `dispatch` can ask from Dynadux to do n
 
 Inside reducer's (action's) implementation, Dynadux is offering the `blockChange()` method. In this way, reduce itself can block the `onChange` call.
 
+### v2.0.0
+
+###### Debugger's configuration change
+
+With this breaking version, only the Debugger's Configuration is changed.
+
+The `globalVariableName` config property has been renamed to `debuggerStoreName`, and it is required.
+
+Now, the debugger would always be included in the Stores, even in production, since the debugger is activated only when the `debuggerStoreName` is not an empty string.
+
+For more read the [Debugging](./Debugging.md) section.
+
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions

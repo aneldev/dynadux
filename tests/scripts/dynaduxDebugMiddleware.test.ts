@@ -33,7 +33,10 @@ describe('Dynadux', () => {
           todos: [],
         },
         middlewares: [
-          dynaduxDebugMiddleware(),
+          dynaduxDebugMiddleware({
+            debuggerStoreName: 'debug_myStore',
+            consoleDispatch: false,
+          }),
         ],
         onChange,
         reducers: {
@@ -76,7 +79,7 @@ describe('Dynadux', () => {
 
     await new Promise(r => setTimeout(r, 300));
 
-    const globalDynaduxDebugMiddleware = (process as any).dynaduxDebugMiddleware;
+    const globalDynaduxDebugMiddleware = (process as any).debug_myStore;
 
     expect(globalDynaduxDebugMiddleware.log[4].afterMs).toBeGreaterThan(180);
 
