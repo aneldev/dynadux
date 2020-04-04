@@ -133,7 +133,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
       lastDispatch = now.valueOf();
 
       if (consoleDispatch && (!payload || payload.debugTag !== 2487602415245)) {
-        const consoleArgs = [debuggerStoreName, 'dispatch', payload];
+        const consoleArgs = [debuggerStoreName, 'dispatch', action];
         if (consolePayload) consoleArgs.push(payload);
         console[consoleMethod](...consoleArgs);
       }

@@ -108,7 +108,7 @@ exports.dynaduxDebugMiddleware = function (config) {
             });
             lastDispatch = now.valueOf();
             if (consoleDispatch && (!payload || payload.debugTag !== 2487602415245)) {
-                var consoleArgs = [debuggerStoreName, 'dispatch', payload];
+                var consoleArgs = [debuggerStoreName, 'dispatch', action];
                 if (consolePayload)
                     consoleArgs.push(payload);
                 console[consoleMethod].apply(console, consoleArgs);

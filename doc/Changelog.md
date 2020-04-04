@@ -4,19 +4,19 @@
 
 Compliant with [SemVer](https://semver.org/) spec.
 
-#v1
+# v1
 
-###v1.1.0
+### v1.1.0
 
 ##### First release
 
-###v1.2.0 
+### v1.2.0 
 
 ##### Multiple reducers per action
 
 - The `reducers` config property, can be not only a dictionary but an array of dictionaries.
 
-###v1.3.0 
+### v1.3.0 
 
 ##### debug middleware improvements
 
@@ -24,7 +24,7 @@ Compliant with [SemVer](https://semver.org/) spec.
 - better timestamp
 - configurable global variable name
 
-###v1.4.0 
+### v1.4.0 
 
 ##### `onDispatch` new callback
 
@@ -36,13 +36,13 @@ Compliant with [SemVer](https://semver.org/) spec.
 - new `listPayloads` list that includes the payloads
 - new list column with the elapsed time for reducer's execution
 
-###v1.5.0 
+### v1.5.0 
 
 ##### New Feature Sections
 
 [Sections](./Sections.md) simplifies the creation of root properties of apps or big components. 
 
-###v1.7.0 
+### v1.7.0 
 
 ##### IDispatchConfig: Stores's dispatch() method 3rd argument
 
@@ -55,6 +55,8 @@ Setting the `triggerChange` to `false` a `dispatch` can ask from Dynadux to do n
 ##### Reducer's API offer the blockChange() method
 
 Inside reducer's (action's) implementation, Dynadux is offering the `blockChange()` method. In this way, reduce itself can block the `onChange` call.
+
+## v2
 
 ### v2.0.0
 
