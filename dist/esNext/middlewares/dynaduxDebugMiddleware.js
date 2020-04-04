@@ -3,12 +3,14 @@ var EDynaduxDebugMiddlewareActions;
 (function (EDynaduxDebugMiddlewareActions) {
     EDynaduxDebugMiddlewareActions["SET_STATE"] = "__EDynaduxDebugMiddlewareActions__SET_STATE";
 })(EDynaduxDebugMiddlewareActions || (EDynaduxDebugMiddlewareActions = {}));
-export var dynaduxDebugMiddleware = function (_a) {
-    var _b = (_a === void 0 ? {} : _a).globalVariableName, globalVariableName = _b === void 0 ? 'dynaduxDebugMiddleware' : _b;
+export var dynaduxDebugMiddleware = function (config) {
+    var _a = config.debuggerStoreName, debuggerStoreName = _a === void 0 ? '' : _a, _b = config.consoleDispatch, consoleDispatch = _b === void 0 ? true : _b, _c = config.consolePayload, consolePayload = _c === void 0 ? false : _c, _d = config.consoleMethod, consoleMethod = _d === void 0 ? 'debug' : _d;
+    if (!debuggerStoreName)
+        return {}; // Exit, it is disabled.
     var lastDispatch = 0;
     var dispatch;
     var activeIndex = 0;
-    var dynaduxDebugger = global[globalVariableName] = {
+    var dynaduxDebugger = global[debuggerStoreName] = {
         log: [],
         dispatch: function (action, payload) { return dispatch(action, payload); },
         get list() {
@@ -61,7 +63,7 @@ export var dynaduxDebugMiddleware = function (_a) {
                 action: 'INFO DynaduxDebugMiddleware Initial State',
                 initialState: {},
                 state: store.state,
-                payload: { debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.' },
+                payload: { debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.', debugTag: 2487602415245 },
                 dispatch: store.dispatch,
             });
         },
@@ -91,7 +93,7 @@ export var dynaduxDebugMiddleware = function (_a) {
                 description: [
                     frontSpace(' ', "#" + nextIndex, 5),
                     frontSpace(' ', "+" + duration(afterMs), 10),
-                    frontSpace(' ', duration(reducerElapsedMs), 4),
+                    frontSpace(' ', duration(reducerElapsedMs), 6),
                     frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 13),
                     action,
                 ].join(' '),
@@ -103,6 +105,12 @@ export var dynaduxDebugMiddleware = function (_a) {
                 date: now,
             });
             lastDispatch = now.valueOf();
+            if (consoleDispatch && (!payload || payload.debugTag !== 2487602415245)) {
+                var consoleArgs = [debuggerStoreName, 'dispatch', action];
+                if (consolePayload)
+                    consoleArgs.push(payload);
+                console[consoleMethod].apply(console, consoleArgs);
+            }
         },
     };
     return middleware;

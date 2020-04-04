@@ -1,6 +1,9 @@
 import { IDynaduxMiddleware } from "../Dynadux/Dynadux";
 export interface IDynaduxDebugMiddlewareConfig {
-    globalVariableName?: string;
+    debuggerStoreName: string;
+    consoleDispatch?: boolean;
+    consolePayload?: boolean;
+    consoleMethod?: 'log' | 'debug';
 }
 export interface IDebugLogItem {
     description: string;
@@ -11,4 +14,4 @@ export interface IDebugLogItem {
     after: any;
     date: Date;
 }
-export declare const dynaduxDebugMiddleware: ({ globalVariableName, }?: IDynaduxDebugMiddlewareConfig) => IDynaduxMiddleware<any, any>;
+export declare const dynaduxDebugMiddleware: (config: IDynaduxDebugMiddlewareConfig) => IDynaduxMiddleware<any, any>;
