@@ -6,6 +6,7 @@ export interface IDynaduxDebugMiddlewareConfig {
   consoleDispatch?: boolean;        // On After dispatch, default: true
   consolePayload?: boolean;         // Console the payload, default: false
   consoleMethod?: 'log' | 'debug';  // Default: debug
+  consoleFilter?: (action: string, payload: any) => boolean;  // Filter the consoled dispatches
 }
 
 export interface IDebugLogItem {
@@ -28,6 +29,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
     consoleDispatch = true,
     consolePayload = false,
     consoleMethod = 'debug',
+    consoleFilter = () => true,
   } = config;
 
   if (!debuggerStoreName) return {}; // Exit, it is disabled.
@@ -132,7 +134,11 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
 
       lastDispatch = now.valueOf();
 
-      if (consoleDispatch && (!payload || payload.debugTag !== 2487602415245)) {
+      if (
+        consoleDispatch
+        && (!payload || payload.debugTag !== 2487602415245)
+        && consoleFilter(action, payload)
+      ) {
         const consoleArgs = [debuggerStoreName, 'dispatch', action];
         if (consolePayload) consoleArgs.push(payload);
         console[consoleMethod](...consoleArgs);

@@ -52,7 +52,7 @@ describe('Dynadux', () => {
         get state() { return store.state; },
         get dispatchedActions() { return dispatchedActions; },
         login: (logged: boolean) => store.dispatch<boolean>(actions.LOGIN, logged),
-        addTodo: (todo: ITodo, triggerChange = true) => store.dispatch<ITodo>(actions.ADD_TODO, todo, {triggerChange}),
+        addTodo: (todo: ITodo, blockChange = false) => store.dispatch<ITodo>(actions.ADD_TODO, todo, {blockChange}),
         removeTodo: (todoId: string) => store.dispatch<string>(actions.REMOVE_TODO, todoId, {}),
       };
     };
@@ -66,7 +66,7 @@ describe('Dynadux', () => {
     expect(todoAppStore.state).toMatchSnapshot('Initial state');
 
     todoAppStore.login(true);
-    todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false}, false);
+    todoAppStore.addTodo({id: '301', label: 'Before work beers', done: false}, true);
     todoAppStore.addTodo({id: '302', label: 'After work beers', done: false});
 
     expect(todoAppStore.state).toMatchSnapshot('First todos');

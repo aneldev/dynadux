@@ -135,13 +135,13 @@ store.dispatch(action.USER_LOGOFF);
 
 This small config object that currently has only one attribute.
 
-##### `triggerChange: boolean` by default is true
+##### `blockChange: boolean` by default is false
 
 On each `dispatch`, Dynadux is calling the `onChnage` callback, even if the reducer won't return a partial state.
 
 Since v1.6.0 on `dispatch`, you can control if the `onChange` callback will be called or not.
 
-It is useful to reduce the triggered changes in the store.
+This is useful to reduce the triggered changes of the store.
 
 Ideally, this is for React Components. If you think that this dispatch should not trigger a render, then you can block it with this flag.
 
@@ -152,7 +152,7 @@ Note:
 **Examples**
  
 ```
-store.dispatch(action.UPDATE_METADATA, {meta}, {triggerChange: false}); // Block the change trigger
+store.dispatch(action.UPDATE_METADATA, {meta}, {blockChange: true});    // Block the onChange callback call
 store.dispatch(action.UPDATE_CONFIG, config);                           // This is will trigger the change as normal
 store.dispatch(action.SOMETHING_ELSE);
 ```

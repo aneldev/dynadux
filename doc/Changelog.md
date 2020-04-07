@@ -70,6 +70,12 @@ Now, the debugger would always be included in the Stores, even in production, si
 
 For more read the [Debugging](./Debugging.md) section.
 
+### v2.0.2
+
+The dispatch's config prop `triggerChange` is renamed to `blockChange` _with opposite logic_. 
+
+The `triggerChange` has still backward compatibility with console warn till next major release.
+
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions

@@ -54,7 +54,7 @@ _We will see that later._
 Initial state and reducers are remaining the same as we learned in the previous chapters. There is nothing new to learn.
 ```
 const createUserInfoSection = (store: ICreateStoreAPI) => {
-  const section = store.`createSection`({
+  const section = store.createSection({
     section: 'userSection',
     initialState: {
       logged: false,

@@ -94,7 +94,7 @@ Now you can control if the `onChange` will be called passing a small config obje
 **Examples**
  
 ```
-store.dispatch(action.UPDATE_METADATA, {meta}, {triggerChange: false}); // Block the change trigger
+store.dispatch(action.UPDATE_METADATA, {meta}, {blockChange: true});    // Block the change trigger
 store.dispatch(action.UPDATE_CONFIG, config);                           // This is will trigger the change as normal
 store.dispatch(action.SOMETHING_ELSE);
 ```

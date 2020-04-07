@@ -1,4 +1,5 @@
 import {combineMultipleReducers} from "../utils/combineMultipleReducers";
+import { consoledOnce } from "../utils/consoleOnce";
 
 export interface IDynaduxConfig<TState> {
   initialState?: TState;
@@ -54,7 +55,8 @@ interface IDispatch<TPayload> {
 }
 
 interface IDispatchConfig {
-  triggerChange?: boolean;    // default: true
+  blockChange?: boolean;      // default: false
+  triggerChange?: boolean;    // default: true DEPRECATED, use the blockChange instead.
 }
 
 export class Dynadux<TState = any> {
@@ -63,7 +65,7 @@ export class Dynadux<TState = any> {
   private _isDispatching = false;
   private _reducers: IDynaduxReducerDic<TState>;
 
-  constructor(private readonly _config: IDynaduxConfig<TState>) {
+  constructor(private readonly _config: IDynaduxConfig<TState> = {}) {
     const {
       initialState = {},
       reducers = {},
@@ -106,10 +108,14 @@ export class Dynadux<TState = any> {
       this._isDispatching = false;
       return;
     }
+
+    if (typeof dispatchItem.dispatchConfig.triggerChange !== "undefined") consoledOnce('warn', 'Dynadux: `triggerChange` config prop is deprecated and will be not accepted on next major version. Use the `blockChange` (with the opposite logic) instead.');
+
     const {
       action,
       payload,
       dispatchConfig: {
+        blockChange: userBlockChange = false,
         triggerChange = true,
       },
     } = dispatchItem;
@@ -117,7 +123,7 @@ export class Dynadux<TState = any> {
 
     let initialState = this._state;
     let newState = {...this._state};
-    let blockChange = false;
+    let blockChange = userBlockChange || !triggerChange;
 
     const {middlewares = []} = this._config;
 
@@ -164,7 +170,7 @@ export class Dynadux<TState = any> {
 
     this._state = newState;
 
-    if (this._config.onChange && triggerChange && !blockChange) this._config.onChange(this._state);
+    if (this._config.onChange && !blockChange) this._config.onChange(this._state);
     if (this._config.onDispatch) this._config.onDispatch(action, payload);
 
     this._isDispatching = false;
