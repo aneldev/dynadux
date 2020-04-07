@@ -12,9 +12,11 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var combineMultipleReducers_1 = require("../utils/combineMultipleReducers");
+var consoleOnce_1 = require("../utils/consoleOnce");
 var Dynadux = /** @class */ (function () {
     function Dynadux(_config) {
         var _this = this;
+        if (_config === void 0) { _config = {}; }
         this._config = _config;
         this._dispatches = [];
         this._isDispatching = false;
@@ -35,12 +37,14 @@ var Dynadux = /** @class */ (function () {
                 _this._isDispatching = false;
                 return;
             }
-            var action = dispatchItem.action, payload = dispatchItem.payload, _a = dispatchItem.dispatchConfig.triggerChange, triggerChange = _a === void 0 ? true : _a;
+            if (typeof dispatchItem.dispatchConfig.triggerChange !== "undefined")
+                consoleOnce_1.consoledOnce('warn', 'Dynadux: `triggerChange` config prop is deprecated and will be not accepted on next major version. Use the `blockChange` (with the opposite logic) instead.');
+            var action = dispatchItem.action, payload = dispatchItem.payload, _a = dispatchItem.dispatchConfig, _b = _a.blockChange, userBlockChange = _b === void 0 ? false : _b, _c = _a.triggerChange, triggerChange = _c === void 0 ? true : _c;
             var reducer = _this._reducers[action];
             var initialState = _this._state;
             var newState = __assign({}, _this._state);
-            var blockChange = false;
-            var _b = _this._config.middlewares, middlewares = _b === void 0 ? [] : _b;
+            var blockChange = userBlockChange || !triggerChange;
+            var _d = _this._config.middlewares, middlewares = _d === void 0 ? [] : _d;
             middlewares.forEach(function (_a) {
                 var before = _a.before;
                 if (!before)
@@ -76,7 +80,7 @@ var Dynadux = /** @class */ (function () {
                 }) || {}));
             });
             _this._state = newState;
-            if (_this._config.onChange && triggerChange && !blockChange)
+            if (_this._config.onChange && !blockChange)
                 _this._config.onChange(_this._state);
             if (_this._config.onDispatch)
                 _this._config.onDispatch(action, payload);

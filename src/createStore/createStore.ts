@@ -27,7 +27,7 @@ export interface ICreateSectionAPI<TState, TSectionState> {
   dispatch: TDynaduxReducerDispatch;
 }
 
-export const createStore = <TState = any>(config: ICreateStoreConfig<TState>): ICreateStoreAPI<TState> => {
+export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): ICreateStoreAPI<TState> => {
   const dynadux = new Dynadux<TState>(config);
 
   return {
