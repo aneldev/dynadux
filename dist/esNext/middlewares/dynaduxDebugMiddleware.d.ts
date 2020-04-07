@@ -4,6 +4,7 @@ export interface IDynaduxDebugMiddlewareConfig {
     consoleDispatch?: boolean;
     consolePayload?: boolean;
     consoleMethod?: 'log' | 'debug';
+    consoleFilter?: (action: string, payload: any) => boolean;
 }
 export interface IDebugLogItem {
     description: string;

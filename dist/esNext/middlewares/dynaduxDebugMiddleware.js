@@ -4,7 +4,7 @@ var EDynaduxDebugMiddlewareActions;
     EDynaduxDebugMiddlewareActions["SET_STATE"] = "__EDynaduxDebugMiddlewareActions__SET_STATE";
 })(EDynaduxDebugMiddlewareActions || (EDynaduxDebugMiddlewareActions = {}));
 export var dynaduxDebugMiddleware = function (config) {
-    var _a = config.debuggerStoreName, debuggerStoreName = _a === void 0 ? '' : _a, _b = config.consoleDispatch, consoleDispatch = _b === void 0 ? true : _b, _c = config.consolePayload, consolePayload = _c === void 0 ? false : _c, _d = config.consoleMethod, consoleMethod = _d === void 0 ? 'debug' : _d;
+    var _a = config.debuggerStoreName, debuggerStoreName = _a === void 0 ? '' : _a, _b = config.consoleDispatch, consoleDispatch = _b === void 0 ? true : _b, _c = config.consolePayload, consolePayload = _c === void 0 ? false : _c, _d = config.consoleMethod, consoleMethod = _d === void 0 ? 'debug' : _d, _e = config.consoleFilter, consoleFilter = _e === void 0 ? function () { return true; } : _e;
     if (!debuggerStoreName)
         return {}; // Exit, it is disabled.
     var lastDispatch = 0;
@@ -105,7 +105,9 @@ export var dynaduxDebugMiddleware = function (config) {
                 date: now,
             });
             lastDispatch = now.valueOf();
-            if (consoleDispatch && (!payload || payload.debugTag !== 2487602415245)) {
+            if (consoleDispatch
+                && (!payload || payload.debugTag !== 2487602415245)
+                && consoleFilter(action, payload)) {
                 var consoleArgs = [debuggerStoreName, 'dispatch', action];
                 if (consolePayload)
                     consoleArgs.push(payload);
