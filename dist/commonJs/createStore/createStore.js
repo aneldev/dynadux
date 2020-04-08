@@ -11,10 +11,13 @@ exports.createStore = function (config) {
         dispatch: dynadux.dispatch,
         createSection: function (createSectionConfig) {
             var section = createSectionConfig.section, initialState = createSectionConfig.initialState, reducers = createSectionConfig.reducers, onChange = createSectionConfig.onChange;
-            var dynaduxOnChange = dynadux.onChange;
-            dynadux.onChange = function (state) {
-                onChange && onChange(state[section]);
-                dynaduxOnChange(state);
+            var sectionActions = Object.keys(reducers);
+            var dynaduxOnChange = dynadux._onChange;
+            dynadux._onChange = function (state, action, payload) {
+                if (sectionActions.includes(action)) {
+                    onChange && onChange(state[section]);
+                }
+                dynaduxOnChange(state, action, payload);
             };
             if (dynadux.state[section])
                 throw new Error("dynadux: createSection: Section or root property \"" + section + "\" already exists, section couldn't be created.");

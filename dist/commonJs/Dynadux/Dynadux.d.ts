@@ -52,7 +52,7 @@ export declare class Dynadux<TState = any> {
     setSectionInitialState(section: string, sectionState: any): void;
     addReducers: (reducers: IDynaduxReducerDic<TState>) => void;
     dispatch: <TPayload>(action: string, payload: TPayload, dispatchConfig?: IDispatchConfig) => void;
-    onChange(state: TState): void;
+    _onChange(state: TState, action: string, payload: any): void;
     private _dispatch;
 }
 export {};

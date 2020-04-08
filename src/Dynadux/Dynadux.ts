@@ -99,8 +99,7 @@ export class Dynadux<TState = any> {
     this._dispatch();
   };
 
-  public onChange(state: TState): void {
-  }
+  public _onChange = (state: TState, action: string, payload: any): void => undefined;
 
   private _dispatch = <TPayload>(): void => {
     if (this._isDispatching) return;
@@ -175,7 +174,7 @@ export class Dynadux<TState = any> {
 
     if (this._config.onChange && !blockChange) {
       this._config.onChange(this._state);
-      this.onChange(this._state);
+      this._onChange(this._state, action, payload);
     }
     if (this._config.onDispatch) this._config.onDispatch(action, payload);
 

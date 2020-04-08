@@ -43,11 +43,14 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
         reducers,
         onChange,
       } = createSectionConfig;
+      const sectionActions: string[] = Object.keys(reducers);
 
-      const dynaduxOnChange = dynadux.onChange;
-      dynadux.onChange = (state: TState): void => {
-        onChange && onChange(state[section]);
-        dynaduxOnChange(state);
+      const dynaduxOnChange = dynadux._onChange;
+      dynadux._onChange = (state: TState, action: string, payload: any): void => {
+        if (sectionActions.includes(action)) {
+          onChange && onChange(state[section]);
+        }
+        dynaduxOnChange(state, action, payload);
       };
 
       if (dynadux.state[section]) throw new Error(`dynadux: createSection: Section or root property "${section}" already exists, section couldn't be created.`);

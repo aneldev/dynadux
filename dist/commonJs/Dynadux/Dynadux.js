@@ -82,7 +82,7 @@ var Dynadux = /** @class */ (function () {
             _this._state = newState;
             if (_this._config.onChange && !blockChange) {
                 _this._config.onChange(_this._state);
-                _this.onChange(_this._state);
+                _this._onChange(_this._state, action, payload);
             }
             if (_this._config.onDispatch)
                 _this._config.onDispatch(action, payload);
@@ -106,7 +106,7 @@ var Dynadux = /** @class */ (function () {
     Dynadux.prototype.setSectionInitialState = function (section, sectionState) {
         this._state[section] = sectionState;
     };
-    Dynadux.prototype.onChange = function (state) {
+    Dynadux.prototype._onChange = function (state, action, payload) {
     };
     return Dynadux;
 }());

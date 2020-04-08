@@ -25,8 +25,10 @@ interface ILOGIN_payload {
 }
 
 const createUserInfoSection = (store: ICreateStoreAPI) => {
+  let changes = 0;
   const section = store.createSection({
     section: 'userSection',
+    onChange: () => changes++,
     initialState: {
       logged: false,
       name: '',
@@ -63,6 +65,9 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
     get state() {
       return section.state;
     },
+    get changes(): number {
+      return changes;
+    },
     actions: {
       login: (name: string, avatar: string) => section.dispatch<ILOGIN_payload>(EUserActions.LOGIN, {name, avatar}),
       logout: () => section.dispatch(EUserActions.LOGOUT),
@@ -96,8 +101,10 @@ interface IADD_TODO_payload {
 }
 
 const createTodosSection = (store: ICreateStoreAPI) => {
+  let changes = 0;
   const section = store.createSection<ITodosManagementState>({
     section: 'todosSection',
+    onChange: () => changes++,
     initialState: {
       todos: [],
       lastAddedTodo: '',
@@ -129,6 +136,9 @@ const createTodosSection = (store: ICreateStoreAPI) => {
   return {
     get state() {
       return section.state;
+    },
+    get changes(): number {
+      return changes;
     },
     actions: {
       addTodo: (id: number, label: string) => section.dispatch<IADD_TODO_payload>(ETodosActions.ADD_TODO, {id, label}),
@@ -189,5 +199,7 @@ describe('Dynadux', () => {
     expect(store.state).toMatchSnapshot('After avatar update');
 
     expect(stateChanged).toBe(6);
+    expect(store.user.changes).toBe(2);
+    expect(store.todos.changes).toBe(4);
   });
 });
