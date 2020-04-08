@@ -6,7 +6,7 @@ export interface IDynaduxConfig<TState> {
   reducers?: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
   middlewares?: IDynaduxMiddleware<any, any>[];
   onDispatch?: (action: string, payload: any) => void;
-  onChange?: (state: TState) => void;
+  onChange?: (state: TState, action: string, payload?: any) => void;
 }
 
 export interface IDynaduxReducerDic<TState> {
@@ -99,7 +99,7 @@ export class Dynadux<TState = any> {
     this._dispatch();
   };
 
-  public _onChange = (state: TState, action: string, payload: any): void => undefined;
+  public _onChange = (state: TState, action: string, payload?: any): void => undefined;
 
   private _dispatch = <TPayload>(): void => {
     if (this._isDispatching) return;
@@ -173,7 +173,7 @@ export class Dynadux<TState = any> {
     this._state = newState;
 
     if (this._config.onChange && !blockChange) {
-      this._config.onChange(this._state);
+      this._config.onChange(this._state, action, payload);
       this._onChange(this._state, action, payload);
     }
     if (this._config.onDispatch) this._config.onDispatch(action, payload);

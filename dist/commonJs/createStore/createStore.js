@@ -14,9 +14,8 @@ exports.createStore = function (config) {
             var sectionActions = Object.keys(reducers);
             var dynaduxOnChange = dynadux._onChange;
             dynadux._onChange = function (state, action, payload) {
-                if (sectionActions.includes(action)) {
-                    onChange && onChange(state[section]);
-                }
+                if (sectionActions.includes(action))
+                    onChange && onChange(state[section], action, payload);
                 dynaduxOnChange(state, action, payload);
             };
             if (dynadux.state[section])

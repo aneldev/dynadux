@@ -19,7 +19,7 @@ export interface ICreateSectionConfig<TSectionState> {
   section: string;
   initialState: TSectionState;
   reducers: IDynaduxReducerDic<TSectionState>;
-  onChange?: (sectionState: TSectionState) => void;
+  onChange?: (sectionState: TSectionState, action: string, payload?: any) => void;
 }
 
 export interface ICreateSectionAPI<TState, TSectionState> {
@@ -46,10 +46,8 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
       const sectionActions: string[] = Object.keys(reducers);
 
       const dynaduxOnChange = dynadux._onChange;
-      dynadux._onChange = (state: TState, action: string, payload: any): void => {
-        if (sectionActions.includes(action)) {
-          onChange && onChange(state[section]);
-        }
+      dynadux._onChange = (state: TState, action: string, payload?: any): void => {
+        if (sectionActions.includes(action)) onChange && onChange(state[section], action, payload);
         dynaduxOnChange(state, action, payload);
       };
 

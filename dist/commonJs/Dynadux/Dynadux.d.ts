@@ -3,7 +3,7 @@ export interface IDynaduxConfig<TState> {
     reducers?: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
     middlewares?: IDynaduxMiddleware<any, any>[];
     onDispatch?: (action: string, payload: any) => void;
-    onChange?: (state: TState) => void;
+    onChange?: (state: TState, action: string, payload?: any) => void;
 }
 export interface IDynaduxReducerDic<TState> {
     [action: string]: TDynaduxReducer<TState, any>;
@@ -52,7 +52,7 @@ export declare class Dynadux<TState = any> {
     setSectionInitialState(section: string, sectionState: any): void;
     addReducers: (reducers: IDynaduxReducerDic<TState>) => void;
     dispatch: <TPayload>(action: string, payload: TPayload, dispatchConfig?: IDispatchConfig) => void;
-    _onChange(state: TState, action: string, payload: any): void;
+    _onChange: (state: TState, action: string, payload?: any) => void;
     private _dispatch;
 }
 export {};
