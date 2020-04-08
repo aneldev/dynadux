@@ -93,9 +93,10 @@ const MyComponent = () => {
 - [FAQ](./FAQ.md) Frequently asked questions
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Sections](./Sections.md) Create sections for applications or big components
-- [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
-- [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [Advanced](./Advanced.md) Dispached promises, boost up your app and more
+- [Typescript](./doc/Typescript.md) Tips for Typescript implementations
+- [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
 

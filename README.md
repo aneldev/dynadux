@@ -17,6 +17,7 @@
 * [Use it in React](./doc/React.md)
 * [Examples](./doc/Examples.md)
 * [Advanced](./doc/Advanced.md)
+* [Typescript](./doc/Typescript.md)
 * [Terminology](./doc/Terminology.md)
 * [Changelog](./doc/Changelog.md)
 * [FAQ](./doc/FAQ.md)
@@ -258,7 +259,8 @@ Learn the API to master the Dynadux.
 - [FAQ](./doc/FAQ.md) Frequently asked questions
 - [Use it in React](./doc/React.md) How to use it in react
 - [Examples](./doc/Examples.md) Live examples. Examples compared to redux's implementations
-- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more.
-- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!).
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more
+- [Typescript](./doc/Typescript.md) Tips for Typescript implementations
+- [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!)
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version

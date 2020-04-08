@@ -81,6 +81,7 @@ The `triggerChange` has still backward compatibility with console warn till next
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
-- [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
+- [Typescript](./doc/Typescript.md) Tips for Typescript implementations
+- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [🏠 Home, Contents](../README.md#table-of-contents)
