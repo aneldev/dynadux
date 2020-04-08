@@ -152,14 +152,28 @@ const createTodosSection = (store: ICreateStoreAPI) => {
 // App store
 
 interface IAppState {
+  clientId: string;
   userSection: IUserInfoState;
   todosSection: ITodosManagementState;
+}
+
+enum EAppActions {
+  SET_CLIENT_ID = "SET_CLIENT_ID"
 }
 
 const createAppStore = () => {
   const changes: { state: IAppState; action: string; payload?: any }[] = [];
   const store = createStore<IAppState>({
-    reducers: {},
+    initialState: {
+      clientId: '',
+      userSection: null as any,
+      todosSection: null as any,
+    },
+    reducers: {
+      [EAppActions.SET_CLIENT_ID]: ({payload: clientId}) => {
+        return {clientId};
+      },
+    },
     onChange: (state, action, payload) => changes.push({state, action, payload}),
   });
 
@@ -170,6 +184,7 @@ const createAppStore = () => {
     get changes() {
       return changes;
     },
+    setClientId: (clientId: string): void => store.dispatch<string>(EAppActions.SET_CLIENT_ID, clientId),
     user: createUserInfoSection(store),
     todos: createTodosSection(store),
   };
@@ -186,6 +201,8 @@ describe('Dynadux', () => {
     store.todos.actions.addTodo(101, 'Before work beers');
     store.todos.actions.addTodo(102, 'After work beers');
 
+    store.setClientId('client-001');
+
     expect(store.state).toMatchSnapshot('First todos');
 
     store.todos.actions.removeTodo(101);
@@ -196,9 +213,13 @@ describe('Dynadux', () => {
 
     expect(store.state).toMatchSnapshot('After complete 102');
 
+    store.setClientId('client-002');
+
     store.user.actions.updateAvatar('https://www.anel.co/user/928457123/profile-02.png');
 
     expect(store.state).toMatchSnapshot('After avatar update');
+
+    store.setClientId('client-003');
 
     expect(store.changes).toMatchSnapshot('STORE-CHANGES');
     expect(store.user.changes).toMatchSnapshot('USER-SECTION-CHANGES');

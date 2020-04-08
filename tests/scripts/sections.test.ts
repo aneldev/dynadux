@@ -26,7 +26,7 @@ interface ILOGIN_payload {
 
 const createUserInfoSection = (store: ICreateStoreAPI) => {
   let changes = 0;
-  const section = store.createSection({
+  const section = store.createSection<IUserInfoState>({
     section: 'userSection',
     onChange: () => changes++,
     initialState: {
@@ -158,7 +158,6 @@ interface IAppState {
 
 const createAppStore = (onChange: (state: IAppState) => void) => {
   const store = createStore<IAppState>({
-    reducers: {},
     onChange,
   });
 
