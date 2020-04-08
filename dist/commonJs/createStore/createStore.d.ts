@@ -10,6 +10,7 @@ export interface ICreateSectionConfig<TSectionState> {
     section: string;
     initialState: TSectionState;
     reducers: IDynaduxReducerDic<TSectionState>;
+    onChange?: (sectionState: TSectionState) => void;
 }
 export interface ICreateSectionAPI<TState, TSectionState> {
     storeState: TState;

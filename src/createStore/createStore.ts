@@ -19,6 +19,7 @@ export interface ICreateSectionConfig<TSectionState> {
   section: string;
   initialState: TSectionState;
   reducers: IDynaduxReducerDic<TSectionState>;
+  onChange?: (sectionState: TSectionState) => void;
 }
 
 export interface ICreateSectionAPI<TState, TSectionState> {
@@ -40,7 +41,14 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
         section,
         initialState,
         reducers,
+        onChange,
       } = createSectionConfig;
+
+      const dynaduxOnChange = dynadux.onChange;
+      dynadux.onChange = (state: TState): void => {
+        onChange && onChange(state[section]);
+        dynaduxOnChange(state);
+      };
 
       if (dynadux.state[section]) throw new Error(`dynadux: createSection: Section or root property "${section}" already exists, section couldn't be created.`);
 
