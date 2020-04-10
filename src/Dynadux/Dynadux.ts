@@ -172,10 +172,9 @@ export class Dynadux<TState = any> {
 
     this._state = newState;
 
-    if (this._config.onChange && !blockChange) {
-      this._config.onChange(this._state, action, payload);
-      this._onChange(this._state, action, payload);
-    }
+    if (!blockChange && this._config.onChange) this._config.onChange(this._state, action, payload);
+    if (!blockChange) this._onChange(this._state, action, payload);
+
     if (this._config.onDispatch) this._config.onDispatch(action, payload);
 
     this._isDispatching = false;

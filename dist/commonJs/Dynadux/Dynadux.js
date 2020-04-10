@@ -81,10 +81,10 @@ var Dynadux = /** @class */ (function () {
                 }) || {}));
             });
             _this._state = newState;
-            if (_this._config.onChange && !blockChange) {
+            if (!blockChange && _this._config.onChange)
                 _this._config.onChange(_this._state, action, payload);
+            if (!blockChange)
                 _this._onChange(_this._state, action, payload);
-            }
             if (_this._config.onDispatch)
                 _this._config.onDispatch(action, payload);
             _this._isDispatching = false;
