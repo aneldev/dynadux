@@ -27,6 +27,7 @@ Now you can pass this type to nested Components or Providers.
 - [Sections](./Sections.md) Create sections for applications or big components
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
+- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)

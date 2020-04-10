@@ -76,6 +76,20 @@ The dispatch's config prop `triggerChange` is renamed to `blockChange` _with opp
 
 The `triggerChange` has still backward compatibility with console warn till next major release.
 
+### v2.2.0
+
+###### add/removeChangeEventListener for Store and Sections
+
+You can register/unregister listeners for Store's or Section's changes.
+
+The events approach is a kinda anti-pattern for state managers and for Dynadux as well. So it is not encouraged to use them, so they are not documented _at least at the moment_. Events are not going to be removed and are stable.
+
+Events are used internally to support the `dynadux-provider`.
+
+###### Support React Provider [dynadux-provider](https://github.com/aneldev/dynadux-provider)
+
+`createStore` result also returns the `provider` property, needed by the `dynadux-provider`.
+
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions
@@ -83,5 +97,6 @@ The `triggerChange` has still backward compatibility with console warn till next
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
 - [🏠 Home, Contents](../README.md#table-of-contents)

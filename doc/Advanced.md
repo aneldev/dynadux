@@ -238,6 +238,7 @@ With [Sections](./Sections.md) (new in v1.5.0) you can create a Library that wil
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)

@@ -262,5 +262,6 @@ Learn the API to master the Dynadux.
 - [Advanced](./doc/Advanced.md) Dispached promises, boost up your app and more
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!)
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version

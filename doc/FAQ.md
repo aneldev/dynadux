@@ -20,17 +20,20 @@ You develop business Stores. Dynadux is the state manager, the engine,  of these
 
 The Business Stores concept introduced by Dynadux's approach in this repo.
 
-## Why not use Provider and React's context
+## Does Dynadux has React Provider?
 
-Dynadux doesn't provide a [Provider](https://reactjs.org/docs/context.html)... at least not now. You are free to make one and share it to open source.
+Since v2.2.0 it has, checkout the [dynadux-provider](https://github.com/aneldev/dynadux-provider).
 
-Dynadux is to create from small to large scale multiple and reusable State Managers. 
+Provider promotes one State Management that makes the app a monolithic. 
 
-Provider promotes one State Management that makes the app a monolithic.
+On the other hand, it offers some nice features for small or large react applications
+- Any component can be connected without pass the store directly
+- Reduces the global renders since each complement renders itself only
 
-The idea is to pass to the children what they need and not the entire store. So it is not a good practice to give the whole `store` but break it down and only provide what is needed! In this way, you will have small self-contained components without the context’s dependency. Your application would be split easily into small parts.
-
-But again, it's up to you if you want to make a global store with a provider. Dynadux won't complain. Dynadux is so small that it can fit anywhere.
+With dynadux-provider, there are some more benefits
+- It "publishes" the App Store and not the state only
+- It "renders" only the connected components
+- There is a callback for each connection if the component should be rendered or not according to the dispatched `action` & `payload` 
 
 ## How to dispatch through a reducer
 
@@ -71,6 +74,7 @@ _Personal preference the `().then().catch()` pattern looks simpler!…
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
