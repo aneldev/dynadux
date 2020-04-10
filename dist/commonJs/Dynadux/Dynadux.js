@@ -28,6 +28,7 @@ var Dynadux = /** @class */ (function () {
             _this._dispatches.push({ action: action, payload: payload, dispatchConfig: dispatchConfig });
             _this._dispatch();
         };
+        this._onChange = function (state, action, payload) { return undefined; };
         this._dispatch = function () {
             if (_this._isDispatching)
                 return;
@@ -80,8 +81,10 @@ var Dynadux = /** @class */ (function () {
                 }) || {}));
             });
             _this._state = newState;
-            if (_this._config.onChange && !blockChange)
-                _this._config.onChange(_this._state);
+            if (!blockChange && _this._config.onChange)
+                _this._config.onChange(_this._state, action, payload);
+            if (!blockChange)
+                _this._onChange(_this._state, action, payload);
             if (_this._config.onDispatch)
                 _this._config.onDispatch(action, payload);
             _this._isDispatching = false;

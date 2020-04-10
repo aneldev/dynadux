@@ -1,0 +1,435 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux Working with Sections: After avatar update 1`] = `
+Object {
+  "clientId": "client-002",
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": true,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-02.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: After complete 102 1`] = `
+Object {
+  "clientId": "client-001",
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": true,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: After remove of 101 todo 1`] = `
+Object {
+  "clientId": "client-001",
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": false,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: First todos 1`] = `
+Object {
+  "clientId": "client-001",
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [
+      Object {
+        "done": false,
+        "id": 101,
+        "label": "Before work beers",
+      },
+      Object {
+        "done": false,
+        "id": 102,
+        "label": "After work beers",
+      },
+    ],
+  },
+  "userSection": Object {
+    "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+    "logged": true,
+    "loggedAt": "today",
+    "name": "John",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: Initial state 1`] = `
+Object {
+  "clientId": "",
+  "todosSection": Object {
+    "lastAddedTodo": "",
+    "todos": Array [],
+  },
+  "userSection": Object {
+    "avatar": "",
+    "logged": false,
+    "loggedAt": "",
+    "name": "",
+  },
+}
+`;
+
+exports[`Dynadux Working with Sections: STORE-CHANGES 1`] = `
+Array [
+  Object {
+    "action": "LOGIN",
+    "payload": Object {
+      "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+      "name": "John",
+    },
+    "state": Object {
+      "clientId": "",
+      "todosSection": Object {
+        "lastAddedTodo": "",
+        "todos": Array [],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "id": 101,
+      "label": "Before work beers",
+    },
+    "state": Object {
+      "clientId": "",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": false,
+            "id": 101,
+            "label": "Before work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "id": 102,
+      "label": "After work beers",
+    },
+    "state": Object {
+      "clientId": "",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": false,
+            "id": 101,
+            "label": "Before work beers",
+          },
+          Object {
+            "done": false,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "SET_CLIENT_ID",
+    "payload": "client-001",
+    "state": Object {
+      "clientId": "client-001",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": false,
+            "id": 101,
+            "label": "Before work beers",
+          },
+          Object {
+            "done": false,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "REMOVE_TODO",
+    "payload": 101,
+    "state": Object {
+      "clientId": "client-001",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": false,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "COMPLETE_TODO",
+    "payload": 102,
+    "state": Object {
+      "clientId": "client-001",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": true,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "SET_CLIENT_ID",
+    "payload": "client-002",
+    "state": Object {
+      "clientId": "client-002",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": true,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "UPDATE_AVATAR",
+    "payload": "https://www.anel.co/user/928457123/profile-02.png",
+    "state": Object {
+      "clientId": "client-002",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": true,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-02.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+  Object {
+    "action": "SET_CLIENT_ID",
+    "payload": "client-003",
+    "state": Object {
+      "clientId": "client-003",
+      "todosSection": Object {
+        "lastAddedTodo": "today",
+        "todos": Array [
+          Object {
+            "done": true,
+            "id": 102,
+            "label": "After work beers",
+          },
+        ],
+      },
+      "userSection": Object {
+        "avatar": "https://www.anel.co/user/928457123/profile-02.png",
+        "logged": true,
+        "loggedAt": "today",
+        "name": "John",
+      },
+    },
+  },
+]
+`;
+
+exports[`Dynadux Working with Sections: TODO-SECTION-CHANGES 1`] = `
+Array [
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "id": 101,
+      "label": "Before work beers",
+    },
+    "state": Object {
+      "lastAddedTodo": "today",
+      "todos": Array [
+        Object {
+          "done": false,
+          "id": 101,
+          "label": "Before work beers",
+        },
+      ],
+    },
+  },
+  Object {
+    "action": "ADD_TODO",
+    "payload": Object {
+      "id": 102,
+      "label": "After work beers",
+    },
+    "state": Object {
+      "lastAddedTodo": "today",
+      "todos": Array [
+        Object {
+          "done": false,
+          "id": 101,
+          "label": "Before work beers",
+        },
+        Object {
+          "done": false,
+          "id": 102,
+          "label": "After work beers",
+        },
+      ],
+    },
+  },
+  Object {
+    "action": "REMOVE_TODO",
+    "payload": 101,
+    "state": Object {
+      "lastAddedTodo": "today",
+      "todos": Array [
+        Object {
+          "done": false,
+          "id": 102,
+          "label": "After work beers",
+        },
+      ],
+    },
+  },
+  Object {
+    "action": "COMPLETE_TODO",
+    "payload": 102,
+    "state": Object {
+      "lastAddedTodo": "today",
+      "todos": Array [
+        Object {
+          "done": true,
+          "id": 102,
+          "label": "After work beers",
+        },
+      ],
+    },
+  },
+]
+`;
+
+exports[`Dynadux Working with Sections: USER-SECTION-CHANGES 1`] = `
+Array [
+  Object {
+    "action": "LOGIN",
+    "payload": Object {
+      "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+      "name": "John",
+    },
+    "state": Object {
+      "avatar": "https://www.anel.co/user/928457123/profile-01.png",
+      "logged": true,
+      "loggedAt": "today",
+      "name": "John",
+    },
+  },
+  Object {
+    "action": "UPDATE_AVATAR",
+    "payload": "https://www.anel.co/user/928457123/profile-02.png",
+    "state": Object {
+      "avatar": "https://www.anel.co/user/928457123/profile-02.png",
+      "logged": true,
+      "loggedAt": "today",
+      "name": "John",
+    },
+  },
+]
+`;

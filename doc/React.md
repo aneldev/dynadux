@@ -88,6 +88,21 @@ const MyComponent = () => {
 }
 ```
 
+# How to use it with Provider
+
+Since v2.2.0 we have the [dynadux-provider](https://github.com/aneldev/dynadux-provider).
+
+Some nice features for small or large react applications
+- Any component can be connected without pass the store directly
+- Reduces the global renders since each complement renders itself only
+
+With dynadux-provider, there are some more benefits
+- It "publishes" any App Store and not the store's state
+- It "renders" only the connected components
+- There is a callback for each connection if the component should be rendered or not according to the dispatched `action` & `payload` 
+
+Check out the [dynadux-provider](https://github.com/aneldev/dynadux-provider) how to use it, it is super simple.
+
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions
@@ -96,7 +111,8 @@ const MyComponent = () => {
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
-- [History, Undo/Redo middleware](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
+- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
 

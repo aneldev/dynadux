@@ -1,27 +1,30 @@
 import { Dynadux, } from "../Dynadux/Dynadux";
-import { convertReducersToSectionReducers } from "./convertReducersToSectionReducers";
+import { EventEmitter } from "../tools/EventEmitter";
+import { createSection } from "./createSection";
 export var createStore = function (config) {
     var dynadux = new Dynadux(config);
+    var storeChangeEventEmitter = new EventEmitter();
+    var dynaduxOnChange = dynadux._onChange;
+    dynadux._onChange = (function (state, action, payload) {
+        storeChangeEventEmitter.trigger(state, action, payload);
+        dynaduxOnChange(state, action, payload);
+    });
     return {
         get state() {
             return dynadux.state;
         },
         dispatch: dynadux.dispatch,
+        addChangeEventListener: function (cb) { return storeChangeEventEmitter.addEventListener(cb); },
+        removeChangeEventListener: function (cb) { return storeChangeEventEmitter.removeEventListener(cb); },
+        provider: {
+            addChangeEventListener: function (cb) { return storeChangeEventEmitter.addEventListener(cb); },
+            removeChangeEventListener: function (cb) { return storeChangeEventEmitter.removeEventListener(cb); },
+        },
         createSection: function (createSectionConfig) {
-            var section = createSectionConfig.section, initialState = createSectionConfig.initialState, reducers = createSectionConfig.reducers;
-            if (dynadux.state[section])
-                throw new Error("dynadux: createSection: Section or root property \"" + section + "\" already exists, section couldn't be created.");
-            dynadux.setSectionInitialState(section, initialState);
-            dynadux.addReducers(convertReducersToSectionReducers(section, reducers));
-            return {
-                get storeState() {
-                    return dynadux.state;
-                },
-                get state() {
-                    return dynadux.state[section];
-                },
-                dispatch: dynadux.dispatch,
-            };
+            return createSection({
+                dynadux: dynadux,
+                createSectionConfig: createSectionConfig,
+            });
         }
     };
 };
