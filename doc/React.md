@@ -94,12 +94,11 @@ Since v2.2.0 we have the [dynadux-provider](https://github.com/aneldev/dynadux-p
 
 Some nice features for small or large react applications
 - Any component can be connected without pass the store directly
-- Reduces the global renders since each complement renders itself only
+- Reduces the global renderings since it renders only the connected components
 
 With dynadux-provider, there are some more benefits
-- It "publishes" any App Store and not the store's state
-- It "renders" only the connected components
-- There is a callback for each connection if the component should be rendered or not according to the dispatched `action` & `payload` 
+- It "publishes" any App Store and not the state
+- On component's connection, there is a callback to control the render according to the dispatched `action` & `payload` 
 
 Check out the [dynadux-provider](https://github.com/aneldev/dynadux-provider) how to use it, it is super simple.
 

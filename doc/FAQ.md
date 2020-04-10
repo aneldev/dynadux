@@ -28,12 +28,11 @@ Provider promotes one State Management that makes the app a monolithic.
 
 On the other hand, it offers some nice features for small or large react applications
 - Any component can be connected without pass the store directly
-- Reduces the global renders since each complement renders itself only
+- Reduces the global renderings since it renders only the connected components
 
 With dynadux-provider, there are some more benefits
-- It "publishes" the App Store and not the state only
-- It "renders" only the connected components
-- There is a callback for each connection if the component should be rendered or not according to the dispatched `action` & `payload` 
+- It "publishes" any App Store and not the state
+- On component's connection, there is a callback to control the render according to the dispatched `action` & `payload` 
 
 ## How to dispatch through a reducer
 
