@@ -10,8 +10,8 @@ export interface ICreateStoreAPI<TState = any> {
     provider: IStoreProviderAPI<TState>;
 }
 export interface IStoreProviderAPI<TState> {
-    addChangeEventListener: (cb: (sectionState: TState, action: string, payload?: any) => void) => void;
-    removeChangeEventListener: (cb: (sectionState: TState, action: string, payload?: any) => void) => void;
+    addChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
+    removeChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
 }
 export interface ICreateSectionConfig<TSectionState> {
     section: string;
