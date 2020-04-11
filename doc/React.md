@@ -43,13 +43,13 @@ _In Typescript_
 
 ```
 const useBusinessStore = () => {
-  const [s, setState] = useState({});
+  const [s, forceUpdate] = useState({});
   const appStoreRef = useRef<any>();
 
   return (
     appStoreRef.current
     || (
-      appStoreRef.current = businessStore(() => setState({}))
+      appStoreRef.current = businessStore(() => forceUpdate({}))
     )
   ) as ReturnType<typeof businessStore>;;
 };
@@ -90,17 +90,17 @@ const MyComponent = () => {
 
 # How to use it with Provider
 
-Since v2.2.0 we have the [dynadux-provider](https://github.com/aneldev/dynadux-provider).
+Since v2.2.0 we have the [react-dynadux](https://github.com/aneldev/react-dynadux).
 
 Some nice features for small or large react applications
 - Any component can be connected without pass the store directly
 - Reduces the global renderings since it renders only the connected components
 
-With dynadux-provider, there are some more benefits
+With react-dynadux, there are some more benefits
 - It "publishes" any App Store and not the state
 - On component's connection, there is a callback to control the render according to the dispatched `action` & `payload` 
 
-Check out the [dynadux-provider](https://github.com/aneldev/dynadux-provider) how to use it, it is super simple.
+Check out the [react-dynadux](https://github.com/aneldev/react-dynadux) how to use it, it is super simple.
 
 # Read more 
 
@@ -111,7 +111,7 @@ Check out the [dynadux-provider](https://github.com/aneldev/dynadux-provider) ho
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
-- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
+- [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
 

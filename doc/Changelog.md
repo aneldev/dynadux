@@ -84,11 +84,11 @@ You can register/unregister listeners for Store's or Section's changes.
 
 The events approach is a kinda anti-pattern for state managers and for Dynadux as well. So it is not encouraged to use them, so they are not documented _at least at the moment_. Events are not going to be removed and are stable.
 
-Events are used internally to support the `dynadux-provider`.
+Events are used internally to support the `react-dynadux`.
 
-###### Support React Provider [dynadux-provider](https://github.com/aneldev/dynadux-provider)
+###### Support React Provider [react-dynadux](https://github.com/aneldev/react-dynadux)
 
-`createStore` result also returns the `provider` property, needed by the `dynadux-provider`.
+`createStore` result also returns the `provider` property, needed by the `react-dynadux`.
 
 # Read more 
 
@@ -98,5 +98,5 @@ Events are used internally to support the `dynadux-provider`.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
-- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
+- [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
 - [🏠 Home, Contents](../README.md#table-of-contents)

@@ -20,17 +20,18 @@ You develop business Stores. Dynadux is the state manager, the engine,  of these
 
 The Business Stores concept introduced by Dynadux's approach in this repo.
 
-## Does Dynadux has React Provider?
+## Does Dynadux have React Provider?
 
-Since v2.2.0 it has, checkout the [dynadux-provider](https://github.com/aneldev/dynadux-provider).
+Since v2.2.0 it has, checkout the [react-dynadux](https://github.com/aneldev/react-dynadux).
 
 Provider promotes one State Management that makes the app a monolithic. 
 
 On the other hand, it offers some nice features for small or large react applications
 - Any component can be connected without pass the store directly
 - Reduces the global renderings since it renders only the connected components
+- No need to `forceUpdate()` `onChange`
 
-With dynadux-provider, there are some more benefits
+With react-dynadux, there are some more benefits
 - It "publishes" any App Store and not the state
 - On component's connection, there is a callback to control the render according to the dispatched `action` & `payload` 
 
@@ -74,6 +75,6 @@ _Personal preference the `().then().catch()` pattern looks simpler!…
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
-- [React Provider](https://github.com/aneldev/dynadux-provider) React Provider for Dynadux App Stores
+- [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
 - [Changelog](./Changelog.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
