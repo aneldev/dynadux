@@ -116,7 +116,7 @@ describe('Dynadux', () => {
 
     expect(todoAppStore.state.saved).toBe(true);
 
-    expect(stateChanged).toBe(6);
+    expect(stateChanged).toBe(5);
 
     done();
   });
