@@ -36,6 +36,7 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   reducerElapsedMs: number;
   dispatch: TDynaduxMiddlewareDispatch<TPayload>;
   state: TState;
+  changed: boolean;
   initialState: TState;
 }
 
@@ -172,6 +173,7 @@ export class Dynadux<TState = any> {
         dispatch: this.dispatch,
         state: newState,
         initialState,
+        changed,
         reducerElapsedMs,
       });
       if (!changed && !!middlewarePartialChange) changed = true;

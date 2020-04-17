@@ -17,6 +17,7 @@ export interface IDebugLogItem {
   before: any;
   after: any;
   date: Date;
+  changed: boolean;
 }
 
 enum EDynaduxDebugMiddlewareActions {
@@ -103,7 +104,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         return dynaduxDebugger.log[activeIndex].after;
       }
     },
-    after: ({action, payload, initialState, state, reducerElapsedMs}) => {
+    after: ({action, payload, initialState, state, reducerElapsedMs, changed}) => {
       if (action === EDynaduxDebugMiddlewareActions.SET_STATE) return payload;
 
       const now = new Date;
@@ -130,6 +131,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         before: initialState,
         after: state,
         date: now,
+        changed,
       } as IDebugLogItem);
 
       lastDispatch = now.valueOf();
