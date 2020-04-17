@@ -87,7 +87,7 @@ describe('Dynadux', () => {
     expect(todoAppStore.state.todos.map(todo => todo.id).join()).toBe('301,303,302');
     expect(todoAppStore.state).toMatchSnapshot();
 
-    expect(stateChanged).toBe(5);
+    expect(stateChanged).toBe(4);
 
     done();
   });

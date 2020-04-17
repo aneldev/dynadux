@@ -1,17 +1,13 @@
 [🏠 Home](../README.md)
-[🏠 Advanced](./Advanced.md)
 
-# Dynadux - Advanced
+# Dynadux - API
 
-Dynadux is simple and flexible.
-
-> The examples here are in typescript.
-
-### [Dispatch Promises](./Advanced-DispatchPromises.md)
-### [Block Changes](./Advanced-BlockChanges.md) _and React renders_
-### [Debounce Changes](./Advanced-DebounceChanges.md) _and React renders_
-### [Create 3rd party Library](./Advanced-Create3rdPartyLibrary.md)
-### [Understanding Dispatches in Reducer](./Advanced-UnderstandingDispatchesInReducer.md)
+### [Create a store](./API-CreateStore.md)
+### [Reducers](./API-Reducers.md)
+### [Dispatch](./API-Dispatch.md)
+### [Middlewares](./API-Middlewares.md)
+### [Sections](./API-Sections.md)
+### [Debugging](./API-Debugging.md)
 
 # Read more 
 

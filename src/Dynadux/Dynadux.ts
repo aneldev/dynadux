@@ -1,4 +1,4 @@
-import {combineMultipleReducers} from "../utils/combineMultipleReducers";
+import { combineMultipleReducers } from "../utils/combineMultipleReducers";
 import { consoledOnce } from "../utils/consoleOnce";
 
 export interface IDynaduxConfig<TState> {
@@ -36,6 +36,7 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   reducerElapsedMs: number;
   dispatch: TDynaduxMiddlewareDispatch<TPayload>;
   state: TState;
+  changed: boolean;
   initialState: TState;
 }
 
@@ -125,55 +126,68 @@ export class Dynadux<TState = any> {
 
     let initialState = this._state;
     let newState = {...this._state};
+
+    let changed = false;
     let blockChange = userBlockChange || !triggerChange;
 
     const {middlewares = []} = this._config;
 
     middlewares.forEach(({before}) => {
       if (!before) return;
+      const middlewarePartialChange = before({
+        action,
+        payload,
+        dispatch: this.dispatch,
+        state: newState,
+      });
+      if (!changed && !!middlewarePartialChange) changed = true;
+      if (!middlewarePartialChange) return;
       newState = {
         ...newState,
-        ...(before({
-          action,
-          payload,
-          dispatch: this.dispatch,
-          state: newState,
-        }) || {})
+        ...middlewarePartialChange,
       };
     });
 
     const reducerStart = Date.now();
-    if (reducer) newState = {
-      ...this._state,
-      ...(reducer({
+    if (reducer) {
+      const reducerPartialState = reducer({
         action,
         payload,
         dispatch: this.dispatch,
         state: newState,
         blockChange: () => blockChange = true,
-      }) || {}),
-    };
+      });
+      if (!changed && !!reducerPartialState) changed = true;
+      newState = {
+        ...this._state,
+        ...reducerPartialState,
+      };
+    }
     const reducerElapsedMs = Date.now() - reducerStart;
 
     middlewares.forEach(({after}) => {
       if (!after) return;
+      const middlewarePartialChange = after({
+        action,
+        payload,
+        dispatch: this.dispatch,
+        state: newState,
+        initialState,
+        changed,
+        reducerElapsedMs,
+      });
+      if (!changed && !!middlewarePartialChange) changed = true;
+      if (!middlewarePartialChange) return;
       newState = {
         ...newState,
-        ...(after({
-          action,
-          payload,
-          dispatch: this.dispatch,
-          state: newState,
-          initialState,
-          reducerElapsedMs,
-        }) || {})
+        ...middlewarePartialChange,
       };
     });
 
     this._state = newState;
 
-    if (!blockChange && this._config.onChange) this._config.onChange(this._state, action, payload);
-    if (!blockChange) this._onChange(this._state, action, payload);
+    if (changed && !blockChange && this._config.onChange) this._config.onChange(this._state, action, payload);
+    if (changed && !blockChange) this._onChange(this._state, action, payload);
 
     if (this._config.onDispatch) this._config.onDispatch(action, payload);
 
