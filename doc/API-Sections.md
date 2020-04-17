@@ -238,7 +238,7 @@ We create a Dynadux store. As an App store, we return an object with the returne
 
 # Continue
 
-[⬅️ Middlewares](./Middlewares.md) 🔶 [Debugging ➡️](./Debugging.md) 
+[⬅️ Middlewares](doc/API-Middlewares.md) 🔶 [Debugging ➡️](doc/API-Debugging.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)
 

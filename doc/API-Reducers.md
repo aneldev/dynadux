@@ -173,14 +173,14 @@ A common example is, two dictionaries of actions (or more) have the "logout" act
 
 # Block change
 
-Dynadux provides the `blockChange` function on the reducer's function.
+Dynadux provides the `blockChange` function in the reducer's function.
 
-In reducer's (action's) implementation, you can call this method to say to Dynadux to do not call the `onChange` callback.
+In the reducer's (action's) implementation, you can call this method to say to Dynadux to do not call the `onChange` callback.
 
 Dynadux, by default, is always calling the `onChange` callback on each `dispatch`. 
 But in some cases, it is unnecessary to call the `onChange` when nothing is changed.
 
-Once actions, know that nothing is changed, it can block the `onChange` call calling the `blockChange()` method.
+Once the action (the implementation of the reducer), knows that nothing has been changed for the UI logic, it can block the `onChange` call calling the `blockChange()` method.
 
 **Note: `blockChange()` is also blocking the changes made by middlewares!** 
 On each `dispatch`, Dynadux is calling the loaded middlewares, before, and after reducer's function.
@@ -224,8 +224,12 @@ Now, this action can be called sometimes without trigger the `onChange` of the s
 
 For instance, on fetch of todos, we can call this action for each on todo with `doNotChange: true`, and on the last one, only omit the `doNotChange` prop to flush the changes.   
 
+# Understanding Sequential Dispatches
+
+// Todo
+
 # Continue
 
-[⬅️ Create Store](./CreateStore.md) 🔶 [Middlewares ➡️](./Middlewares.md) 
+[⬅️ Create Store](doc/API-CreateStore.md) 🔶 [Middlewares ➡️](doc/API-Middlewares.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)

@@ -9,14 +9,17 @@
 * [Architecture](#architecture)  
 * [API](#api)  
     _All you have to know_
-    * [Create store](./doc/CreateStore.md)
-    * [Reducers](./doc/Reducers.md)
-    * [Middlewares](./doc/Middlewares.md)
-    * [Sections](./doc/Sections.md)
-    * [Debugging](./doc/Debugging.md)
+    * [Create store](doc/API-CreateStore.md)
+    * [Reducers](doc/API-Reducers.md)
+    * [Middlewares](doc/API-Middlewares.md)
+    * [Sections](doc/API-Sections.md)
+    * [Debugging](doc/API-Debugging.md)
 * [Use it in React](./doc/React.md)
 * [Examples](./doc/Examples.md)
 * [Advanced](./doc/Advanced.md)
+    * [Dispatch Promises](doc/Advanced-DispatchPromises.md)
+    * [Block Changes (and renders)](doc/Advanced-BlockChanges.md)
+    * [Create 3rd party Library](doc/Advanced-Create3rdPartyLibrary.md)
 * [Typescript](./doc/Typescript.md)
 * [Terminology](./doc/Terminology.md)
 * [Changelog](./doc/Changelog.md)
@@ -245,11 +248,11 @@ And nothing else! Since it is small and straightforward, we can use it in the ar
 
 Learn the API to master the Dynadux.
 
-- [Create store](./doc/CreateStore.md)
-- [Reducers](./doc/Reducers.md)
-- [Middlewares](./doc/Middlewares.md)
-- [Sections](./doc/Sections.md)
-- [Debugging](./doc/Debugging.md)
+- [Create store](doc/API-CreateStore.md)
+- [Reducers](doc/API-Reducers.md)
+- [Middlewares](doc/API-Middlewares.md)
+- [Sections](doc/API-Sections.md)
+- [Debugging](doc/API-Debugging.md)
 - 🎉 and that's it, you are mastering the Dynadux!
 
 <a name="readMore"/>

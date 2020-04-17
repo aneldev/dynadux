@@ -1,16 +1,20 @@
 [🏠 Home](../README.md)
+
 [🏠 Advanced](./Advanced.md)
 
-# Dynadux - Advanced
+# Create 3rd party state library
 
-Dynadux is simple and flexible.
+Dynadux makes easy to create 3rd party libraries. For instance a weather forecast data provider.
 
-> The examples here are in typescript.
+There are two ways for making it:
+- Middlewares
+- Sections
 
-### [Dispatch Promises](./Advanced-DispatchPromises.md)
-### [Block Changes](./Advanced-BlockChanges.md) _and React renders_
-### [Debounce Changes](./Advanced-DebounceChanges.md) _and React renders_
-### [Create 3rd party Library](./Advanced-Create3rdPartyLibrary.md)
+With [Middlewares](doc/API-Middlewares.md) you can access the Entire Store's State and it is used to monitor and handle a known Store or work in a Generic way.
+
+With [Sections](doc/API-Sections.md) (new in v1.5.0) you can create a Library that will work in its own space and makes the implementation easier. 
+
+[🏠 Advanced](./Advanced.md)
 
 # Read more 
 
