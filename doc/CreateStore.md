@@ -44,7 +44,7 @@ interface IDynaduxConfig<TState> {
     [actionName: string]: TDynaduxReducer<TState, any>;
   };
   middlewares?: IDynaduxMiddleware<any, any>[];
-  onChange?: (state: TState) => void;
+  onChange?: (state: TState, action: string, payload?: any) => void;
 }
 ```
 What is required are the reducers only. They are called on Action's dispatches.
