@@ -1,20 +1,13 @@
 [🏠 Home](../README.md)
 
-[🏠 Advanced](./Advanced.md)
+# Dynadux - API
 
-# Create 3rd party state library
-
-Dynadux makes easy to create 3rd party libraries. For instance a weather forecast data provider.
-
-There are two ways for making it:
-- Middlewares
-- Sections
-
-With [Middlewares](doc/API-Middlewares.md) you can access the Entire Store's State and it is used to monitor and handle a known Store or work in a Generic way.
-
-With [Sections](doc/API-Sections.md) you can create a Library that will work in its own space and makes the implementation easier. 
-
-[🏠 Advanced](./Advanced.md)
+### [Create a store](./API-CreateStore.md)
+### [Reducers](./API-Reducers.md)
+### [Dispatch](./API-Dispatch.md)
+### [Middlewares](./API-Middlewares.md)
+### [Sections](./API-Sections.md)
+### [Debugging](./API-Debugging.md)
 
 # Read more 
 

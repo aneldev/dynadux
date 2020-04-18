@@ -26,12 +26,12 @@ const store = createStore({
             };
           },
     },
-    onChange: (state) => console.log('State changed:', state),
+    onChange: (state, action, payload) => console.log('State changed:', state, 'by action:', action, 'payload:', payload),
 });
 
 ```
 
-# `createStore` method
+# The `createStore` configuration
 
 This method creates a store. A store is a State.
 
@@ -70,19 +70,21 @@ The `reducers` property would also be an array of objects.
 
 This property is optional, is an array of [Middlewares](doc/API-Middlewares.md) discussed later.
 
-#### property `onChange: (state: TState) => void`
+#### property `onChange: (state: TState, action: string, payload: any) => void`
 
-Optional callback, on every dispatch the `onChange` callback is called with one only argument, the State of the Store.
+Optional callback that is called when a middleware or the reducer returns partial state.
+
+When on dispatch, no middleware or reducer returns anything then this callback will not be called. 
 
 #### property `onDispatch: (action: string, payload: any) => void`
 
-This optional callback called after the actions dispatched and the `onChange`.
+This optional callback called after the actions dispatched regardless is the state is changed.
 
 This callback is useful to get when an action is dispatched and use it as an event.
 
-For instance, you can dispatch action not indented for a reducer or a middleware but the user of the store.
+For instance, you can dispatch action not indented for a reducer or a middleware but the user of the store. Since no middleware or reducer react to this action, the `onChange` won't be called but only the `onDispatch`.
 
-# the return of the `createStore` method
+# The `createStore` return
 
 The return of the `createStore` are two properties only
 - `state` a getter to get the current state
@@ -90,7 +92,7 @@ The return of the `createStore` are two properties only
 
 **This simple API makes the Dynadux simple to fit it anywhere.**
 
-_Yes, you can have sub stores!_
+_Yes, you can create sub stores!_
 
 ## `state` getter
 
@@ -98,68 +100,13 @@ A getter to get the current state.
 
 ## `dispatch` method
 
-Dispatches an action, technically it calls a reducer with an optional payload.
+Dispatches an action, technically it calls a reducer with an optional payload. 
 
-The `dispatch` method is available in
-
-- store’s instance
-- reducers _and_
-- middlewares
-
-### `dispatch` method signature
-
-In Plain form:
-```
-dispatch(action, payload, dispatchConfig? )
-```
-In Typescript form:
-```
-type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload) => void;
-```
-
-The dispatcher is a simple method with 2 arguments.
-
-- 1st (required), the action, where is a string
-- 2nd (optional) is the payload, could be anything, a string, a number, an object, null.
-- 3rd (optional) a dispatch configuration
-
-**Examples**
-
-```
-store.dispatch(‘login-user’, {loginName: ‘info@example.com’, psw:’123@456’})
-store.dispatch(action.USER_LOGIN, userInfo);
-store.dispatch(action.USER_LOGOFF);
-```
-
-### `dispatch`'s configuration object (3rd parameter)
-
-This small config object that currently has only one attribute.
-
-##### `blockChange: boolean` by default is false
-
-On each `dispatch`, Dynadux is calling the `onChnage` callback, even if the reducer won't return a partial state.
-
-Since v1.6.0 on `dispatch`, you can control if the `onChange` callback will be called or not.
-
-This is useful to reduce the triggered changes of the store.
-
-Ideally, this is for React Components. If you think that this dispatch should not trigger a render, then you can block it with this flag.
-
-Note:
-- middlewares still are called
-- `onDispatch` callback still is called
-
-**Examples**
- 
-```
-store.dispatch(action.UPDATE_METADATA, {meta}, {blockChange: true});    // Block the onChange callback call
-store.dispatch(action.UPDATE_CONFIG, config);                           // This is will trigger the change as normal
-store.dispatch(action.SOMETHING_ELSE);
-```
+The `dispatch` method explained on next chapter.
 
 # Continue
 
-[⬅️ Main page](../README.md) 🔶 [Reducers ➡️](doc/API-Reducers.md) 
+[⬅️ Main page](../README.md) 🔶 [Dispatch ➡️](./API-Dispatch.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)
 

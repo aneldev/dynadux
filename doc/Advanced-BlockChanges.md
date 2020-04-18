@@ -4,15 +4,15 @@
 
 # Advanced - Block Changes (block Renders for react components)
 
-Dynadux by default is calling the `onChange` only when the state is changed by a reducer or by middlewares.
+Dynadux by default calls the `onChange` when the reducer, or a middleware returns a _partial_ state.
 
 But in some cases there is need to block the change, for instance when we dispatch intensively actions and only at the end makes sense to trigger the `onChange`. 
 
-There are two wa< to block a change
-- from inside the reducer
+There are two ways to block a change
+- inside the reducer
 - on `dispatch()` call 
 
-> For React Components, you can block the changes also with the [Dynadux's React Provider](https://github.com/aneldev/react-dynadux) by dispatched action and payload.
+> For React Components, you can block the changes by dispatched action and payload using the [Dynadux's React Provider](https://github.com/aneldev/react-dynadux).
 
 ## Block change from reducer
 
@@ -56,9 +56,9 @@ The `onChange` will be called only once.
 
 ## Block change with `dispatch()` function
 
-The 3rd argument of the dispatch is a config object that accepts the `blockChange: boolean`. 
+The 3rd argument of the dispatch is a config object that accepts the `blockChange: boolean` property. 
 
-**Examples**
+For example:
  
 ```
 store.dispatch(action.UPDATE_METADATA, {meta}, {blockChange: true});  

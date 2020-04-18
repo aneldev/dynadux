@@ -7,10 +7,10 @@
 * [Create a Store](#createAStore)  
 * [Create a Business Store](#createABusinessStore)  
 * [Architecture](#architecture)  
-* [API](#api)  
-    _All you have to know_
+* [API](#api)
     * [Create store](doc/API-CreateStore.md)
     * [Reducers](doc/API-Reducers.md)
+    * [Dispatch](doc/API-Dispatch.md)
     * [Middlewares](doc/API-Middlewares.md)
     * [Sections](doc/API-Sections.md)
     * [Debugging](doc/API-Debugging.md)

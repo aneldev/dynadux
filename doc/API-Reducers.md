@@ -177,17 +177,21 @@ Dynadux provides the `blockChange` function in the reducer's function.
 
 In the reducer's (action's) implementation, you can call this method to say to Dynadux to do not call the `onChange` callback.
 
-Dynadux, by default, is always calling the `onChange` callback on each `dispatch`. 
-But in some cases, it is unnecessary to call the `onChange` when nothing is changed.
+Dynadux by default calls the `onChange` when the reducer, or a middleware returns a _partial_ state.
+If nobody returns anything, then Dynadux considers that nothing is changed so it doesn't call the `onChange`.
 
-Once the action (the implementation of the reducer), knows that nothing has been changed for the UI logic, it can block the `onChange` call calling the `blockChange()` method.
+But in some cases, for performance most of it, we need to block the changes explicitly.
+
+In this case, we call the `blockChange()` function that says to Dynadux to do not call the `onChange` for this dispatch. 
 
 **Note: `blockChange()` is also blocking the changes made by middlewares!** 
 On each `dispatch`, Dynadux is calling the loaded middlewares, before, and after reducer's function.
 When the `blockChange()` is called, the potential changes of the state by middlewares will be not triggered.
-But of course, will be not lost, on the next `onChange` call these changes will be there.
+But of course, will be not lost, on the next `onChange` call these changes will be there. 
 
-### Example of `blockChange()`
+`blockChange` is not blocking the state's changes but only the call of the `onChange` function. 
+
+For example:
 
 ```
 const store = createStore<ITodoAppState>({
@@ -224,9 +228,56 @@ Now, this action can be called sometimes without trigger the `onChange` of the s
 
 For instance, on fetch of todos, we can call this action for each on todo with `doNotChange: true`, and on the last one, only omit the `doNotChange` prop to flush the changes.   
 
-# Understanding Sequential Dispatches
+# Sequential Dispatches inside a Reducer
 
-// Todo
+When you dispatch something, Dynadux is always putting the dispatch is a queue. The dispatch will be called after all previous dispaches are completed.
+
+The dispatches are always synchronous.
+
+In a reducer, it is common to make multiple dispatches. 
+
+In case this reducer returns also a partial state, keep in mind the returned partial state will be applied before the dispatched actions, although it is on the bottom of the reducer function.
+
+For example:
+
+```
+const store = createStore<ITodoAppState>({
+  onChange,
+  onDispatch: (action, payload) => dispatchedActions.push({action, payload}),
+  initialState: {
+    logged: false,
+    todos: [],
+  },
+  reducers: {
+    [actions.LOGIN]: ({payload: logged}) => {
+      dispatch(actions.SHOW_TODOS);
+      dispatch(actions.VALIDATE_TODOS);
+      return {logged};
+    },
+  },
+});
+```
+The return `{logged}` will be applied on the state before the `dispatch(actions.SHOW_TODOS)`.
+
+This is logical because we `dispatch(actions.SHOW_TODOS)` at a point where the `actions.LOGIN` is already dispatched and is returning the `{logged}`.
+
+Also, inside the reducer, when we `dispatch(actions.VALIDATE_TODOS)`, the `dispatch(actions.SHOW_TODOS)` is not yet executed! So the state is not yet updated by the `actions.SHOW_TODOS`.
+
+Dynadux is always synchronizing the dispatch calls. Inside a Reducer, an action executed, so `dispatch` calls synchronized and will be called afterwards.
+
+This behavior is not happening when you dispatch from store. 
+
+For example, using the above store we could do:
+ 
+```
+store.dispatch(actions.SHOW_TODOS);
+store.dispatch(actions.VALIDATE_TODOS);
+```
+
+Technically, Dynadux doesn't do anything different. The `dispatch` function is everywhere the same.
+
+But here the Dynadux will call the reducer of the `actions.SHOW_TODOS` and the state will be up to date. On next line, the state is already update.
+
 
 # Continue
 
