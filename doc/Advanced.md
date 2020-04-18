@@ -11,6 +11,7 @@ Dynadux is simple and flexible.
 ### [Block Changes](./Advanced-BlockChanges.md) _and React renders_
 ### [Debounce Changes](./Advanced-DebounceChanges.md) _and React renders_
 ### [Create 3rd party Library](./Advanced-Create3rdPartyLibrary.md)
+### [Understanding Dispatches in Reducer](./Advanced-UnderstandingDispatchesInReducer.md)
 
 # Read more 
 

@@ -4,7 +4,7 @@
 
 # Advanced - Debounce the changes
 
-In React components when you have intensive state changes, they are transformed into renders.
+In React components, when you have intensive state changes, they are transformed into renders.
 
 The React's `shouldComponentUpdate` is a solution, but it is not the silver bullet.
 
@@ -59,9 +59,9 @@ constructor(props) {
 
 With this, the render will be done every 20ms.
 
-In this example, we use loadash's debounce but you can use any debounce tool you want.
+In this example, we use loadash's debounce, but you can use any debounce tool you want.
 
-> The debounce technique supported also by the [react-dynadux's Provider](https://github.com/aneldev/react-dynadux). 
+> The debounce technique also supported by the [react-dynadux's Provider](https://github.com/aneldev/react-dynadux). 
 
 [🏠 Advanced](./Advanced.md)
 

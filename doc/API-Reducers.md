@@ -85,7 +85,7 @@ So the object has
 - `dispatch`, is the function to dispatch other actions from inside of the reducer
 - `blockChange`, is a function in order to block the `onChange` callback call _explained later in this page_.
 
-# Dispatch from a reducer
+# Dispatch from Reducer
 
 Your reducer is called with an API object as an argument. _The reference of the API is a few lines below._
 
@@ -228,56 +228,7 @@ Now, this action can be called sometimes without trigger the `onChange` of the s
 
 For instance, on fetch of todos, we can call this action for each on todo with `doNotChange: true`, and on the last one, only omit the `doNotChange` prop to flush the changes.   
 
-# Sequential Dispatches inside a Reducer
-
-When you dispatch something, Dynadux is always putting the dispatch is a queue. The dispatch will be called after all previous dispaches are completed.
-
-The dispatches are always synchronous.
-
-In a reducer, it is common to make multiple dispatches. 
-
-In case this reducer returns also a partial state, keep in mind the returned partial state will be applied before the dispatched actions, although it is on the bottom of the reducer function.
-
-For example:
-
-```
-const store = createStore<ITodoAppState>({
-  onChange,
-  onDispatch: (action, payload) => dispatchedActions.push({action, payload}),
-  initialState: {
-    logged: false,
-    todos: [],
-  },
-  reducers: {
-    [actions.LOGIN]: ({payload: logged}) => {
-      dispatch(actions.SHOW_TODOS);
-      dispatch(actions.VALIDATE_TODOS);
-      return {logged};
-    },
-  },
-});
-```
-The return `{logged}` will be applied on the state before the `dispatch(actions.SHOW_TODOS)`.
-
-This is logical because we `dispatch(actions.SHOW_TODOS)` at a point where the `actions.LOGIN` is already dispatched and is returning the `{logged}`.
-
-Also, inside the reducer, when we `dispatch(actions.VALIDATE_TODOS)`, the `dispatch(actions.SHOW_TODOS)` is not yet executed! So the state is not yet updated by the `actions.SHOW_TODOS`.
-
-Dynadux is always synchronizing the dispatch calls. Inside a Reducer, an action executed, so `dispatch` calls synchronized and will be called afterwards.
-
-This behavior is not happening when you dispatch from store. 
-
-For example, using the above store we could do:
- 
-```
-store.dispatch(actions.SHOW_TODOS);
-store.dispatch(actions.VALIDATE_TODOS);
-```
-
-Technically, Dynadux doesn't do anything different. The `dispatch` function is everywhere the same.
-
-But here the Dynadux will call the reducer of the `actions.SHOW_TODOS` and the state will be up to date. On next line, the state is already update.
-
+Not beginner? Read also [Understanding Dispatches in Reducer](./Advanced-UnderstandingDispatchesInReducer.md)
 
 # Continue
 

@@ -2,7 +2,7 @@
 
 # Dynadux - `dispatch()`
 
-Dispatches an action, technically it calls a reducer with an optional payload.
+Dispatches an action, technically it calls reducer with an optional payload.
 
 The `dispatch` method is available in
 

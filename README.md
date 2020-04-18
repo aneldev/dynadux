@@ -19,7 +19,9 @@
 * [Advanced](./doc/Advanced.md)
     * [Dispatch Promises](doc/Advanced-DispatchPromises.md)
     * [Block Changes (and renders)](doc/Advanced-BlockChanges.md)
+    * [Debounce Changes](doc/Advanced-DebounceChanges.md) _and React renders_
     * [Create 3rd party Library](doc/Advanced-Create3rdPartyLibrary.md)
+    * [Understanding Dispatches in Reducer](doc/Advanced-UnderstandingDispatchesInReducer.md)
 * [Typescript](./doc/Typescript.md)
 * [Terminology](./doc/Terminology.md)
 * [Changelog](./doc/Changelog.md)

@@ -100,7 +100,7 @@ A getter to get the current state.
 
 ## `dispatch` method
 
-Dispatches an action, technically it calls a reducer with an optional payload. 
+Dispatches an action, technically it calls the reducer with an optional payload. 
 
 The `dispatch` method explained on next chapter.
 
