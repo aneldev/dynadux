@@ -104,6 +104,8 @@ reducers: {
 
 When the fetch is fulfilled, it will dispatch the GET_INFO_RESPONSE or the GET_INFO_ERROR action.
 
+Not beginner? Read also [Understanding Dispatches in Reducer](./Advanced-UnderstandingDispatchesInReducer.md)
+
 # Split the work of the reducer
 
 Reducers should return the state of the store. Reducers can call other reducers that will return a part of the state.
@@ -227,8 +229,6 @@ In this example, the `ADD_TODO` action offers the `doNotChange: boolean` in its 
 Now, this action can be called sometimes without trigger the `onChange` of the store. 
 
 For instance, on fetch of todos, we can call this action for each on todo with `doNotChange: true`, and on the last one, only omit the `doNotChange` prop to flush the changes.   
-
-Not beginner? Read also [Understanding Dispatches in Reducer](./Advanced-UnderstandingDispatchesInReducer.md)
 
 # Continue
 
