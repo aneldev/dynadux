@@ -134,7 +134,7 @@ middlewares: [
 
 Are you going to collect the dispatched actions for debugging? Well, it is already ready!
 
-Dynadux shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](doc/API-Debugging.md)
+Dynadux shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](./API-Debugging.md)
 
 Curious, how is implemented? Check it [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
 
@@ -149,6 +149,6 @@ Here, it is easy to make a History State management, navigating back and forth i
 
 # Continue
 
-[⬅️ Reducers](../README.md) 🔶 [Sections ➡️](doc/API-Sections.md) 
+[⬅️ Reducers](../README.md) 🔶 [Sections ➡️](./API-Sections.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)

@@ -9,9 +9,9 @@ There are two ways for making it:
 - Middlewares
 - Sections
 
-With [Middlewares](doc/API-Middlewares.md) you can access the Entire Store's State and it is used to monitor and handle a known Store or work in a Generic way.
+With [Middlewares](./API-Middlewares.md) you can access the Entire Store's State and it is used to monitor and handle a known Store or work in a Generic way.
 
-With [Sections](doc/API-Sections.md) you can create a Library that will work in its own space and makes the implementation easier. 
+With [Sections](./API-Sections.md) you can create a Library that will work in its own space and makes the implementation easier. 
 
 [🏠 Advanced](./Advanced.md)
 

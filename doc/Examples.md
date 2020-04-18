@@ -140,7 +140,7 @@ In this way, the `ADD_TO_CART` action exists in both Sections, Products, and Car
 
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
-- [Sections](doc/API-Sections.md) Create sections for applications or big components
+- [Sections](./API-Sections.md) Create sections for applications or big components
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)

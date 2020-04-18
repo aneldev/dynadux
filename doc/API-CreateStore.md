@@ -60,7 +60,7 @@ By default is an empty object `{}`
 This property is required and expects dictionary object, Action/ReducerFunction pair.
 
 Reducer is a function that is called by the Dynadux, with one argument, an object that has `{state, dispatch, action, payload}` and should return the partial or the whole state of the store or nothing. 
-For more, we will discuss the [reducers here](doc/API-Reducers.md) later.
+For more, we will discuss the [reducers here](./API-Reducers.md) later.
 
 The `reducers` property is an object that the key is the Action (string), and the value of the key is the Reducer function.
 
@@ -68,7 +68,7 @@ The `reducers` property would also be an array of objects.
 
 #### property `middlewares`
 
-This property is optional, is an array of [Middlewares](doc/API-Middlewares.md) discussed later.
+This property is optional, is an array of [Middlewares](./API-Middlewares.md) discussed later.
 
 #### property `onChange: (state: TState, action: string, payload: any) => void`
 

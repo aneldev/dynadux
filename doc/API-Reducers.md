@@ -232,6 +232,6 @@ For instance, on fetch of todos, we can call this action for each on todo with `
 
 # Continue
 
-[⬅️ Create Store](doc/API-CreateStore.md) 🔶 [Middlewares ➡️](doc/API-Middlewares.md) 
+[⬅️ Create Store](./API-CreateStore.md) 🔶 [Middlewares ➡️](./API-Middlewares.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)

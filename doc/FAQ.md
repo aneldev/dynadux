@@ -4,7 +4,7 @@
 
 ## What is a Dynadux Store
 
-Dynadux Store is the return of the `createStore` [read here for more](doc/API-CreateStore.md) and is an object with two props: `state` getter and `dispatch` function.
+Dynadux Store is the return of the `createStore` [read here for more](./API-CreateStore.md) and is an object with two props: `state` getter and `dispatch` function.
 
 ## How many states have a Dynadux Store
 
@@ -70,7 +70,7 @@ _Personal preference the `().then().catch()` pattern looks simpler!…
 
 - [React](./React.md) How to use it in react
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
-- [Sections](doc/API-Sections.md) Create sections for applications or big components
+- [Sections](./API-Sections.md) Create sections for applications or big components
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
