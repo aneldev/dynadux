@@ -7,7 +7,7 @@
 * [Create a Store](#createAStore)  
 * [Create a Business Store](#createABusinessStore)  
 * [Architecture](#architecture)  
-* [API](#api)
+* [API](doc/API.md)
     * [Create store](doc/API-CreateStore.md)
     * [Reducers](doc/API-Reducers.md)
     * [Dispatch](doc/API-Dispatch.md)
