@@ -2,7 +2,7 @@ import "jest";
 import {
   ICreateStoreAPI,
   createStore
-} from "../../src/createStore/createStore";
+} from "../../src/create/createStore";
 
 // User Section store
 

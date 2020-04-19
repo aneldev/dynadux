@@ -106,7 +106,7 @@ Check out the [react-dynadux](https://github.com/aneldev/react-dynadux) how to u
 
 - [FAQ](./FAQ.md) Frequently asked questions
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
-- [Sections](./Sections.md) Create sections for applications or big components
+- [Sections](./API-Sections.md) Create sections for applications or big components
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more
 - [Typescript](./doc/Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)

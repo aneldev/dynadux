@@ -28,6 +28,7 @@ export interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
     reducerElapsedMs: number;
     dispatch: TDynaduxMiddlewareDispatch<TPayload>;
     state: TState;
+    changed: boolean;
     initialState: TState;
 }
 export declare type TDynaduxReducerDispatch<TPayload = any> = <TPayload>(action: string, payload?: TPayload, dispatchConfig?: IDispatchConfig) => void;

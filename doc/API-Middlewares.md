@@ -44,21 +44,24 @@ The only difference is the `after` callback has the `initialState` prop where is
 interface IDynaduxMiddlewareBeforeAPI<TState, TPayload> {
   action: string;
   payload: any;
-  dispatch: TDynaduxDispatch<TPayload>;
+  dispatch: TDynaduxMiddlewareDispatch<TPayload>;
   state: TState;
 }
 
 interface IDynaduxMiddlewareAfterAPI<TState, TPayload> {
   action: string;
   payload: any;
-  dispatch: TDynaduxDispatch<TPayload>;
-  state: TState;
-  initialState: TState;
   reducerElapsedMs: number;
+  dispatch: TDynaduxMiddlewareDispatch<TPayload>;
+  state: TState;
+  changed: boolean;*
+  initialState: TState;
 }
 
 type TDynaduxDispatch<TPayload = any> = <TPayload>(action: string, payload: TPayload) => void;
 ```
+
+**Note!** The `changed` indicates if the state is changed by the Middlewares and Reducer so far! The state might be changed by the rest loaded Middlewares. 
 
 ## Implementing a middleware
 
@@ -131,7 +134,7 @@ middlewares: [
 
 Are you going to collect the dispatched actions for debugging? Well, it is already ready!
 
-Dynadux shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](./Debugging.md)
+Dynadux shipped with a small middleware for debugging. For how to use it read next chapter [Debugging](./API-Debugging.md)
 
 Curious, how is implemented? Check it [here](https://github.com/aneldev/dynadux/blob/master/src/middlewares/dynaduxDebugMiddleware.ts).
 
@@ -146,6 +149,6 @@ Here, it is easy to make a History State management, navigating back and forth i
 
 # Continue
 
-[⬅️ Reducers](../README.md) 🔶 [Sections ➡️](./Sections.md) 
+[⬅️ Reducers](../README.md) 🔶 [Sections ➡️](./API-Sections.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)

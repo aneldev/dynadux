@@ -24,7 +24,7 @@ Now you can pass this type to nested Components or Providers.
 
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
-- [Sections](./Sections.md) Create sections for applications or big components
+- [Sections](./API-Sections.md) Create sections for applications or big components
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.

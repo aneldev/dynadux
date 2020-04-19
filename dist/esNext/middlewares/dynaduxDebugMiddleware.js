@@ -78,7 +78,7 @@ export var dynaduxDebugMiddleware = function (config) {
             }
         },
         after: function (_a) {
-            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state, reducerElapsedMs = _a.reducerElapsedMs;
+            var action = _a.action, payload = _a.payload, initialState = _a.initialState, state = _a.state, reducerElapsedMs = _a.reducerElapsedMs, changed = _a.changed;
             if (action === EDynaduxDebugMiddlewareActions.SET_STATE)
                 return payload;
             var now = new Date;
@@ -103,6 +103,7 @@ export var dynaduxDebugMiddleware = function (config) {
                 before: initialState,
                 after: state,
                 date: now,
+                changed: changed,
             });
             lastDispatch = now.valueOf();
             if (consoleDispatch

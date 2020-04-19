@@ -85,7 +85,7 @@ So the object has
 - `dispatch`, is the function to dispatch other actions from inside of the reducer
 - `blockChange`, is a function in order to block the `onChange` callback call _explained later in this page_.
 
-# Dispatch from a reducer
+# Dispatch from Reducer
 
 Your reducer is called with an API object as an argument. _The reference of the API is a few lines below._
 
@@ -103,6 +103,8 @@ reducers: {
 ```
 
 When the fetch is fulfilled, it will dispatch the GET_INFO_RESPONSE or the GET_INFO_ERROR action.
+
+Not beginner? Read also [Understanding Dispatches in Reducer](./Advanced-UnderstandingDispatchesInReducer.md)
 
 # Split the work of the reducer
 
@@ -173,21 +175,25 @@ A common example is, two dictionaries of actions (or more) have the "logout" act
 
 # Block change
 
-Dynadux provides the `blockChange` function on the reducer's function.
+Dynadux provides the `blockChange` function in the reducer's function.
 
-In reducer's (action's) implementation, you can call this method to say to Dynadux to do not call the `onChange` callback.
+In the reducer's (action's) implementation, you can call this method to say to Dynadux to do not call the `onChange` callback.
 
-Dynadux, by default, is always calling the `onChange` callback on each `dispatch`. 
-But in some cases, it is unnecessary to call the `onChange` when nothing is changed.
+Dynadux by default calls the `onChange` when the reducer, or a middleware returns a _partial_ state.
+If nobody returns anything, then Dynadux considers that nothing is changed so it doesn't call the `onChange`.
 
-Once actions, know that nothing is changed, it can block the `onChange` call calling the `blockChange()` method.
+But in some cases, for performance most of it, we need to block the changes explicitly.
+
+In this case, we call the `blockChange()` function that says to Dynadux to do not call the `onChange` for this dispatch. 
 
 **Note: `blockChange()` is also blocking the changes made by middlewares!** 
 On each `dispatch`, Dynadux is calling the loaded middlewares, before, and after reducer's function.
 When the `blockChange()` is called, the potential changes of the state by middlewares will be not triggered.
-But of course, will be not lost, on the next `onChange` call these changes will be there.
+But of course, will be not lost, on the next `onChange` call these changes will be there. 
 
-### Example of `blockChange()`
+`blockChange` is not blocking the state's changes but only the call of the `onChange` function. 
+
+For example:
 
 ```
 const store = createStore<ITodoAppState>({
@@ -226,6 +232,6 @@ For instance, on fetch of todos, we can call this action for each on todo with `
 
 # Continue
 
-[⬅️ Create Store](./CreateStore.md) 🔶 [Middlewares ➡️](./Middlewares.md) 
+[⬅️ Create Store](./API-CreateStore.md) 🔶 [Middlewares ➡️](./API-Middlewares.md) 
 
 [🏠 Home, Contents](../README.md#table-of-contents)

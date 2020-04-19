@@ -46,6 +46,8 @@ const store = createStore({
 
 ```
 
+**Note:** Put the `dynaduxDebugMiddleware` as last middleware to collect all the changes of the dispatch.
+
 #### Full configuration
 
 ```
@@ -181,13 +183,13 @@ Ones you reached this point, you are mastering the Dynadux! It is so simple!
 
 You can go further reading the Advanced but is not mandatory.
 
-[⬅️ Middlewares](./Middlewares.md) 🔶 [Advanced ➡️](./Advanced.md) 
+[⬅️ Middlewares](./API-Middlewares.md) 🔶 [Advanced ➡️](./Advanced.md) 
 
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
-- [Sections](./Sections.md) Create sections for applications or big components
+- [Sections](./API-Sections.md) Create sections for applications or big components
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!).
