@@ -16,7 +16,7 @@ export {
   createStore,
   ICreateStoreConfig,
   ICreateStoreAPI,
-} from "./createStore/createStore";
+} from "./create/createStore";
 
 export {
   dynaduxDebugMiddleware,
