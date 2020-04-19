@@ -40,7 +40,7 @@ Compliant with [SemVer](https://semver.org/) spec.
 
 ##### New Feature Sections
 
-[Sections](./Sections.md) simplifies the creation of root properties of apps or big components. 
+[Sections](./API-Sections.md) simplifies the creation of root properties of apps or big components. 
 
 ### v1.7.0 
 
@@ -68,7 +68,7 @@ The `globalVariableName` config property has been renamed to `debuggerStoreName`
 
 Now, the debugger would always be included in the Stores, even in production, since the debugger is activated only when the `debuggerStoreName` is not an empty string.
 
-For more read the [Debugging](./Debugging.md) section.
+For more read the [Debugging](./API-Debugging.md) section.
 
 ### v2.0.2
 

@@ -14,5 +14,6 @@ export interface IDebugLogItem {
     before: any;
     after: any;
     date: Date;
+    changed: boolean;
 }
 export declare const dynaduxDebugMiddleware: (config: IDynaduxDebugMiddlewareConfig) => IDynaduxMiddleware<any, any>;

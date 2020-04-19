@@ -42,46 +42,62 @@ var Dynadux = /** @class */ (function () {
             var reducer = _this._reducers[action];
             var initialState = _this._state;
             var newState = __assign({}, _this._state);
+            var changed = false;
             var blockChange = userBlockChange || !triggerChange;
             var _d = _this._config.middlewares, middlewares = _d === void 0 ? [] : _d;
             middlewares.forEach(function (_a) {
                 var before = _a.before;
                 if (!before)
                     return;
-                newState = __assign(__assign({}, newState), (before({
+                var middlewarePartialChange = before({
                     action: action,
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
-                }) || {}));
+                });
+                if (!changed && !!middlewarePartialChange)
+                    changed = true;
+                if (!middlewarePartialChange)
+                    return;
+                newState = __assign(__assign({}, newState), middlewarePartialChange);
             });
             var reducerStart = Date.now();
-            if (reducer)
-                newState = __assign(__assign({}, _this._state), (reducer({
+            if (reducer) {
+                var reducerPartialState = reducer({
                     action: action,
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
                     blockChange: function () { return blockChange = true; },
-                }) || {}));
+                });
+                if (!changed && !!reducerPartialState)
+                    changed = true;
+                newState = __assign(__assign({}, _this._state), reducerPartialState);
+            }
             var reducerElapsedMs = Date.now() - reducerStart;
             middlewares.forEach(function (_a) {
                 var after = _a.after;
                 if (!after)
                     return;
-                newState = __assign(__assign({}, newState), (after({
+                var middlewarePartialChange = after({
                     action: action,
                     payload: payload,
                     dispatch: _this.dispatch,
                     state: newState,
                     initialState: initialState,
+                    changed: changed,
                     reducerElapsedMs: reducerElapsedMs,
-                }) || {}));
+                });
+                if (!changed && !!middlewarePartialChange)
+                    changed = true;
+                if (!middlewarePartialChange)
+                    return;
+                newState = __assign(__assign({}, newState), middlewarePartialChange);
             });
             _this._state = newState;
-            if (!blockChange && _this._config.onChange)
+            if (changed && !blockChange && _this._config.onChange)
                 _this._config.onChange(_this._state, action, payload);
-            if (!blockChange)
+            if (changed && !blockChange)
                 _this._onChange(_this._state, action, payload);
             if (_this._config.onDispatch)
                 _this._config.onDispatch(action, payload);
