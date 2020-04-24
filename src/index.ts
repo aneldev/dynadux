@@ -19,6 +19,10 @@ export {
 } from "./create/createStore";
 
 export {
+  createSection,
+} from "./create/createSection";
+
+export {
   dynaduxDebugMiddleware,
   IDebugLogItem,
 } from "./middlewares/dynaduxDebugMiddleware";
