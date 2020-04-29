@@ -42,6 +42,21 @@ Object {
 }
 `;
 
+exports[`Dynadux Working with Sections: After logout 1`] = `
+Object {
+  "todosSection": Object {
+    "lastAddedTodo": "today",
+    "todos": Array [],
+  },
+  "userSection": Object {
+    "avatar": "",
+    "logged": false,
+    "loggedAt": "today",
+    "name": "",
+  },
+}
+`;
+
 exports[`Dynadux Working with Sections: After remove of 101 todo 1`] = `
 Object {
   "todosSection": Object {

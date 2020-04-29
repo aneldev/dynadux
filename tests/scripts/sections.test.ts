@@ -130,6 +130,9 @@ const createTodosSection = (store: ICreateStoreAPI) => {
           }),
         };
       },
+      [EUserActions.LOGOUT]: ({state}) => {
+        return {todos: []};
+      },
     },
   });
 
@@ -200,5 +203,10 @@ describe('Dynadux', () => {
     expect(stateChanged).toBe(6);
     expect(store.user.changes).toBe(2);
     expect(store.todos.changes).toBe(4);
+
+    store.user.actions.logout();
+
+    expect(store.state).toMatchSnapshot('After logout');
+
   });
 });

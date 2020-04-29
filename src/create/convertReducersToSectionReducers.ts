@@ -15,6 +15,7 @@ export const convertReducersToSectionReducers = (section: string, sectionReducer
         });
 
         if (subPartialState) return {
+          ...params.state,
           [section]: {
             ...params.state[section],
             ...subPartialState
