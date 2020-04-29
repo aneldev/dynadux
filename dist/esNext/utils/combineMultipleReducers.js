@@ -21,15 +21,14 @@ export var combineMultipleReducers = function () {
             .forEach(function (action) {
             if (!output[action]) {
                 output[action] = reducerDic[action];
+                return;
             }
-            else {
-                var originalReducer_1 = output[action];
-                output[action] = function (params) {
-                    var stateA = params.state || {};
-                    var stateB = originalReducer_1(__assign(__assign({}, params), { state: stateA }));
-                    return reducerDic[action](__assign(__assign({}, params), { state: __assign(__assign({}, stateA), stateB) }));
-                };
-            }
+            var originalReducer = output[action];
+            output[action] = function (params) {
+                var stateA = params.state || {};
+                var stateB = originalReducer(__assign(__assign({}, params), { state: stateA }));
+                return reducerDic[action](__assign(__assign({}, params), { state: __assign(__assign({}, stateA), stateB) }));
+            };
         });
     });
     return output;
