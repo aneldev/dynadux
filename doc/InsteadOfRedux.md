@@ -36,7 +36,7 @@ If you are familiar with Redux, these are the benefits you gain with Dynadux.
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
 - [Sections](./API-Sections.md) Create sections for applications or big components
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more
-- [Typescript](./doc/Typescript.md) Tips for Typescript implementations
+- [Typescript](./Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores

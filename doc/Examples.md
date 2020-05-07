@@ -142,7 +142,7 @@ In this way, the `ADD_TO_CART` action exists in both Sections, Products, and Car
 - [React](./React.md) How to use it in react
 - [Sections](./API-Sections.md) Create sections for applications or big components
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
-- [Typescript](./doc/Typescript.md) Tips for Typescript implementations
+- [Typescript](./Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores

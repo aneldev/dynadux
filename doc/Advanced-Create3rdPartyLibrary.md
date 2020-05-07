@@ -20,7 +20,7 @@ With [Sections](./API-Sections.md) you can create a Library that will work in it
 - [FAQ](./FAQ.md) Frequently asked questions
 - [React](./React.md) How to use it in react
 - [Examples](./Examples.md) Live examples. Examples compared to redux's implementations
-- [Typescript](./doc/Typescript.md) Tips for Typescript implementations
+- [Typescript](./Typescript.md) Tips for Typescript implementations
 - [Terminology](./Terminology.md) Terminology of dynadux, (is small!)
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
