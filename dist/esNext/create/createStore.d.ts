@@ -10,6 +10,7 @@ export interface ICreateStoreAPI<TState = any> {
     provider: IStoreProviderAPI<TState>;
 }
 export interface IStoreProviderAPI<TState> {
+    store: ICreateStoreAPI<TState>;
     addChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
     removeChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
 }
