@@ -11,7 +11,7 @@ exports.createStore = function (config) {
         storeChangeEventEmitter.trigger(state, action, payload);
         dynaduxOnChange(state, action, payload);
     });
-    return {
+    var store = {
         get state() {
             return dynadux.state;
         },
@@ -19,6 +19,9 @@ exports.createStore = function (config) {
         addChangeEventListener: function (cb) { return storeChangeEventEmitter.addEventListener(cb); },
         removeChangeEventListener: function (cb) { return storeChangeEventEmitter.removeEventListener(cb); },
         provider: {
+            get store() {
+                return store;
+            },
             addChangeEventListener: function (cb) { return storeChangeEventEmitter.addEventListener(cb); },
             removeChangeEventListener: function (cb) { return storeChangeEventEmitter.removeEventListener(cb); },
         },
@@ -29,5 +32,6 @@ exports.createStore = function (config) {
             });
         }
     };
+    return store;
 };
 //# sourceMappingURL=createStore.js.map

@@ -23,6 +23,7 @@ export interface ICreateStoreAPI<TState = any> {
 }
 
 export interface IStoreProviderAPI<TState> {
+  store: ICreateStoreAPI<TState>,
   addChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
   removeChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
 }
@@ -52,7 +53,7 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
     dynaduxOnChange(state, action, payload);
   });
 
-  return {
+  const store: ICreateStoreAPI<TState> = {
     get state() {
       return dynadux.state;
     },
@@ -63,6 +64,9 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
     removeChangeEventListener: (cb) => storeChangeEventEmitter.removeEventListener(cb),
 
     provider: {
+      get store() {
+        return store;
+      },
       addChangeEventListener: (cb) => storeChangeEventEmitter.addEventListener(cb),
       removeChangeEventListener: (cb) => storeChangeEventEmitter.removeEventListener(cb),
     },
@@ -74,5 +78,7 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
       });
     }
   };
+
+  return store;
 };
 
