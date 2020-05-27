@@ -47,55 +47,70 @@ var Dynadux = /** @class */ (function () {
             var changed = false;
             var blockChange = userBlockChange || !triggerChange;
             var _d = _this._config.middlewares, middlewares = _d === void 0 ? [] : _d;
-            middlewares.forEach(function (_a) {
-                var before = _a.before;
-                if (!before)
-                    return;
-                var middlewarePartialChange = before({
-                    action: action,
-                    payload: payload,
-                    dispatch: _this.dispatch,
-                    state: newState,
+            try {
+                middlewares.forEach(function (_a) {
+                    var before = _a.before;
+                    if (!before)
+                        return;
+                    var middlewarePartialChange = before({
+                        action: action,
+                        payload: payload,
+                        dispatch: _this.dispatch,
+                        state: newState,
+                    });
+                    if (!changed && !!middlewarePartialChange)
+                        changed = true;
+                    if (!middlewarePartialChange)
+                        return;
+                    newState = __assign(__assign({}, newState), middlewarePartialChange);
                 });
-                if (!changed && !!middlewarePartialChange)
-                    changed = true;
-                if (!middlewarePartialChange)
-                    return;
-                newState = __assign(__assign({}, newState), middlewarePartialChange);
-            });
-            var reducerStart = Date.now();
-            if (reducer) {
-                var reducerPartialState = reducer({
-                    action: action,
-                    payload: payload,
-                    dispatch: _this.dispatch,
-                    state: newState,
-                    blockChange: function () { return blockChange = true; },
-                });
-                if (!changed && !!reducerPartialState)
-                    changed = true;
-                newState = __assign(__assign({}, _this._state), reducerPartialState);
             }
-            var reducerElapsedMs = Date.now() - reducerStart;
-            middlewares.forEach(function (_a) {
-                var after = _a.after;
-                if (!after)
-                    return;
-                var middlewarePartialChange = after({
-                    action: action,
-                    payload: payload,
-                    dispatch: _this.dispatch,
-                    state: newState,
-                    initialState: initialState,
-                    changed: changed,
-                    reducerElapsedMs: reducerElapsedMs,
+            catch (e) {
+                console.error('Dynadux: A middleware on `before` raised an exception', e);
+            }
+            var reducerStart = Date.now();
+            try {
+                if (reducer) {
+                    var reducerPartialState = reducer({
+                        action: action,
+                        payload: payload,
+                        dispatch: _this.dispatch,
+                        state: newState,
+                        blockChange: function () { return blockChange = true; },
+                    });
+                    if (!changed && !!reducerPartialState)
+                        changed = true;
+                    newState = __assign(__assign({}, _this._state), reducerPartialState);
+                }
+            }
+            catch (e) {
+                console.error('Dynadux: A reducer raised an exception', e);
+            }
+            try {
+                var reducerElapsedMs_1 = Date.now() - reducerStart;
+                middlewares.forEach(function (_a) {
+                    var after = _a.after;
+                    if (!after)
+                        return;
+                    var middlewarePartialChange = after({
+                        action: action,
+                        payload: payload,
+                        dispatch: _this.dispatch,
+                        state: newState,
+                        initialState: initialState,
+                        changed: changed,
+                        reducerElapsedMs: reducerElapsedMs_1,
+                    });
+                    if (!changed && !!middlewarePartialChange)
+                        changed = true;
+                    if (!middlewarePartialChange)
+                        return;
+                    newState = __assign(__assign({}, newState), middlewarePartialChange);
                 });
-                if (!changed && !!middlewarePartialChange)
-                    changed = true;
-                if (!middlewarePartialChange)
-                    return;
-                newState = __assign(__assign({}, newState), middlewarePartialChange);
-            });
+            }
+            catch (e) {
+                console.error('Dynadux: A middleware on `after` raised an exception', e);
+            }
             _this._state = newState;
             if (changed && !blockChange && _this._config.onChange)
                 _this._config.onChange(_this._state, action, payload);
