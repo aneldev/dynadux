@@ -29,5 +29,5 @@ Now you can pass this type to nested Components or Providers.
 - [Advanced](./Advanced.md) Dispached promises, boost up your app and more.
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points.
 - [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
-- [Changelog](./Changelog.md) Changes of Dynadux per semver version
+- [Change Log](doc/Change-Log.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)

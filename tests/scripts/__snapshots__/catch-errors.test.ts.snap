@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dynadux Catch errors: After remove of 302 todo 1`] = `
+Object {
+  "logged": true,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux Catch errors: First todos 1`] = `
+Object {
+  "logged": true,
+  "todos": Array [
+    Object {
+      "done": false,
+      "id": "301",
+      "label": "Before work beers",
+    },
+    Object {
+      "done": false,
+      "id": "302",
+      "label": "After work beers",
+    },
+  ],
+}
+`;
+
+exports[`Dynadux Catch errors: Initial state 1`] = `
+Object {
+  "logged": false,
+  "todos": Array [],
+}
+`;

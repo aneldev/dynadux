@@ -1,6 +1,6 @@
 [🏠 Home](../README.md)
 
-# Dynadux - Changelog
+# Dynadux - Change Log
 
 Compliant with [SemVer](https://semver.org/) spec.
 
@@ -89,6 +89,10 @@ Events are used internally to support the `react-dynadux`.
 ###### Support React Provider [react-dynadux](https://github.com/aneldev/react-dynadux)
 
 `createStore` result also returns the `provider` property, needed by the `react-dynadux`.
+
+### v2.4.0
+
+Catches the errors from middlewares and reducers, since uncaught errors block later dispatches. The error is consoled. 
 
 # Read more 
 

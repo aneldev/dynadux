@@ -22,5 +22,5 @@ Reducer is a function called by an action's dispatch and returns the new version
 - [Typescript](./Typescript.md) Tips for Typescript implementations
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
-- [Changelog](./Changelog.md) Changes of Dynadux per semver version
+- [Change Log](doc/Change-Log.md) Changes of Dynadux per semver version
 - [🏠 Home, Contents](../README.md#table-of-contents)
