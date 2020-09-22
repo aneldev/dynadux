@@ -3,6 +3,7 @@ export interface IDynaduxDebugMiddlewareConfig {
     debuggerStoreName: string;
     consoleDispatch?: boolean;
     consolePayload?: boolean;
+    consoleState?: boolean;
     consoleMethod?: 'log' | 'debug';
     consoleFilter?: (action: string, payload: any) => boolean;
 }
@@ -10,7 +11,7 @@ export interface IDebugLogItem {
     description: string;
     action: string;
     payload: any;
-    afterMs: number;
+    afterMs?: number;
     before: any;
     after: any;
     date: Date;

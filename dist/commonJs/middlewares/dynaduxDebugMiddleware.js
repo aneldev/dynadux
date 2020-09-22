@@ -6,7 +6,7 @@ var EDynaduxDebugMiddlewareActions;
     EDynaduxDebugMiddlewareActions["SET_STATE"] = "__EDynaduxDebugMiddlewareActions__SET_STATE";
 })(EDynaduxDebugMiddlewareActions || (EDynaduxDebugMiddlewareActions = {}));
 exports.dynaduxDebugMiddleware = function (config) {
-    var _a = config.debuggerStoreName, debuggerStoreName = _a === void 0 ? '' : _a, _b = config.consoleDispatch, consoleDispatch = _b === void 0 ? true : _b, _c = config.consolePayload, consolePayload = _c === void 0 ? false : _c, _d = config.consoleMethod, consoleMethod = _d === void 0 ? 'debug' : _d, _e = config.consoleFilter, consoleFilter = _e === void 0 ? function () { return true; } : _e;
+    var _a = config.debuggerStoreName, debuggerStoreName = _a === void 0 ? '' : _a, _b = config.consoleDispatch, consoleDispatch = _b === void 0 ? true : _b, _c = config.consolePayload, consolePayload = _c === void 0 ? false : _c, _d = config.consoleState, consoleState = _d === void 0 ? false : _d, _e = config.consoleMethod, consoleMethod = _e === void 0 ? 'debug' : _e, _f = config.consoleFilter, consoleFilter = _f === void 0 ? function () { return true; } : _f;
     if (!debuggerStoreName)
         return {}; // Exit, it is disabled.
     var lastDispatch = 0;
@@ -65,7 +65,10 @@ exports.dynaduxDebugMiddleware = function (config) {
                 action: 'INFO DynaduxDebugMiddleware Initial State',
                 initialState: {},
                 state: store.state,
-                payload: { debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.', debugTag: 2487602415245 },
+                payload: {
+                    debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.',
+                    debugTag: 2487602415245
+                },
                 dispatch: store.dispatch,
             });
         },
@@ -91,7 +94,7 @@ exports.dynaduxDebugMiddleware = function (config) {
                     return undefined;
                 return now.valueOf() - lastDispatch;
             })();
-            dynaduxDebugger.log.push({
+            var logItem = {
                 description: [
                     frontSpace(' ', "#" + nextIndex, 5),
                     frontSpace(' ', "+" + duration(afterMs), 10),
@@ -106,15 +109,29 @@ exports.dynaduxDebugMiddleware = function (config) {
                 after: state,
                 date: now,
                 changed: changed,
-            });
+            };
+            dynaduxDebugger.log.push(logItem);
             lastDispatch = now.valueOf();
             if (consoleDispatch
                 && (!payload || payload.debugTag !== 2487602415245)
                 && consoleFilter(action, payload)) {
-                var consoleArgs = [debuggerStoreName, 'dispatch', action];
-                if (consolePayload)
-                    consoleArgs.push(payload);
-                console[consoleMethod].apply(console, consoleArgs);
+                console[consoleMethod].apply(console, ([
+                    [
+                        debuggerStoreName,
+                        frontSpace(' ', "#" + nextIndex, 5),
+                        frontSpace(' ', "+" + duration(afterMs), 10),
+                        frontSpace(' ', duration(reducerElapsedMs), 6),
+                        frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 13),
+                        action,
+                    ].filter(Boolean).join(' '),
+                    consolePayload && 'Payload',
+                    consolePayload && payload,
+                    consoleState && {
+                        before: initialState,
+                        after: state,
+                        changed: changed,
+                    }
+                ].filter(Boolean)));
             }
         },
     };
