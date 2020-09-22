@@ -58,9 +58,11 @@ const store = createStore({
     middlewares: [
         dynaduxDebugMiddleware({
           debuggerStoreName: 'debug_myStore',   // Required
-          consoleDispatch: true,                // Optional, this is the default value
-          consolePayload: false,                // Optional, this is the default value
-          consolePayload: 'debug',              // Optional, this is the default value
+          consoleDispatch: true,                // Optional Consoles a dispatch (on after of dispatch) default: true
+          consolePayload: false,                // Optional Console the payload, default: false
+          consoleState: false,                  // Optional Console the before and after version of the state, default: false
+          consoleMethog: 'debug',               // Optional The console method to be used. Options 'log' or 'debug', default: 'debug'
+          consoleFilter: (action: string, payload: any) => true,    // Optional Console filter with callback
         }),
     ],
     reducers: {...},

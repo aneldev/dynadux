@@ -3,8 +3,9 @@ import {global} from "../tools/global";
 
 export interface IDynaduxDebugMiddlewareConfig {
   debuggerStoreName: string;        // This will be used a global variable name for debugging, empty string means disabled debugger.
-  consoleDispatch?: boolean;        // On After dispatch, default: true
+  consoleDispatch?: boolean;        // Consoles a dispatch (on after of dispatch) default: true
   consolePayload?: boolean;         // Console the payload, default: false
+  consoleState?: boolean;           // Console the before and after version of the state, default: false
   consoleMethod?: 'log' | 'debug';  // Default: debug
   consoleFilter?: (action: string, payload: any) => boolean;  // Filter the consoled dispatches
 }
@@ -13,7 +14,7 @@ export interface IDebugLogItem {
   description: string;
   action: string;
   payload: any;
-  afterMs: number;
+  afterMs?: number;
   before: any;
   after: any;
   date: Date;
@@ -29,6 +30,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
     debuggerStoreName = '',
     consoleDispatch = true,
     consolePayload = false,
+    consoleState = false,
     consoleMethod = 'debug',
     consoleFilter = () => true,
   } = config;
@@ -91,7 +93,10 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         action: 'INFO DynaduxDebugMiddleware Initial State',
         initialState: {},
         state: store.state,
-        payload: {debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.', debugTag: 2487602415245},
+        payload: {
+          debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.',
+          debugTag: 2487602415245
+        },
         dispatch: store.dispatch,
       });
     },
@@ -116,7 +121,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         return now.valueOf() - lastDispatch;
       })();
 
-      dynaduxDebugger.log.push({
+      const logItem: IDebugLogItem = {
         description:
           [
             frontSpace(' ', `#${nextIndex}`, 5),
@@ -132,7 +137,9 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         after: state,
         date: now,
         changed,
-      } as IDebugLogItem);
+      };
+
+      dynaduxDebugger.log.push(logItem);
 
       lastDispatch = now.valueOf();
 
@@ -141,9 +148,27 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         && (!payload || payload.debugTag !== 2487602415245)
         && consoleFilter(action, payload)
       ) {
-        const consoleArgs = [debuggerStoreName, 'dispatch', action];
-        if (consolePayload) consoleArgs.push(payload);
-        console[consoleMethod](...consoleArgs);
+        console[consoleMethod](
+          ...(
+            [
+              [
+                debuggerStoreName,
+                frontSpace(' ', `#${nextIndex}`, 5),
+                frontSpace(' ', `+${duration(afterMs)}`, 10),
+                frontSpace(' ', duration(reducerElapsedMs), 6),
+                frontSpace(' ', `${now.toLocaleTimeString()}.${frontSpace('0', now.getMilliseconds(), 4)}`, 13),
+                action,
+              ].filter(Boolean).join(' '),
+              consolePayload && 'Payload',
+              consolePayload && payload,
+              consoleState && {
+                before: initialState,
+                after: state,
+                changed,
+              }
+            ].filter(Boolean)
+          )
+        );
       }
     },
   };
