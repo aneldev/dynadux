@@ -1,6 +1,6 @@
 [🏠 Home](../README.md)
 
-# Dynadux - Redux
+# Dynadux - React
 
 # How to use it in React apps/components
 
