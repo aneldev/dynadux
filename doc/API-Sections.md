@@ -23,7 +23,7 @@ The benefit of Sections is that reducers cannot access the state of the other se
 
 Imagine we have a To-Do app with a user login feature.
 
-One section is the User feature. That keeps information if the user is logged, the avatar of the user, etc..
+One section is the User feature. That keeps information if the user is logged in, the avatar of the user, etc..
 
 Another section is the To-Do feature.
 
@@ -52,9 +52,20 @@ But in practice, we won't use it, because, in the end, the state will be accesse
 _We will see that later._
 
 Initial state and reducers are remaining the same as we learned in the previous chapters. There is nothing new to learn.
+
+**File: `createUserInfoSection.ts`**
 ```
-const createUserInfoSection = (store: ICreateStoreAPI) => {
-  const section = store.createSection({
+interface IUserAuthState {
+  logged: boolean;
+  name: string;
+  avatar: string;
+  loggedAt: string;
+}
+
+// The IAppStore is not created yet, will will do it at end.
+
+const createUserInfoSection = (store: IAppStore) => {
+  const section = store.createSection<IUserAuthState>({
     section: 'userSection',
     initialState: {
       logged: false,
@@ -63,7 +74,7 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
       loggedAt: '',
     },
     reducers: {
-      [EUserActions.LOGIN]: ({payload}) => {
+      [EUserActions.LOGIN]: ({payload}): Partial<IUserAuthState> => {
         const {
           name,
           avatar,
@@ -75,7 +86,7 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
           loggedAt: "today",
         };
       },
-      [EUserActions.LOGOUT]: ({state: {logged}}) => {
+      [EUserActions.LOGOUT]: ({state: {logged}}): Partial<IUserAuthState> => {
         if (!logged) return; // Exit. No need to change anything.
         return {
           logged: false,
@@ -103,28 +114,51 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
 
 Let's create another one section for the To-Do feature.
 
+**File: `createTodosSection.ts`**
 ```
-const createTodosSection = (store: ICreateStoreAPI) => {
-  const section = store.createSection<ITodosManagementState>({
+interface ITodoState {
+  todos: ITodo[];
+  lastAddedTodo: string;
+}
+
+interface ITodo {
+  id: string;
+  label: string;
+  done: boolean;
+}
+
+enum ETodosActions {
+  ADD_TODO = "ADD_TODO",            // payload: IADD_TODO_payload
+  REMOVE_TODO = "REMOVE_TODO",      // payload: number: the id of the todo
+  COMPLETE_TODO = "COMPLETE_TODO",  // payload: number: the id of the todo
+}
+
+interface IADD_TODO_payload {
+  id: number;
+  label: string;
+}
+
+const createTodosSection = (store: IAppStore) => {
+  const section = store.createSection<ITodoState>({
     section: 'todosSection',
     initialState: {
       todos: [],
       lastAddedTodo: '',
     },
     reducers: {
-      [ETodosActions.ADD_TODO]: ({state: {todos}, payload}) => {
+      [ETodosActions.ADD_TODO]: ({state: {todos}, payload}): Partial<ITodoState> => {
         const {id, label}: IADD_TODO_payload = payload;
         return {
           todos: todos.concat({id, label, done: false}),
           lastAddedTodo: "today",
         };
       },
-      [ETodosActions.REMOVE_TODO]: ({state: {todos}, payload: id}) => {
+      [ETodosActions.REMOVE_TODO]: ({state: {todos}, payload: id}): Partial<ITodoState> => {
         return {
           todos: todos.filter(todo => todo.id !== id),
         };
       },
-      [ETodosActions.COMPLETE_TODO]: ({state: {todos}, payload: id}) => {
+      [ETodosActions.COMPLETE_TODO]: ({state: {todos}, payload: id}): Partial<ITodoState> => {
         return {
           todos: todos.map(todo => {
             if (todo.id === id) return ({...todo, done: true});
@@ -150,23 +184,18 @@ const createTodosSection = (store: ICreateStoreAPI) => {
 
 ### #2 The Create App Store function
 
-This Create App Store
-- requests an onChange callback to get notified for the changes
-- returns an API to use the store.
+The returned API will be directly the API of the Sections and Components. 
 
-The returned API will be directly the API of the Sections. 
-
-So, we create the Dynadux store, with the classic `createStore`, but we don't pass reducers for the sections.
+So, we create the Dynadux store, with the classic `createStore`, but we don't pass any reducers.
 
 As an output of the function, we return a small API. For each Section, we create a property with the returned value of the create section function. The function of each section requires the Store to be attached to this store.
 
 The function to create the app store:
 
+**File: `createAppStore.ts`**
 ```
-const createAppStore = (onChange: (state: IAppState) => void) => {
-  const store = createStore<IAppState>({
-    onChange,
-  });
+const createAppStore = () => {
+  const store = createStore<IAppState>();
 
   return {
     user: createUserInfoSection(store),
@@ -175,7 +204,19 @@ const createAppStore = (onChange: (state: IAppState) => void) => {
 };
 ```
 
+The return of this method is the `IAppStore`. To create autmatically a an interface for this, on another file we create the `IAppStore` interface, where this is used by the reducers and view components.
+
+
+**File: `IAppStore.ts`**
+```
+import {createAppStore} from "./createAppStore";
+
+export interface IAppStore extends ReturnType<typeof createAppStore> {}
+```
+
 That's all! The app´s store is nothing but a concatenation of Sections.
+
+> Tip: The `createAppStore.ts` is the only place where you can add [middlewares](https://github.com/aneldev/dynadux/blob/master/doc/API-Middlewares.md).
 
 ### #3 Usage of our app store
 
@@ -193,6 +234,8 @@ store.user.state          // The user's info
 store.todos.state.todos   // The array with current todos
 
 ```
+
+[How to user the created store in React Components with `Provider`](https://github.com/aneldev/dynadux/blob/master/doc/React.md)
 
 # `createSection()` API
 
