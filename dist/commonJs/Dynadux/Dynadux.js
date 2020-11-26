@@ -48,7 +48,9 @@ var Dynadux = /** @class */ (function () {
             var blockChange = userBlockChange || !triggerChange;
             var _d = _this._config.middlewares, middlewares = _d === void 0 ? [] : _d;
             try {
-                middlewares.forEach(function (_a) {
+                middlewares
+                    .filter(Boolean)
+                    .forEach(function (_a) {
                     var before = _a.before;
                     if (!before)
                         return;
@@ -88,7 +90,9 @@ var Dynadux = /** @class */ (function () {
             }
             try {
                 var reducerElapsedMs_1 = Date.now() - reducerStart;
-                middlewares.forEach(function (_a) {
+                middlewares
+                    .filter(Boolean)
+                    .forEach(function (_a) {
                     var after = _a.after;
                     if (!after)
                         return;
@@ -126,7 +130,7 @@ var Dynadux = /** @class */ (function () {
         this._reducers =
             Array.isArray(reducers)
                 ? combineMultipleReducers_1.combineMultipleReducers.apply(void 0, reducers) : reducers;
-        middlewares.forEach(function (middleware) { return middleware.init && middleware.init(_this); });
+        middlewares.forEach(function (middleware) { return middleware && middleware.init && middleware.init(_this); });
     }
     Object.defineProperty(Dynadux.prototype, "state", {
         get: function () {
