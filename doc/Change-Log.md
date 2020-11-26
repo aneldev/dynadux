@@ -94,6 +94,10 @@ Events are used internally to support the `react-dynadux`.
 
 Catches the errors from middlewares and reducers, since uncaught errors block later dispatches. The error is consoled. 
 
+### v2.4.5
+
+`middlewares` array accepts `false`, `null` and `undefined` values for inline comparison (ternary operators).
+
 # Read more 
 
 - [FAQ](./FAQ.md) Frequently asked questions

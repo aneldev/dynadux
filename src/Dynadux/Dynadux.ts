@@ -1,10 +1,10 @@
-import { combineMultipleReducers } from "../utils/combineMultipleReducers";
-import { consoledOnce } from "../utils/consoleOnce";
+import {combineMultipleReducers} from "../utils/combineMultipleReducers";
+import {consoledOnce} from "../utils/consoleOnce";
 
 export interface IDynaduxConfig<TState> {
   initialState?: TState;
   reducers?: IDynaduxReducerDic<TState> | IDynaduxReducerDic<TState>[];
-  middlewares?: IDynaduxMiddleware<any, any>[];
+  middlewares?: (IDynaduxMiddleware<any, any> | null | undefined | false)[];
   onDispatch?: (action: string, payload: any) => void;
   onChange?: (state: TState, action: string, payload?: any) => void;
 }
@@ -80,7 +80,7 @@ export class Dynadux<TState = any> {
         ? combineMultipleReducers(...reducers)
         : reducers;
 
-    middlewares.forEach(middleware => middleware.init && middleware.init(this));
+    middlewares.forEach(middleware => middleware && middleware.init && middleware.init(this));
   }
 
   public get state(): TState {
@@ -133,21 +133,23 @@ export class Dynadux<TState = any> {
     const {middlewares = []} = this._config;
 
     try {
-      middlewares.forEach(({before}) => {
-        if (!before) return;
-        const middlewarePartialChange = before({
-          action,
-          payload,
-          dispatch: this.dispatch,
-          state: newState,
+      middlewares
+        .filter(Boolean)
+        .forEach(({before}: IDynaduxMiddleware) => {
+          if (!before) return;
+          const middlewarePartialChange = before({
+            action,
+            payload,
+            dispatch: this.dispatch,
+            state: newState,
+          });
+          if (!changed && !!middlewarePartialChange) changed = true;
+          if (!middlewarePartialChange) return;
+          newState = {
+            ...newState,
+            ...middlewarePartialChange,
+          };
         });
-        if (!changed && !!middlewarePartialChange) changed = true;
-        if (!middlewarePartialChange) return;
-        newState = {
-          ...newState,
-          ...middlewarePartialChange,
-        };
-      });
     } catch (e) {
       console.error('Dynadux: A middleware on `before` raised an exception', e);
     }
@@ -174,24 +176,26 @@ export class Dynadux<TState = any> {
 
     try {
       const reducerElapsedMs = Date.now() - reducerStart;
-      middlewares.forEach(({after}) => {
-        if (!after) return;
-        const middlewarePartialChange = after({
-          action,
-          payload,
-          dispatch: this.dispatch,
-          state: newState,
-          initialState,
-          changed,
-          reducerElapsedMs,
+      middlewares
+        .filter(Boolean)
+        .forEach(({after}: IDynaduxMiddleware) => {
+          if (!after) return;
+          const middlewarePartialChange = after({
+            action,
+            payload,
+            dispatch: this.dispatch,
+            state: newState,
+            initialState,
+            changed,
+            reducerElapsedMs,
+          });
+          if (!changed && !!middlewarePartialChange) changed = true;
+          if (!middlewarePartialChange) return;
+          newState = {
+            ...newState,
+            ...middlewarePartialChange,
+          };
         });
-        if (!changed && !!middlewarePartialChange) changed = true;
-        if (!middlewarePartialChange) return;
-        newState = {
-          ...newState,
-          ...middlewarePartialChange,
-        };
-      });
     } catch (e) {
       console.error('Dynadux: A middleware on `after` raised an exception', e);
     }

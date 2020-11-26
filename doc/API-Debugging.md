@@ -45,6 +45,26 @@ const store = createStore({
 });
 
 ```
+Enable the middleware be `localStorage` value
+
+```
+import {createStore, dynaduxDebugMiddleware} from "dynadux";
+
+const STORE_DEBUG_MODE = !!localStorage.getItem('_debug_appStore');
+
+const store = createStore({
+    initialState: {...},
+    middlewares: [
+        STORE_DEBUG_MODE && dynaduxDebugMiddleware({
+          debuggerStoreName: 'debug_myStore',
+        }),
+    ],
+    reducers: {...},
+});
+
+```
+
+> Tip: `middlewares` accepts `false`, `null` and `undefined` values.
 
 **Note:** Put the `dynaduxDebugMiddleware` as last middleware to collect all the changes of the dispatch.
 

@@ -25,6 +25,9 @@ describe('Dynadux', () => {
           todos: [],
         },
         middlewares: [
+          false,
+          undefined,
+          null,
           {
             after: ({action, payload}) => {
               console.log('dispatch', new Date, action, payload);
