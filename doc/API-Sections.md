@@ -55,6 +55,8 @@ Initial state and reducers are remaining the same as we learned in the previous 
 
 **File: `createUserInfoSection.ts`**
 ```
+import {ICreateStoreAPI} from "dynadux";
+
 interface IUserAuthState {
   logged: boolean;
   name: string;
@@ -64,7 +66,7 @@ interface IUserAuthState {
 
 // The IAppStore is not created yet, will will do it at end.
 
-const createUserInfoSection = (store: IAppStore) => {
+const createUserInfoSection = (store: ICreateStoreAPI) => {
   const section = store.createSection<IUserAuthState>({
     section: 'userSection',
     initialState: {
@@ -116,6 +118,8 @@ Let's create another one section for the To-Do feature.
 
 **File: `createTodosSection.ts`**
 ```
+import {ICreateStoreAPI} from "dynadux";
+
 interface ITodoState {
   todos: ITodo[];
   lastAddedTodo: string;
@@ -138,7 +142,7 @@ interface IADD_TODO_payload {
   label: string;
 }
 
-const createTodosSection = (store: IAppStore) => {
+const createTodosSection = (store: ICreateStoreAPI) => {
   const section = store.createSection<ITodoState>({
     section: 'todosSection',
     initialState: {
