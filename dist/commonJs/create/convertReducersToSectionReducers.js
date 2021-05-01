@@ -17,9 +17,9 @@ exports.convertReducersToSectionReducers = function (section, sectionReducers) {
         var originalReducer = sectionReducers[action];
         acc[action] = function (params) {
             var _a;
-            var subPartialState = originalReducer(__assign(__assign({}, params), { state: params.state[section] }));
-            if (subPartialState)
-                return __assign(__assign({}, params.state), (_a = {}, _a[section] = __assign(__assign({}, params.state[section]), subPartialState), _a));
+            var subPartialState = originalReducer(__assign(__assign({}, params), { state: params.state[section] }))
+                || {};
+            return __assign(__assign({}, params.state), (_a = {}, _a[section] = __assign(__assign({}, params.state[section]), subPartialState), _a));
         };
         return acc;
     }, {});

@@ -269,4 +269,4 @@ Learn the API to master the Dynadux.
 - [Terminology](./doc/Terminology.md) Terminology of dynadux, (is small!)
 - [History, Undo/Redo](https://github.com/aneldev/dynadux-history-middleware) Middleware for History, Undo/Redo and Restore Points
 - [React Dynadux](https://github.com/aneldev/react-dynadux) Provider for Dynadux App Stores
-- [Change Log](./Change-Log.md) Changes of Dynadux per semver version
+- [Change Log](./doc/Change-Log.md) Changes of Dynadux per semver version
