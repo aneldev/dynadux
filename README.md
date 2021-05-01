@@ -248,14 +248,23 @@ And nothing else! Since it is small and straightforward, we can use it in the ar
 
 # API
 
-Learn the API to master the Dynadux.
+## Just for App State Management
+
+That's enough to setup an Application State Management.
+
+- [Create store](doc/API-CreateStore.md)
+- [Reducers](doc/API-Reducers.md)
+- [Sections](doc/API-Sections.md)
+
+## Complete guide
+
+Complete guide including middlewares and debugging.
 
 - [Create store](doc/API-CreateStore.md)
 - [Reducers](doc/API-Reducers.md)
 - [Middlewares](doc/API-Middlewares.md)
 - [Sections](doc/API-Sections.md)
 - [Debugging](doc/API-Debugging.md)
-- 🎉 and that's it, you are mastering the Dynadux!
 
 <a name="readMore"/>
 

@@ -2,78 +2,84 @@
 
 # Dynadux - Sections
 
-Sections are new in 1.5.0 and help to create states for applications or big components. It is not required to use it.
+We can split a Store (aka App's State) into smaller states, the **Sections**.
 
-Once we create a store, we can create a section that scopes on the specific root property of the Store's State.
+A section is the same as the Store, but it changes only one Store's property, one Section.
 
-The implementation of a Section is the same as of a Store.
+The reducers of the Section cannot change the data of other sections.
 
-The benefit of Sections is that reducers cannot access the state of the other sections or the state of the app.
+Again a reducer can read data from other Sections through the instance of the Store but cannot write.
+
+This restriction helps to make decoupled parts in the same Store. With sections, you can also add 3rd party solutions that cannot ruin your Store by mistake.
+
+In this text is described all steps to write a store with sections.
 
 [Full example](../tests/scripts/sections.test.ts)
 
 # Principals
 
-- Each Section is creating a property on the root level of State.
-- Reducers can access the state of the root property only.
-- The provided state from a Section is the state of the root property.
-- You can still pass the entire state of the app manually, but this is not recommended.
+- Each Section is creating a property on the root level of the State.
+- Reducers can access the State of this root property only.
+- The provided State from a Section is the State of the root property.
+- You can still access the entire Store.
 
 # Example how to use them
 
 Imagine we have a To-Do app with a user login feature.
 
-One section is the User feature. That keeps information if the user is logged in, the avatar of the user, etc..
+**One Section is the User Authentication feature.** That keeps information if the user is logged in, the avatar of the user, etc.
 
-Another section is the To-Do feature.
+**The other Section is the To-Do feature.** This is just a feature of our App.
 
-These two sections and features are completely decoupled. The concept is that the To-Do feature should work on any application decoupled from User Handling.
+These two sections and features are entirely decoupled. The concept is that the To-Do feature should work on any application decoupled from User Authorization.
 
-On the application layer, when the user logged, the app will ask from the To-Do to fetch the to-do items for this user id.
+On the application layer, when the user logged, the App will ask from the To-Do to fetch the to-do items for this user id.
 
-# Steps to work with Sections
+# Steps to implement a complete Store with sections
 
-_Examples are in Typescript_
+## Summary
 
-### #1 The Create Section function
+1. Create the sections
+2. Implement the Section (enum actions, reducers, output business methods)
+3. Create the `IAppState.ts`
+4. Connect is the Store
 
-Create Section function is a function that 
-- takes the created store as argument _and_
-- returns a business API to use it later in the application.
+We need only these files:
 
-From the passed store reference, we use the `createSection` function that requires:
-- `section: string`, the name of the section
-- `initialState`, the initial state of the section
-- `reducers`, the reducers scoped the section
+```
+userAuthSection.ts  // Our sections
+todoSection.ts
+IAppState.ts        // Our entire App state
+store.ts            // Our Business store
 
-What is new here is only the `section` string. 
-This will be the root property name in the Store's state. 
-But in practice, we won't use it, because, in the end, the state will be accessed from the return of this function. 
-_We will see that later._
+```
 
-Initial state and reducers are remaining the same as we learned in the previous chapters. There is nothing new to learn.
+The Business store can expose the state `IAppState`, business methods, etc.., it is fully customizable.
 
-**File: `createUserInfoSection.ts`**
+## 1. Create the sections
+
+Create the `userAuthSection.ts` file for the User Authentication section.
+
+**File: `userAuthSection.ts`**
 ```
 import {ICreateStoreAPI} from "dynadux";
+import {IAppState} from "./IAppState.ts".
 
-interface IUserAuthState {
+export interface IUserAuthState {
   logged: boolean;
   name: string;
   avatar: string;
-  loggedAt: string;
+  loggedAt: number;
 }
 
-// The IAppStore is not created yet, will will do it at end.
-
-const createUserInfoSection = (store: ICreateStoreAPI) => {
+const createUserAuthSection = (store: ICreateStoreAPI<IAppState>) => {
   const section = store.createSection<IUserAuthState>({
-    section: 'userSection',
+    section: 'userAuth',
     initialState: {
       logged: false,
       name: '',
       avatar: '',
-      loggedAt: '',
+      loggedAt: -1,
     },
     reducers: {
       [EUserActions.LOGIN]: ({payload}): Partial<IUserAuthState> => {
@@ -85,7 +91,7 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
           logged: true,
           name,
           avatar,
-          loggedAt: "today",
+          loggedAt: Date.now(),
         };
       },
       [EUserActions.LOGOUT]: ({state: {logged}}): Partial<IUserAuthState> => {
@@ -94,7 +100,7 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
           logged: false,
           name: '',
           avatar: '',
-          loggedAt: "today",
+          loggedAt: -1,
         };
       },
       [EUserActions.UPDATE_AVATAR]: ({payload: avatar}) => ({avatar}),
@@ -114,18 +120,21 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
 };
 ```
 
-Let's create another one section for the To-Do feature.
+**Note:** Here, we import the `IAppState` that we haven't created yet. We will do it next.
 
-**File: `createTodosSection.ts`**
+Let's create another section for the To-Do feature.
+
+**File: `todoSection.ts`**
 ```
 import {ICreateStoreAPI} from "dynadux";
+import {IAppState} from "./IAppState.ts".
 
-interface ITodoState {
+export interface ITodoState {
   todos: ITodo[];
-  lastAddedTodo: string;
+  lastAddedTodo: number;
 }
 
-interface ITodo {
+export interface ITodo {
   id: string;
   label: string;
   done: boolean;
@@ -142,19 +151,19 @@ interface IADD_TODO_payload {
   label: string;
 }
 
-const createTodosSection = (store: ICreateStoreAPI) => {
+const createTodosSection = (store: ICreateStoreAPI<IAppState>) => {
   const section = store.createSection<ITodoState>({
-    section: 'todosSection',
+    section: 'todo',
     initialState: {
       todos: [],
-      lastAddedTodo: '',
+      lastAddedTodo: -1,
     },
     reducers: {
       [ETodosActions.ADD_TODO]: ({state: {todos}, payload}): Partial<ITodoState> => {
         const {id, label}: IADD_TODO_payload = payload;
         return {
           todos: todos.concat({id, label, done: false}),
-          lastAddedTodo: "today",
+          lastAddedTodo: Date.now(),
         };
       },
       [ETodosActions.REMOVE_TODO]: ({state: {todos}, payload: id}): Partial<ITodoState> => {
@@ -185,46 +194,69 @@ const createTodosSection = (store: ICreateStoreAPI) => {
   };
 };
 ```
+**Note:** Here, we import the `IAppState` that we haven't created yet. We will do it next.
 
-### #2 The Create App Store function
+## 3. Create the `IAppState.ts`
 
-The returned API will be directly the API of the Sections and Components. 
+The App's State is created by the connection of the sections to our Store. This is happening on `store.ts`.
 
-So, we create the Dynadux store, with the classic `createStore`, but we don't pass any reducers.
+The App's State is a flat object that each key is the name of the `section`, and the value is the `state` of the Section.
 
-As an output of the function, we return a small API. For each Section, we create a property with the returned value of the create section function. The function of each section requires the Store to be attached to this store.
+The name of the Section is defined on each section creation on `section` property.
 
-The function to create the app store:
+We create the `IAppState` interface, and we pass it to the `ICreateStoreAPI` for each Section, so each Section has the types of the other sections.
 
-**File: `createAppStore.ts`**
+**File: `IAppState.ts`**
+
 ```
-const createAppStore = () => {
+import {IUserAuthState} from "./userAuthSection";
+import {ITodoState} from "./todoSection";
+
+export interface IAppState {
+  userAuth: IUserAuthState;
+  todo: ITodoState;
+}
+```
+
+## 4. Connect is the Store
+
+Finally, let's create our Store connecting the sections.
+
+_This is the easiest part!_
+
+
+**File: `store.ts`**
+```
+import {IAppState} from "./todoSection";
+
+import {createUserAuthSection} from "./userAuthSection";
+import {createTodosSection} from "./todoSection";
+
+export const createAppStore = () => {
   const store = createStore<IAppState>();
 
   return {
-    user: createUserInfoSection(store),
+    user: createUserAuthSection(store),
     todos: createTodosSection(store),
   };
 };
-```
-
-The return of this method is the `IAppStore`. To create autmatically a an interface for this, on another file we create the `IAppStore` interface, where this is used by the reducers and view components.
-
-
-**File: `IAppStore.ts`**
-```
-import {createAppStore} from "./createAppStore";
 
 export interface IAppStore extends ReturnType<typeof createAppStore> {}
-```
-
-That's all! The app´s store is nothing but a concatenation of Sections.
-
-> Tip: The `createAppStore.ts` is the only place where you can add [middlewares](https://github.com/aneldev/dynadux/blob/master/doc/API-Middlewares.md).
-
-### #3 Usage of our app store
 
 ```
+
+Here we export the `IAppStore`. This is the final Store.
+
+In `Dynadux`, this is called a **Business Store** since it is not just a state but has methods as well, and it is a more business-oriented version of the Store.
+
+The Object User of the Store, the App, doesn't need to know dispatch and actions! Just use the methods. This is the significant difference compared to Redux.
+
+## Let's use it
+
+
+```
+import {createAppStore} from "./store";
+
 // Create the app's store
 const store = createAppStore(this.setState.bind(this));
 
@@ -239,9 +271,13 @@ store.todos.state.todos   // The array with current todos
 
 ```
 
-[How to user the created store in React Components with `Provider`](https://github.com/aneldev/dynadux/blob/master/doc/React.md)
+## Let's use it in React
 
-# `createSection()` API
+[Use the `store` in React](https://github.com/aneldev/dynadux/blob/master/doc/React.md)
+
+# API
+
+## `createSection()`
 
 The `createSection` methods require a config object of this interface:
 
@@ -263,12 +299,11 @@ ICreateSectionAPI<TSectionState> {
 }
 ```
 
-Through the `storeState` getter, you can get the State of the Store. 
-That means that you can access one level up data are unknown for the Section. 
-In some cases, this maybe needed.
+Through the `storeState` getter, you can get the State of the Store.
+That means that you can access one level up data that are unknown for the Section.
 
-Keep in mind that accessing the Store's State makes the Section dependent on the app's State.
-Keeping Section decoupled from the Store's state makes it reusable in other apps. 
+Keep in mind that accessing the Store's State makes the Section dependent on the App's state.
+Keeping Section decoupled from the Store's State makes it reusable in other apps.
 
 # Sum up
 
@@ -277,7 +312,7 @@ Sections help to create isolated state scopes.
 Sections consisted of
 - initial section state
 - classic reducers
-- the output of an API for being used from the app
+- the output of an API for being used from the App
 
 We create a Dynadux store. As an App store, we return an object with the returned API of each Section.
 
@@ -285,8 +320,6 @@ We create a Dynadux store. As an App store, we return an object with the returne
 
 # Continue
 
-[⬅️ Middlewares](./API-Middlewares.md) 🔶 [Debugging ➡️](./API-Debugging.md) 
+[⬅️ Middlewares](./API-Middlewares.md) 🔶 [Debugging ➡️](./API-Debugging.md)
 
 [🏠 Home, Contents](../README.md#table-of-contents)
-
-

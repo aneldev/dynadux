@@ -4,9 +4,17 @@
 
 An instance of the Dynadux has the `state` getter and the `dispatch` method only.
 
-# Business Store
+# Store state or IAppState
 
-Business Store is an instance that uses Dynadux internally.
+Is the state that is used by the store. This state is build by the Store's `initialState`s or by the added sections.
+
+The `IAppState` is not exposed to the sections and reducers but not always to the Object user, depends on what is exposed by the output of your business store.
+
+The `IAppState` would be structured like database, and the state would be exported by functions that are using this data resource.
+
+# Business Store or IAppStore
+
+Business Store is an instance that uses Dynadux internally and exposes business methods.
 
 # Reducer
 
