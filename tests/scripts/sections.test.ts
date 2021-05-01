@@ -24,7 +24,7 @@ interface ILOGIN_payload {
   avatar: string;
 }
 
-const createUserInfoSection = (store: ICreateStoreAPI) => {
+const createUserInfoSection = (store: ICreateStoreAPI<IAppState>) => {
   let changes = 0;
   const section = store.createSection<IUserInfoState>({
     section: 'userSection',
@@ -100,7 +100,7 @@ interface IADD_TODO_payload {
   label: string;
 }
 
-const createTodosSection = (store: ICreateStoreAPI) => {
+const createTodosSection = (store: ICreateStoreAPI<IAppState>) => {
   let changes = 0;
   const section = store.createSection<ITodosManagementState>({
     section: 'todosSection',
