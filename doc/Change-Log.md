@@ -60,7 +60,7 @@ Inside reducer's (action's) implementation, Dynadux is offering the `blockChange
 
 ### v2.0.0
 
-###### Debugger's configuration change
+###### Improvement: Debugger's configuration change
 
 With this breaking version, only the Debugger's Configuration is changed.
 
@@ -72,13 +72,15 @@ For more read the [Debugging](./API-Debugging.md) section.
 
 ### v2.0.2
 
+###### Improvement: Simpler name
+
 The dispatch's config prop `triggerChange` is renamed to `blockChange` _with opposite logic_. 
 
 The `triggerChange` has still backward compatibility with console warn till next major release.
 
 ### v2.2.0
 
-###### add/removeChangeEventListener for Store and Sections
+###### Feature: add/removeChangeEventListener for Store and Sections
 
 You can register/unregister listeners for Store's or Section's changes.
 
@@ -86,17 +88,34 @@ The events approach is a kinda anti-pattern for state managers and for Dynadux a
 
 Events are used internally to support the `react-dynadux`.
 
-###### Support React Provider [react-dynadux](https://github.com/aneldev/react-dynadux)
+###### Feature: Support React Provider [react-dynadux](https://github.com/aneldev/react-dynadux)
 
 `createStore` result also returns the `provider` property, needed by the `react-dynadux`.
 
 ### v2.4.0
 
-Catches the errors from middlewares and reducers, since uncaught errors block later dispatches. The error is consoled. 
+###### Fix: Catch reducers errors
+
+Catches the errors from middlewares and reducers, since uncaught errors block later dispatches.
+
+The error is now consoled. 
 
 ### v2.4.5
 
+###### Improvement: Array of middlewares
+
 `middlewares` array accepts `false`, `null` and `undefined` values for inline comparison (ternary operators).
+
+### v2.5.5
+
+###### Fix: Overloaded action without result blocks the change
+
+An `action` can be overloaded. That means a reducer of another Section can implement the same action.
+
+This allows actions to be used as events.
+
+There was a bug where if an implementation of an _overloaded_ action return no change, the change wasn't applied.  
+
 
 # Read more 
 

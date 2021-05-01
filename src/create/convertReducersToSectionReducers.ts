@@ -9,12 +9,14 @@ export const convertReducersToSectionReducers = (section: string, sectionReducer
       const originalReducer = sectionReducers[action];
 
       acc[action] = (params: IDynaduxReducerAPI<any, any>): undefined | void | Partial<any> => {
-        const subPartialState = originalReducer({
-          ...params,
-          state: params.state[section],
-        });
+        const subPartialState =
+          originalReducer({
+            ...params,
+            state: params.state[section],
+          })
+          || {};
 
-        if (subPartialState) return {
+        return {
           ...params.state,
           [section]: {
             ...params.state[section],
