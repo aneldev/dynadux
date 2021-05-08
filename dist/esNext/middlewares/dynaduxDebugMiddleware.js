@@ -122,8 +122,7 @@ export var dynaduxDebugMiddleware = function (config) {
                         frontSpace(' ', now.toLocaleTimeString() + "." + frontSpace('0', now.getMilliseconds(), 4), 13),
                         action,
                     ].filter(Boolean).join(' '),
-                    consolePayload && 'Payload',
-                    consolePayload && payload,
+                    consolePayload && { Payload: payload },
                     consoleState && {
                         before: initialState,
                         after: state,
