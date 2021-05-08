@@ -266,6 +266,18 @@ Complete guide including middlewares and debugging.
 - [Sections](doc/API-Sections.md)
 - [Debugging](doc/API-Debugging.md)
 
+# What's next? The future of Dynadux.
+
+Feel free. Dynadux is simple and straightforward state management. **There are no plans to introduce new API or features because simplicity matters.**
+
+Dynadux has no dependencies, so no need to maintain them. Dynadux is running on large production projects, and most of the fixes are already applied.
+
+Improvements and updates will be for
+
+- `react-dynadux` package where is Dynadux Provider for React components
+- Current and new 3rd party Sections
+- but ont for the Dynadux itself.
+
 <a name="readMore"/>
 
 # Read more 
