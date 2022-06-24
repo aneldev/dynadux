@@ -80,7 +80,7 @@
     "jest-cli": "^24.0.0",
     "jest-junit": "^8.0.0",
     "jest-localstorage-mock": "^2.4.0",
-    "jsdom": "11.5.1",
+    "jsdom": "16.5.0",
     "jsdom-global": "3.0.2",
     "nodemon": "^1.18.6",
     "rimraf": "^2.6.2",
