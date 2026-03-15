@@ -1,16 +1,16 @@
 {
   "name": "dynadux",
-  "version": "3.0.0",
-  "description": "The Dynadux",
+  "version": "3.0.1",
+  "description": "The dynadux store with middlewares and reducers",
   "repository": {
     "type": "git",
     "url": "http://github.com/aneldev/dynadux"
   },
   "sideEffects": false,
   "source": "src/index.ts",
-  "types": "dist/commonJs/index.d.ts",
-  "main": "dist/commonJs/index.js",
-  "esnext": "dist/esNext/index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "esnext": "dist/index.js",
   "scripts": {
     "bootstrap": "echo Bootstrap started... && mv README.md README.boilerplate.md && echo \\# readme > README.md && pnpm install && rimraf .git && node bootstrap.js",
     "install-clean": "rimraf node_modules && pnpm install",
