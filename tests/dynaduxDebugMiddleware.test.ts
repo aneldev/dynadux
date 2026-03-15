@@ -2,7 +2,7 @@ import "jest";
 import {
   createStore,
   dynaduxDebugMiddleware,
-} from "../../src";
+} from "../src";
 
 interface ITodoAppState {
   todos: ITodo[];

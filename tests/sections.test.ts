@@ -2,7 +2,7 @@ import "jest";
 import {
   ICreateStoreAPI,
   createStore
-} from "../../src/create/createStore";
+} from "../src/create/createStore";
 
 // User Section store
 
@@ -24,11 +24,11 @@ interface ILOGIN_payload {
   avatar: string;
 }
 
-const createUserInfoSection = (store: ICreateStoreAPI) => {
-  const changes: { state: IUserInfoState; action: string; payload: any; }[] = [];
+const createUserInfoSection = (store: ICreateStoreAPI<IAppState>) => {
+  let changes = 0;
   const section = store.createSection<IUserInfoState>({
     section: 'userSection',
-    onChange: (state, action, payload) => changes.push({state, action, payload}),
+    onChange: () => changes++,
     initialState: {
       logged: false,
       name: '',
@@ -65,7 +65,7 @@ const createUserInfoSection = (store: ICreateStoreAPI) => {
     get state() {
       return section.state;
     },
-    get changes() {
+    get changes(): number {
       return changes;
     },
     actions: {
@@ -100,11 +100,11 @@ interface IADD_TODO_payload {
   label: string;
 }
 
-const createTodosSection = (store: ICreateStoreAPI) => {
-  const changes: { state: ITodosManagementState; action: string; payload: any; }[] = [];
+const createTodosSection = (store: ICreateStoreAPI<IAppState>) => {
+  let changes = 0;
   const section = store.createSection<ITodosManagementState>({
     section: 'todosSection',
-    onChange: (state, action, payload) => changes.push({state, action, payload}),
+    onChange: () => changes++,
     initialState: {
       todos: [],
       lastAddedTodo: '',
@@ -130,6 +130,9 @@ const createTodosSection = (store: ICreateStoreAPI) => {
           }),
         };
       },
+      [EUserActions.LOGOUT]: ({state}) => {
+        return {todos: []};
+      },
     },
   });
 
@@ -137,7 +140,7 @@ const createTodosSection = (store: ICreateStoreAPI) => {
     get state() {
       return section.state;
     },
-    get changes() {
+    get changes(): number {
       return changes;
     },
     actions: {
@@ -152,39 +155,19 @@ const createTodosSection = (store: ICreateStoreAPI) => {
 // App store
 
 interface IAppState {
-  clientId: string;
   userSection: IUserInfoState;
   todosSection: ITodosManagementState;
 }
 
-enum EAppActions {
-  SET_CLIENT_ID = "SET_CLIENT_ID"
-}
-
-const createAppStore = () => {
-  const changes: { state: IAppState; action: string; payload?: any }[] = [];
+const createAppStore = (onChange: (state: IAppState) => void) => {
   const store = createStore<IAppState>({
-    initialState: {
-      clientId: '',
-      userSection: null as any,
-      todosSection: null as any,
-    },
-    reducers: {
-      [EAppActions.SET_CLIENT_ID]: ({payload: clientId}) => {
-        return {clientId};
-      },
-    },
-    onChange: (state, action, payload) => changes.push({state, action, payload}),
+    onChange,
   });
 
   return {
     get state() {
       return store.state;
     },
-    get changes() {
-      return changes;
-    },
-    setClientId: (clientId: string): void => store.dispatch<string>(EAppActions.SET_CLIENT_ID, clientId),
     user: createUserInfoSection(store),
     todos: createTodosSection(store),
   };
@@ -193,15 +176,15 @@ const createAppStore = () => {
 
 describe('Dynadux', () => {
   test('Working with Sections', () => {
-    const store = createAppStore();
+    let stateChanged = 0;
+
+    const store = createAppStore(state => stateChanged++);
 
     expect(store.state).toMatchSnapshot('Initial state');
 
     store.user.actions.login('John', 'https://www.anel.co/user/928457123/profile-01.png');
     store.todos.actions.addTodo(101, 'Before work beers');
     store.todos.actions.addTodo(102, 'After work beers');
-
-    store.setClientId('client-001');
 
     expect(store.state).toMatchSnapshot('First todos');
 
@@ -213,16 +196,17 @@ describe('Dynadux', () => {
 
     expect(store.state).toMatchSnapshot('After complete 102');
 
-    store.setClientId('client-002');
-
     store.user.actions.updateAvatar('https://www.anel.co/user/928457123/profile-02.png');
 
     expect(store.state).toMatchSnapshot('After avatar update');
 
-    store.setClientId('client-003');
+    expect(stateChanged).toBe(6);
+    expect(store.user.changes).toBe(2);
+    expect(store.todos.changes).toBe(4);
 
-    expect(store.changes).toMatchSnapshot('STORE-CHANGES');
-    expect(store.user.changes).toMatchSnapshot('USER-SECTION-CHANGES');
-    expect(store.todos.changes).toMatchSnapshot('TODO-SECTION-CHANGES');
+    store.user.actions.logout();
+
+    expect(store.state).toMatchSnapshot('After logout');
+
   });
 });

@@ -1,7 +1,7 @@
 import "jest";
 import {
   createStore,
-} from "../../src";
+} from "../src";
 
 interface ITodoAppState {
   todos: ITodo[];

@@ -1,5 +1,5 @@
 import "jest";
-import { createStore } from "../../src";
+import { createStore } from "../src";
 
 interface ITodoAppState {
   logged: boolean;
