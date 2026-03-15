@@ -29,7 +29,7 @@ export const createSection = <TState, TSectionState>(
   dynadux._onChange = (state: TState, action: string, payload?: any): void => {
     if (sectionActions.includes(action)) {
       sectionChangeEventEmitter.trigger(state, action, payload);
-      onChange && onChange((state as any)[section], action, payload);
+      onChange?.((state as any)[section], action, payload);
     }
     dynaduxOnChange(state, action, payload);
   };
