@@ -1,14 +1,34 @@
 {
   "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false
+      }
+    ],
+    "@babel/preset-react"
   ],
   "plugins": [
+    "@babel/plugin-transform-nullish-coalescing-operator"
   ],
   "env": {
     "production": {
-      "presets": ["minify"]
+      "presets": [
+        [
+          "minify",
+          {
+            "builtIns": false,
+            "evaluate": false,
+            "mangle": false
+          }
+        ]
+      ]
     },
     "test": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"]
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ]
     }
   }
 }

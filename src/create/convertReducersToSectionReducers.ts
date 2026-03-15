@@ -1,6 +1,6 @@
 import {
   IDynaduxReducerDic,
-  IDynaduxReducerAPI
+  IDynaduxReducerAPI,
 } from "../Dynadux/Dynadux";
 
 export const convertReducersToSectionReducers = (section: string, sectionReducers: IDynaduxReducerDic<any>): IDynaduxReducerDic<any> => {
@@ -8,7 +8,7 @@ export const convertReducersToSectionReducers = (section: string, sectionReducer
     .reduce((acc: IDynaduxReducerDic<any>, action: string) => {
       const originalReducer = sectionReducers[action];
 
-      acc[action] = (params: IDynaduxReducerAPI<any, any>): undefined | void | Partial<any> => {
+      acc[action] = (params: IDynaduxReducerAPI<any>): undefined | void | Partial<any> => {
         const subPartialState =
           originalReducer({
             ...params,
@@ -20,7 +20,7 @@ export const convertReducersToSectionReducers = (section: string, sectionReducer
           ...params.state,
           [section]: {
             ...params.state[section],
-            ...subPartialState
+            ...subPartialState,
           },
         } as any;
       };

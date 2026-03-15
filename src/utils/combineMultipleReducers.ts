@@ -1,4 +1,4 @@
-import { IDynaduxReducerDic } from "../Dynadux/Dynadux";
+import {IDynaduxReducerDic} from "../Dynadux/Dynadux";
 
 
 export const combineMultipleReducers = <TState>(...reducerDics: Array<IDynaduxReducerDic<TState>>): IDynaduxReducerDic<TState> => {
@@ -16,7 +16,10 @@ export const combineMultipleReducers = <TState>(...reducerDics: Array<IDynaduxRe
           const originalReducer = output[action];
           output[action] = (params) => {
             const stateA = params.state || {};
-            const stateB = originalReducer({...params, state: stateA as any});
+            const stateB = originalReducer({
+              ...params,
+              state: stateA as any,
+            });
             return reducerDic[action]({
               ...params,
               state: {

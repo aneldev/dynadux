@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Dynadux combineMultipleReducers no duplicate actions 1`] = `
-Array [
+[
   "products-LOGIN",
   "cart-LOGIN",
   "products-GET_PRODUCTS",

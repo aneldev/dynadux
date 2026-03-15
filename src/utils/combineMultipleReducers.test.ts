@@ -1,4 +1,3 @@
-import "jest";
 import {IDynaduxReducerDic} from "../index";
 import {combineMultipleReducers} from "./combineMultipleReducers";
 
@@ -31,5 +30,4 @@ describe('Dynadux', () => {
 
     });
   });
-
 });

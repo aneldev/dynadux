@@ -14,7 +14,7 @@ This restriction helps to make decoupled parts in the same Store. With sections,
 
 In this text is described all steps to write a store with sections.
 
-[Full example](../tests/scripts/sections.test.ts)
+[Full example](../tests/sections.test.ts)
 
 # Principals
 
@@ -316,7 +316,7 @@ Sections consisted of
 
 We create a Dynadux store. As an App store, we return an object with the returned API of each Section.
 
-[Full example](../tests/scripts/sections.test.ts)
+[Full example](../tests/sections.test.ts)
 
 # Continue
 
