@@ -16,6 +16,7 @@ export {
   createStore,
   ICreateStoreConfig,
   ICreateStoreAPI,
+  IStoreProviderAPI,
 } from "./create/createStore";
 
 export {
