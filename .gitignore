@@ -2,13 +2,8 @@
 .idea/
 .vscode/
 .DS_Store
+dev/public/static
 coverage/
-debug-ground/debug-dev-on-nodejs/
-debug-ground/debug-test-on-nodejs/
+tests/setup/testEnvVariables.ts
 node_modules/
 temp/
-/npm-debug.log
-/bash.exe.stackdump
-/syncExternalsList.js
-/update-externals.sh
-/yarn-error.log

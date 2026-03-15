@@ -1,48 +1,103 @@
-﻿// help: http://webpack.github.io/docs/configuration.html
-// help: https://webpack.github.io/docs/webpack-dev-server.html#webpack-dev-server-cli
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
-const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
-const package_ = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-const entries = require('./webpack.entries');
-const rules = require('./webpack.loaders');
-const plugins = require('./webpack.plugins');
+const isSingleModule =
+  fs.existsSync('./src/index.ts') ||
+  fs.existsSync('./src/index.tsx');
+const thisPackageBelongsToMonorepo =
+  fs.existsSync('../../package.json') &&
+  !!require('../../package.json').workspaces;
 
-const config = {
-  mode: "development",  // do not minify the code, this part of the app, not of the module
-  target: 'web',        // help: https://webpack.github.io/docs/configuration.html#target
-  entry: entries.entry,
-  externals: [nodeExternals()].concat(['fs', 'path']), // in order to ignore all modules in node_modules folder
+const package_ = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+const loaders = require('./webpack.loaders.js');
+const plugins = require('./webpack.plugins.js');
+
+/**
+ * Exclude src/? folders when not in single mode
+ * @type {string[]}
+ */
+const EXCLUDE_SRC_FOLDERS = [
+  "@types",
+  // Other folders that won't by built by Webpack might be listed here
+]
+
+const getModuleNames =
+  root =>
+    fs.readdirSync(root, {withFileTypes: true})
+      .filter(dirent => dirent.isDirectory())
+      .filter(dirent => !EXCLUDE_SRC_FOLDERS.includes(dirent.name))
+      .map(dirent => dirent.name);
+
+const moduleNames = getModuleNames('./src');
+
+process.traceDeprecation = true;
+
+module.exports = {
+  mode: "development",          // distribute it without minification
+  target: "node",
+  entry:
+    isSingleModule
+      ? (
+        // Classic export of the /src/index.ts
+        [
+          path.resolve(__dirname, 'src/index.ts')
+        ]
+      )
+      : (
+        // Multiple module exports of the /src/<Module name>/index.ts
+        moduleNames
+          .reduce((acc, entry) => {
+            acc[entry] = `./src/${entry}`;
+            return acc;
+          }, {})
+      ),
+  externals:
+    thisPackageBelongsToMonorepo
+      ? [                  // exclude all dependencies from the bundle
+        nodeExternals(),
+        nodeExternals({
+          modulesDir: path.resolve(__dirname, '../../node_modules')
+        })
+      ]
+      : nodeExternals(),
   optimization: {
-    usedExports: true,       // true to remove the dead code, for more https://webpack.js.org/guides/tree-shaking/
+    // help: https://webpack.js.org/guides/tree-shaking/
+    usedExports: true,  // true to remove the dead code,
   },
-  devtool: "source-map",     // help: https://webpack.js.org/configuration/devtool/
-  output: {
-    path: path.resolve(__dirname, 'temp/dist'),
-    filename: '[name].js',
-    publicPath: '/temp/dist/',
-    library: package_.name,
-    libraryTarget: 'umd',
-    umdNamedDefine: true
-  },
+  devtool: "source-map",        // help: https://webpack.js.org/configuration/devtool/
+  // Every folder of ./src is a standalone exported module
+  output:
+    isSingleModule
+      ? {
+        // Classic export of the /src/index.ts
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/dist/',
+        filename: 'index.js',
+        library: package_.name,
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
+        clean: true,
+      }
+      : {
+        // Multiple module exports of the /src/<Module name>/index.ts
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/dist/',
+        filename: '[name]/index.js',
+        library: package_.name,
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
+        clean: true,
+      },
   resolve: {
     alias: {},
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".jsx"]
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".jsx"],
+    fallback: {
+      stream: require.resolve("buffer/"),
+    }
   },
   module: {
-    rules,
+    rules: loaders.module.rules,
   },
-  node: {
-    // universal app? place here your conditional imports for node env
-    fs: "empty",
-    path: "empty",
-    child_process: "empty",
-  },
-  plugins: [
-    new webpack.NamedModulesPlugin(),             // prints more readable module names in the browser console on HMR updates
-  ].concat(plugins),
+  plugins: plugins.plugins,
 };
-
-module.exports = config;
