@@ -1,6 +1,6 @@
 {
   "name": "dynadux",
-  "version": "3.0.1",
+  "version": "3.0.2-alpha.1",
   "description": "The dynadux store with middlewares and reducers",
   "repository": {
     "type": "git",
