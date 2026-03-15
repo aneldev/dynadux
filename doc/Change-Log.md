@@ -119,6 +119,7 @@ There was a bug where if an implementation of an _overloaded_ action return no c
 ### v3.x
 
 - `IDynaduxConfig.middlewares` can be only `IDynaduxMiddleware<any, any>[]`, not `false`, `null` or `undefined` anymore
+- Remove the `TPayload` from interfaces, needed only for the dispatch method
 
 # Read more 
 
