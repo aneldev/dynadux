@@ -1,4 +1,7 @@
-import {Dynadux, IDynaduxMiddleware} from "../Dynadux/Dynadux";
+import {
+  IDynaduxMiddleware,
+  Dynadux,
+} from "../Dynadux/Dynadux";
 import {global} from "../tools/global";
 
 export interface IDynaduxDebugMiddlewareConfig {
@@ -82,7 +85,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
     },
     get state(): any {
       return dynaduxDebugger.log[activeIndex].after;
-    }
+    },
   };
 
   const middleware: IDynaduxMiddleware = {
@@ -95,7 +98,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         state: store.state,
         payload: {
           debugInfo: 'This is not a real dispatch, it is a log info of DynaduxDebugMiddleware.',
-          debugTag: 2487602415245
+          debugTag: 2487602415245,
         },
         dispatch: store.dispatch,
       });
@@ -109,10 +112,19 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         return dynaduxDebugger.log[activeIndex].after;
       }
     },
-    after: ({action, payload, initialState, state, reducerElapsedMs, changed}) => {
+    after: (
+      {
+        action,
+        payload,
+        initialState,
+        state,
+        reducerElapsedMs,
+        changed,
+      },
+    ) => {
       if (action === EDynaduxDebugMiddlewareActions.SET_STATE) return payload;
 
-      const now = new Date;
+      const now = new Date();
       const nextIndex = dynaduxDebugger.log.length;
       activeIndex = nextIndex;
 
@@ -148,6 +160,7 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
         && (!payload || payload.debugTag !== 2487602415245)
         && consoleFilter(action, payload)
       ) {
+        // eslint-disable-next-line no-console
         console[consoleMethod](
           ...(
             [
@@ -164,9 +177,9 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
                 before: initialState,
                 after: state,
                 changed,
-              }
+              },
             ].filter(Boolean)
-          )
+          ),
         );
       }
     },
@@ -178,10 +191,11 @@ export const dynaduxDebugMiddleware = (config: IDynaduxDebugMiddlewareConfig): I
 const frontSpace = (spacer: string, content: string | number, length: number): string => {
   const text = String(content);
   if (text.length >= length) return text;
-  return `${Array(length).fill(spacer).join('')}${text}`.substr(-length);
+  return `${Array(length).fill(spacer)
+    .join('')}${text}`.substring(-length);
 };
 
-const duration = (d: number = 0): string => {
+const duration = (d = 0): string => {
   if (d > 10000) return (d / 1000).toFixed(2) + 'sec';
   return d + 'ms';
 };

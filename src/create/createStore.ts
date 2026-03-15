@@ -4,8 +4,8 @@ import {
   TDynaduxReducerDispatch,
   IDynaduxReducerDic,
 } from "../Dynadux/Dynadux";
-import { EventEmitter } from "../tools/EventEmitter";
-import { createSection } from "./createSection";
+import {EventEmitter} from "../tools/EventEmitter";
+import {createSection} from "./createSection";
 
 export interface ICreateStoreConfig<TState> extends IDynaduxConfig<TState> {
 }
@@ -23,7 +23,7 @@ export interface ICreateStoreAPI<TState = any> {
 }
 
 export interface IStoreProviderAPI<TState> {
-  store: ICreateStoreAPI<TState>,
+  store: ICreateStoreAPI<TState>;
   addChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
   removeChangeEventListener: (cb: (storeState: TState, action: string, payload?: any) => void) => void;
 }
@@ -76,7 +76,7 @@ export const createStore = <TState = any>(config?: ICreateStoreConfig<TState>): 
         dynadux,
         createSectionConfig,
       });
-    }
+    },
   };
 
   return store;
