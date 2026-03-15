@@ -228,7 +228,7 @@ var createSection = function createSection(_ref) {
   dynadux._onChange = function (state, action, payload) {
     if (sectionActions.includes(action)) {
       sectionChangeEventEmitter.trigger(state, action, payload);
-      onChange && onChange(state[section], action, payload);
+      onChange === null || onChange === void 0 ? void 0 : onChange(state[section], action, payload);
     }
     dynaduxOnChange(state, action, payload);
   };
